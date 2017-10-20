@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/background_light"
+    android:descendantFocusability="beforeDescendants"
+    android:focusableInTouchMode="true"
+    android:isScrollContainer="false"
+    android:orientation="vertical">
+
+
+        <include layout="@layout/layout_search_tool_bar"
+           />
+
+        <include
+            layout="@layout/layout_rv_container"
+            android:id="@+id/search_ach_container"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            />
+
+        <include
+            android:id="@+id/bottom_navigation"
+            layout="@layout/layout_bottom_navigation"
+             />
+</LinearLayout>

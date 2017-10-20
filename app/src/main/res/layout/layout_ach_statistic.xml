@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center">
+    <Space
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"/>
+    <ImageView
+        android:id="@+id/unlocked_label"
+        app:srcCompat="@drawable/ic_statistic_unlocked_24dp"
+        style="@style/AchievementItemStatisticIcon"
+        />
+    <TextView
+        android:id="@+id/unlocked"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/AchievementItemIndicators"
+        tools:text="999k"/>
+    <Space
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"/>
+
+    <ImageView
+        android:id="@+id/difficulty_label"
+        style="@style/AchievementItemStatisticIcon"
+        app:srcCompat="@drawable/ic_statistic_difficulty_24dp"
+        tools:layout_editor_absoluteY="244dp"
+        />
+
+    <TextView
+        android:id="@+id/difficulty"
+        style="@style/AchievementItemIndicators"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        tools:text="999k" />
+    <Space
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"/>
+
+    <ImageView
+        android:id="@+id/likes_label"
+        style="@style/AchievementItemStatisticIcon"
+        app:srcCompat="@drawable/ic_statistic_like_24dp" />
+    <TextView
+        android:id="@+id/likes"
+        style="@style/AchievementItemIndicators"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="999k" />
+    <Space
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"/>
+</LinearLayout>

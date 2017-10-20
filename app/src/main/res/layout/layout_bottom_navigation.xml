@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/colorPrimary">
+    <android.support.v7.widget.AppCompatImageView
+        android:id="@+id/bottom_navigation_feed"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:tint="@color/colorPrimaryDark"
+        android:padding="8dp"
+        app:srcCompat="@drawable/ic_pin_24dp"/>
+    <android.support.v7.widget.AppCompatImageView
+        android:id="@+id/bottom_navigation_search"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:tint="@color/colorPrimaryDark"
+        android:padding="8dp"
+        app:srcCompat="@drawable/ic_search_24dp"/>
+    <android.support.v7.widget.AppCompatImageView
+        android:id="@+id/bottom_navigation_profile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:tint="@color/colorPrimaryDark"
+        android:padding="8dp"
+        app:srcCompat="@drawable/ic_profile_circle"/>
+    <android.support.v7.widget.AppCompatImageView
+        android:id="@+id/bottom_navigation_create"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:tint="@color/colorPrimaryDark"
+        android:padding="8dp"
+        app:srcCompat="@drawable/ic_create_24dp"/>
+</LinearLayout>

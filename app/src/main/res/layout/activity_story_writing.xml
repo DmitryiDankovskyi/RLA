@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    tools:context="com.vedro401.reallifeachievement.view.StoryWritingActivity">
+
+    <include layout="@layout/layout_story_writing_tool_bar" />
+
+    <include layout="@layout/layout_rv_container"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@color/lightGreen">
+        <EditText
+            android:id="@+id/story_writing_text"
+            style="@style/FullWidthEditText"
+            android:layout_margin="4dp"
+            android:layout_marginRight="8dp"
+            android:hint="Your story"
+            android:layout_gravity="center"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:inputType="textMultiLine|textCapSentences"/>
+
+        <android.support.v7.widget.AppCompatImageView
+            android:id="@+id/story_writing_send"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginEnd="4dp"
+            android:padding="8dp"
+            app:srcCompat="@drawable/ic_send" />
+        <android.support.v7.widget.AppCompatImageView
+            android:id="@+id/story_writing_save_changes"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginEnd="4dp"
+            android:padding="8dp"
+            android:visibility="gone"
+            app:srcCompat="@drawable/ic_check_50dp" />
+    </LinearLayout>
+
+
+</LinearLayout>

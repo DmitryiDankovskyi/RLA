@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginRight="8dp"
+    android:layout_marginLeft="8dp"
+    android:layout_marginTop="8dp">
+
+    <include layout="@layout/layout_story_post"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="end"
+        >
+
+        <android.support.v7.widget.AppCompatImageView
+            android:id="@+id/story_post_item_delete"
+            android:layout_width="@dimen/the_smallest_icon_size"
+            android:layout_height="@dimen/the_smallest_icon_size"
+            android:padding="8dp"
+            android:tint="@color/gray_light"
+            android:layout_marginRight="8dp"
+            app:srcCompat="@drawable/ic_clear_24dp" />
+
+        <android.support.v7.widget.AppCompatImageView
+            android:id="@+id/story_post_item_change"
+            android:layout_width="@dimen/the_smallest_icon_size"
+            android:layout_height="@dimen/the_smallest_icon_size"
+            android:padding="8dp"
+            app:srcCompat="@drawable/ic_create_24dp" />
+    </LinearLayout>
+    <View
+    style="@style/border"
+    android:layout_width="match_parent"
+    android:layout_height="1dp"/>
+
+
+</LinearLayout>

@@ -1,0 +1,41 @@
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    >
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/story_writing_tool_bar"
+        style="@style/MyToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:layout_marginEnd="16dp">
+
+            <android.support.v7.widget.AppCompatImageView
+                android:id="@+id/story_writing_back_arrow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/ic_arrow_back_24dp" />
+
+           <TextView
+               style="@style/ToolbarTextAppearance.Title"
+               android:id="@+id/story_writing_achievement_title"
+               android:layout_width="0dp"
+               android:layout_weight="1"
+               android:layout_height="match_parent"
+               android:text="@string/long_name"
+               android:gravity="center"
+               android:ellipsize="end"
+               android:maxLines="1" />
+
+            <android.support.v7.widget.AppCompatImageView
+                android:id="@+id/story_writing_is_finished"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:tint="@color/white"
+                app:srcCompat="@drawable/ic_flag_24dp" />
+        </LinearLayout>
+    </android.support.v7.widget.Toolbar>
+</merge>
