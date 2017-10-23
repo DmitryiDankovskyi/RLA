@@ -30,12 +30,6 @@
                android:ellipsize="end"
                android:maxLines="1" />
 
-            <android.support.v7.widget.AppCompatImageView
-                android:id="@+id/story_writing_is_finished"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:tint="@color/white"
-                app:srcCompat="@drawable/ic_flag_24dp" />
         </LinearLayout>
     </android.support.v7.widget.Toolbar>
 </merge>

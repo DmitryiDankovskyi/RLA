@@ -14,8 +14,7 @@
     </string>
     <string name="one_string_text">Hello darkness my old friend </string>
     <string name="short_text">
-        Hello darkness, my old friend\nI\'ve come to talk with you again\nBecause a vision softly, creeping\nLeft its seeds while I was, sleeping
-    </string>
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.    </string>
     <string name="long_name">Really looooong name for achievement</string>
     <string name="add_achievement">Add achievement</string>
     <string name="empty_field_warning">Can\'t be empty</string>
@@ -23,10 +22,16 @@
     <string name="profile_pinned">Pinned</string>
     <string name="profile_unlocked">Unlocked</string>
     <string name="create_no_tags_error">You must add at least one tag</string>
-    <string name="empty_content_warning">There is nothing to stare at.</string>
+    <string name="empty_content_warning">There is nothing to show.</string>
 
     <string name="story_status_started">Started</string>
     <string name="story_status_in_progress">In progress</string>
     <string name="story_status_finished">Finished</string>
+    <string name="add_new_post">Add new post</string>
+    <string name="set_as_finished">Set as finished</string>
+    <string name="interesting_tags">Interesting tags:</string>
+    <string name="your_story_title">Your story title</string>
+    <string name="your_story">Your story</string>
+    <string name="achievement_image">Achievement image</string>
 
 </resources>

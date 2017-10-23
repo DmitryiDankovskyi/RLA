@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:padding="8dp">
     <LinearLayout
@@ -10,21 +11,11 @@
 
         <TextView
             android:id="@+id/story_post_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:text="Part 1" />
-        <android.support.v4.widget.Space
             android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"/>
-
-        <TextView
-            android:id="@+id/story_post_time_stamped"
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="09.10.2017 13:43"/>
+            android:layout_weight="1"
+            android:textSize="20sp"
+            tools:text="Part 1" />
     </LinearLayout>
 
     <TextView
@@ -33,10 +24,13 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:text="@string/short_text" />
-    <!--<View-->
-        <!--style="@style/border"-->
-        <!--android:layout_marginTop="8dp"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="1dp"/>-->
+    <TextView
+        android:id="@+id/story_post_time_stamped"
+        android:layout_width="wrap_content"
+        android:textSize="10sp"
+        android:layout_height="14dp"
+        android:layout_marginTop="8dp"
+        android:gravity="center"
+        android:text="09.10.2017"/>
 
 </LinearLayout>

@@ -22,49 +22,49 @@ class AchievementHolder(itemView: View) : BindableViewHolder<Achievement>(itemVi
         App.getComponent().inject(this)
     }
 
-    override fun bind(achievement: Achievement) {
-        itemView.story_achievement_title.text = achievement.title
-        itemView.achievement_description_short.text = achievement.shortDescription
+    override fun bind(data: Achievement) {
+        itemView.story_achievement_title.text = data.title
+        itemView.achievement_description_short.text = data.shortDescription
 
-        itemView.likes.text = coolBigNumbers(achievement.likes.toString())
-        itemView.unlocked.text = achievement.unlocked.toString()
-        itemView.difficulty.text = achievement.difficulty.toString()
+        itemView.likes.text = coolBigNumbers(data.likes.toString())
+        itemView.unlocked.text = data.unlocked.toString()
+        itemView.difficulty.text = data.difficulty.toString()
 
 
-        Log.d("BIND_D", achievement.toString())
-        if (achievement.fullDescription == null || achievement.fullDescription == "") {
+        Log.d("BIND_D", data.toString())
+        if (data.fullDescription == null || data.fullDescription == "") {
             itemView.txtbtn_see_more.text = ""
         } else {
             itemView.txtbtn_see_more.text = context.resources.getString(R.string.see_more)
             itemView.txtbtn_see_more.onClick {
                 if (!flag) {
-                    itemView.achievement_description_short.text = achievement.fullDescription
+                    itemView.achievement_description_short.text = data.fullDescription
                     itemView.txtbtn_see_more.text = context.resources.getString(R.string.hide)
                     flag = true
                 } else {
-                    itemView.achievement_description_short.text = achievement.shortDescription
+                    itemView.achievement_description_short.text = data.shortDescription
                     itemView.txtbtn_see_more.text = context.resources.getString(R.string.see_more)
                     flag = false
                 }
             }
         }
 
-        itemView.btn_like.onClick {
-            achievement.like()
+        itemView.btn_visibility.onClick {
+            data.like()
             val anim = AnimationUtils.loadAnimation(context, R.anim.like)
-            itemView.btn_like.startAnimation(anim)
+            itemView.btn_visibility.startAnimation(anim)
 
         }
 
         itemView.btn_pin.onClick {
-            achievement.createStore()
+            data.createStore()
             val anim = AnimationUtils.loadAnimation(context, R.anim.like)
             itemView.btn_pin.startAnimation(anim)
 //            itemView.btn_pin.setColorFilter(ContextCompat.getColor(context, R.color.colorPrimary))
         }
 
         itemView.btn_unlock.onClick {
-            achievement.unlock()
+            data.unlock()
             val anim = AnimationUtils.loadAnimation(context, R.anim.like)
             itemView.btn_unlock.startAnimation(anim)
 //            itemView.btn_unlock.setColorFilter(ContextCompat.getColor(context, R.color.colorPrimary))

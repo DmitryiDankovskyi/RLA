@@ -28,11 +28,13 @@
         <activity
             android:name=".view.create.CreateActivity"
             android:windowSoftInputMode="adjustPan" />
-        <activity android:name=".view.SignInActivity" />
-        <activity android:name=".view.SignUpActivity" />
+        <activity android:name=".view.SignInActivity"
+            android:windowSoftInputMode="stateVisible|adjustResize" />
+        <activity android:name=".view.SignUpActivity"
+            android:windowSoftInputMode="stateVisible|adjustResize" />
         <activity android:name=".view.DondeActivity" />
         <activity android:name=".view.profile.ProfileActivity" />
-        <activity android:name=".view.StoryWritingActivity"></activity>
+        <activity android:name=".view.StoryWritingActivity"/>
     </application>
 
 </manifest>

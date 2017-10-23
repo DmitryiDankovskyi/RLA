@@ -6,6 +6,7 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <!--<item name="android:windowBackground">@color/lightGreen</item>-->
     </style>
 
     <style name="SplashTheme" parent="Theme.AppCompat.NoActionBar">
@@ -20,6 +21,7 @@
         <item name="android:textColorHint">@color/lightGreen</item>
         <item name="android:imeOptions">actionSearch</item>
     </style>
+
     <style name="ToolbarTextAppearance">
         <item name="android:textColor">@color/white</item>
     </style>
@@ -49,7 +51,7 @@
     </style>
 
     <style name="FullWidthEditText">
-        <item name="android:padding">10dp</item>
+        <item name="android:padding">8dp</item>
         <item name="android:background">@null</item>
         <item name="android:textColorHint">@color/gray</item>
         <item name="android:textSize">@dimen/abc_text_size_subhead_material</item>
@@ -75,6 +77,17 @@
         <item name="android:background">@drawable/login_et_bg</item>
     </style>
 
+    <style name="MyCheckBox" parent="Theme.AppCompat.Light">
+        <item name="colorControlNormal">@color/colorPrimary</item>
+        <item name="colorControlActivated">@color/colorPrimaryDark</item>
+    </style>
+
+    <style name="downButtons">
+        <item name="android:layout_width">40dp</item>
+        <item name="android:layout_height">40dp</item>
+        <item name="android:padding">8dp</item>
+        <item name="android:tint">@color/gray_light</item>
+    </style>
 
     <!--<style name="LoginButton">-->
         <!--<item name="android:background"></item>-->

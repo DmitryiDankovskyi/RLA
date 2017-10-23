@@ -30,7 +30,7 @@
             android:id="@+id/story_author_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="User Name"
+            tools:text="User Name"
             card_view:layout_constraintLeft_toRightOf="@+id/story_author_avatar"
             android:layout_marginLeft="8dp"
             card_view:layout_constraintTop_toTopOf="@+id/story_author_avatar"
@@ -68,6 +68,7 @@
             card_view:layout_constraintTop_toBottomOf="@+id/story_border1" />
 
         <ImageView
+            android:contentDescription="@string/achievement_image"
             android:id="@+id/story_achievement_image"
             android:layout_width="50dp"
             android:layout_height="50dp"
@@ -97,7 +98,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="8dp"
-            android:text="Unlocked"
+            tools:text="In progress"
             card_view:layout_constraintRight_toRightOf="parent"
             card_view:layout_constraintTop_toTopOf="parent"
             card_view:layout_constraintBottom_toTopOf="@+id/story_border1"
@@ -141,8 +142,7 @@
             card_view:layout_constraintTop_toBottomOf="@+id/story_last_post"
             android:layout_marginRight="8dp"
             android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginTop="8dp" />
+            android:layout_marginEnd="8dp"/>
 
         <LinearLayout
             android:id="@+id/buttons_container"
@@ -160,11 +160,11 @@
             card_view:layout_constraintHorizontal_bias="0.0">
 
             <android.support.v7.widget.AppCompatImageView
-                android:id="@+id/btn_like"
+                android:id="@+id/btn_visibility"
                 android:layout_width="@dimen/small_icon_size"
                 android:layout_height="@dimen/small_icon_size"
                 android:padding="8dp"
-                app:srcCompat="@drawable/ic_thumb_up_24dp" />
+                app:srcCompat="@drawable/ic_visibility_24dp" />
 
             <android.support.v7.widget.AppCompatImageView
                 android:id="@+id/btn_comments"
@@ -175,10 +175,10 @@
 
             <TextView
                 android:id="@+id/txtbtn_see_more"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="@string/see_more"
+                tools:text="show all story"
                 android:gravity="center"
                 android:textAlignment="center"
                 android:textColor="@color/colorPrimary" />
@@ -196,7 +196,7 @@
                 android:layout_width="@dimen/small_icon_size"
                 android:layout_height="@dimen/small_icon_size"
                 android:padding="8dp"
-                app:srcCompat="@drawable/ic_add_24dp" />
+                app:srcCompat="@drawable/ic_create_24dp" />
         </LinearLayout>
 
     </android.support.constraint.ConstraintLayout>

@@ -43,6 +43,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:src="@drawable/achievement"
+            android:background="@drawable/background_log_post"
             card_view:layout_constraintBottom_toTopOf="@+id/achievement_description_short"
             card_view:layout_constraintLeft_toLeftOf="parent"
             card_view:layout_constraintTop_toTopOf="parent" />
@@ -68,57 +69,55 @@
             android:id="@+id/unlocked_label"
             style="@style/AchievementItemStatisticIcon"
             app:srcCompat="@drawable/ic_statistic_unlocked_24dp"
-            card_view:layout_constraintTop_toBottomOf="@+id/border"
-            card_view:layout_constraintLeft_toRightOf="@+id/story_achievement_image"
-            card_view:layout_constraintRight_toLeftOf="@+id/difficulty_label"
-            android:layout_marginTop="4dp"
-            android:layout_marginRight="50dp" />
+            card_view:layout_constraintTop_toTopOf="@+id/unlocked"
+            android:layout_marginTop="0dp"
+            card_view:layout_constraintBottom_toBottomOf="@+id/unlocked"
+            android:layout_marginBottom="0dp"
+            card_view:layout_constraintRight_toLeftOf="@+id/unlocked"
+            android:layout_marginRight="8dp" />
 
         <TextView
             android:id="@+id/unlocked"
             style="@style/AchievementItemIndicators"
             android:layout_width="50dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="4dp"
-            card_view:layout_constraintBottom_toBottomOf="@+id/unlocked_label"
-            card_view:layout_constraintLeft_toRightOf="@+id/unlocked_label"
-            card_view:layout_constraintTop_toTopOf="@+id/unlocked_label"
-            tools:text="999k" />
+            tools:text="999k"
+            android:layout_marginRight="8dp"
+            card_view:layout_constraintRight_toRightOf="parent"
+            card_view:layout_constraintLeft_toRightOf="@+id/story_achievement_image"
+            android:layout_marginLeft="8dp"
+            card_view:layout_constraintHorizontal_bias="0.256"
+            android:layout_marginTop="8dp"
+            card_view:layout_constraintTop_toBottomOf="@+id/difficulty" />
 
         <android.support.v7.widget.AppCompatImageView
             android:id="@+id/difficulty_label"
             style="@style/AchievementItemStatisticIcon"
             app:srcCompat="@drawable/ic_statistic_difficulty_24dp"
-            card_view:layout_constraintTop_toBottomOf="@+id/border"
-            card_view:layout_constraintRight_toRightOf="parent"
-            card_view:layout_constraintLeft_toRightOf="@+id/story_achievement_image"
-            android:layout_marginTop="4dp"
-            android:layout_marginLeft="0dp"
-            android:layout_marginRight="50dp"
-            card_view:layout_constraintHorizontal_bias="0.501" />
+            card_view:layout_constraintRight_toLeftOf="@+id/difficulty"
+            android:layout_marginRight="8dp"
+            card_view:layout_constraintBottom_toBottomOf="@+id/difficulty"
+            card_view:layout_constraintTop_toTopOf="@+id/difficulty"/>
 
         <TextView
             android:id="@+id/difficulty"
             style="@style/AchievementItemIndicators"
-            android:layout_width="50dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            card_view:layout_constraintBottom_toBottomOf="@+id/difficulty_label"
-            card_view:layout_constraintLeft_toRightOf="@+id/difficulty_label"
-            card_view:layout_constraintTop_toTopOf="@+id/difficulty_label"
-            tools:text="999k"
-            android:layout_marginLeft="4dp" />
+            card_view:layout_constraintLeft_toRightOf="@+id/story_achievement_image"
+            card_view:layout_constraintRight_toRightOf="parent"
+            tools:text="So hard"
+            android:layout_marginTop="8dp"
+            card_view:layout_constraintTop_toBottomOf="@+id/border" />
 
         <android.support.v7.widget.AppCompatImageView
             android:id="@+id/likes_label"
             style="@style/AchievementItemStatisticIcon"
             app:srcCompat="@drawable/ic_statistic_like_24dp"
-            card_view:layout_constraintTop_toBottomOf="@+id/border"
-            card_view:layout_constraintRight_toRightOf="parent"
-            android:layout_marginRight="50dp"
-            android:layout_marginTop="4dp"
-            card_view:layout_constraintLeft_toRightOf="@+id/difficulty_label"
-            android:layout_marginLeft="50dp"
-            card_view:layout_constraintHorizontal_bias="0.5" />
+            card_view:layout_constraintTop_toTopOf="@+id/likes"
+            card_view:layout_constraintBottom_toBottomOf="@+id/likes"
+            card_view:layout_constraintRight_toLeftOf="@+id/likes"
+            android:layout_marginRight="8dp" />
 
 
         <TextView
@@ -126,11 +125,13 @@
             style="@style/AchievementItemIndicators"
             android:layout_width="50dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="4dp"
-            card_view:layout_constraintBottom_toBottomOf="@+id/likes_label"
-            card_view:layout_constraintLeft_toRightOf="@+id/likes_label"
-            card_view:layout_constraintTop_toTopOf="@+id/likes_label"
-            tools:text="999k"/>
+            android:layout_marginLeft="8dp"
+            card_view:layout_constraintLeft_toRightOf="@+id/unlocked"
+            tools:text="999k"
+            android:layout_marginRight="8dp"
+            card_view:layout_constraintRight_toRightOf="parent"
+            android:layout_marginTop="8dp"
+            card_view:layout_constraintTop_toBottomOf="@+id/difficulty" />
 
         <TextView
             android:id="@+id/achievement_description_short"
@@ -140,7 +141,6 @@
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
             android:layout_marginStart="8dp"
-            card_view:layout_constraintHorizontal_bias="0.0"
             card_view:layout_constraintLeft_toLeftOf="parent"
             card_view:layout_constraintRight_toRightOf="parent"
             tools:layout_constraintLeft_creator="1"
@@ -148,7 +148,7 @@
             tools:text="@string/short_text"
             tools:visibility="visible"
             android:layout_marginTop="8dp"
-            card_view:layout_constraintTop_toBottomOf="@+id/difficulty_label" />
+            card_view:layout_constraintTop_toBottomOf="@+id/unlocked_label" />
 
         <View
             android:id="@+id/story_border2"
@@ -158,7 +158,6 @@
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
             android:layout_marginTop="8dp"
-            card_view:layout_constraintHorizontal_bias="0.0"
             card_view:layout_constraintLeft_toLeftOf="parent"
             card_view:layout_constraintRight_toRightOf="parent"
             card_view:layout_constraintTop_toBottomOf="@+id/achievement_description_short" />
@@ -182,17 +181,21 @@
 
             <android.support.v7.widget.AppCompatImageView
                 android:id="@+id/btn_visibility"
-                style="@style/downButtons"
+                android:layout_width="@dimen/small_icon_size"
+                android:layout_height="@dimen/small_icon_size"
+                android:padding="8dp"
                 app:srcCompat="@drawable/ic_thumb_up_24dp" />
 
             <android.support.v7.widget.AppCompatImageView
                 android:id="@+id/btn_comments"
-                style="@style/downButtons"
+                android:layout_width="@dimen/small_icon_size"
+                android:layout_height="@dimen/small_icon_size"
+                android:padding="8dp"
                 app:srcCompat="@drawable/ic_comment_24dp" />
 
             <TextView
                 android:id="@+id/txtbtn_see_more"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:text="@string/see_more"
@@ -202,12 +205,16 @@
 
             <android.support.v7.widget.AppCompatImageView
                 android:id="@+id/btn_unlock"
-                style="@style/downButtons"
+                android:layout_width="@dimen/small_icon_size"
+                android:layout_height="@dimen/small_icon_size"
+                android:padding="8dp"
                 app:srcCompat="@drawable/ic_flag_24dp" />
 
             <android.support.v7.widget.AppCompatImageView
                 android:id="@+id/btn_pin"
-                style="@style/downButtons"
+                android:layout_width="@dimen/small_icon_size"
+                android:layout_height="@dimen/small_icon_size"
+                android:padding="8dp"
                 app:srcCompat="@drawable/ic_pin_24dp" />
         </LinearLayout>
     </android.support.constraint.ConstraintLayout>
