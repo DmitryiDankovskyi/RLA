@@ -1,21 +1,21 @@
 {
   "project_info": {
-    "project_number": "283394679635",
-    "firebase_url": "https://reallifeachievement-69c3a.firebaseio.com",
-    "project_id": "reallifeachievement-69c3a",
-    "storage_bucket": "reallifeachievement-69c3a.appspot.com"
+    "project_number": "581435904056",
+    "firebase_url": "https://reallifeachievement-81057.firebaseio.com",
+    "project_id": "reallifeachievement-81057",
+    "storage_bucket": "reallifeachievement-81057.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:283394679635:android:7ea3cefcaf5214b4",
+        "mobilesdk_app_id": "1:581435904056:android:7ea3cefcaf5214b4",
         "android_client_info": {
           "package_name": "com.vedro401.reallifeachievement"
         }
       },
       "oauth_client": [
         {
-          "client_id": "283394679635-4ioq5to7a5kl685kigsllsd26si0d2fi.apps.googleusercontent.com",
+          "client_id": "581435904056-b6qdddlu26cplfajmrb8q12nh45katih.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.vedro401.reallifeachievement",
@@ -23,13 +23,13 @@
           }
         },
         {
-          "client_id": "283394679635-82o1ld3lij1opd7iguhrmbnqf8753diu.apps.googleusercontent.com",
+          "client_id": "581435904056-t4rmb2h9847q957meno4gng6c17sb1qb.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAs0ws-7HSZ0BXVw1k5uc5dI0GXw9Sf4v4"
+          "current_key": "AIzaSyAN6ElvXQLbnrKdzb4TbqeepZZfjjJJVYw"
         }
       ],
       "services": {
@@ -40,7 +40,7 @@
           "status": 2,
           "other_platform_oauth_client": [
             {
-              "client_id": "283394679635-82o1ld3lij1opd7iguhrmbnqf8753diu.apps.googleusercontent.com",
+              "client_id": "581435904056-t4rmb2h9847q957meno4gng6c17sb1qb.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

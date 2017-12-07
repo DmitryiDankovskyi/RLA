@@ -14,8 +14,8 @@ import android.widget.TextView
 import com.google.firebase.database.FirebaseDatabase
 import com.vedro401.reallifeachievement.App
 import com.vedro401.reallifeachievement.R
-import com.vedro401.reallifeachievement.adapters.willBeDie.AchFirebaseAdapterIndexed
-import com.vedro401.reallifeachievement.adapters.willBeDie.AchShortFirebaseAdapter
+import com.vedro401.reallifeachievement.adapters.willDie.AchFirebaseAdapterIndexed
+import com.vedro401.reallifeachievement.adapters.willDie.AchShortFirebaseAdapter
 import com.vedro401.reallifeachievement.database.FirebaseManager
 import com.vedro401.reallifeachievement.utils.transferProtocols.UserTransferProtocol
 import com.vedro401.reallifeachievement.utils.LOGTAG

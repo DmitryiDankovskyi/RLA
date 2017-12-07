@@ -33,5 +33,6 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
     <string name="your_story_title">Your story title</string>
     <string name="your_story">Your story</string>
     <string name="achievement_image">Achievement image</string>
+    <string name="already_in_list_alert">This achievement already in your list</string>
 
 </resources>

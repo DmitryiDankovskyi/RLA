@@ -9,7 +9,7 @@
     android:layout_height="wrap_content">
 
     <EditText
-        android:id="@+id/story_writing_title"
+        android:id="@+id/story_editor_title"
         style="@style/FullWidthEditText"
         android:background="@drawable/background_white_round_corners"
         android:layout_width="match_parent"
@@ -24,7 +24,7 @@
         />
 
     <EditText
-        android:id="@+id/story_writing_content"
+        android:id="@+id/story_editor_content"
         style="@style/FullWidthEditText"
         android:layout_width="match_parent"
         android:layout_height="114dp"
@@ -37,7 +37,7 @@
         tools:text="@string/short_text" />
 
     <LinearLayout
-        android:id="@+id/story_writing_time_stamped_bar"
+        android:id="@+id/story_editor_time_stamped_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="8dp"
@@ -45,7 +45,7 @@
         android:paddingStart="4dp"
         android:paddingEnd="4dp">
         <TextView
-            android:id="@+id/story_writing_time_stamped"
+            android:id="@+id/story_editor_time_stamped"
             android:layout_width="01pt"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -67,14 +67,14 @@
         android:layout_marginLeft="4dp"
         android:layout_marginRight="4dp">
         <android.support.v7.widget.AppCompatImageView
-            android:id="@+id/story_writing_camera"
+            android:id="@+id/story_editor_camera"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:padding="8dp"
             app:srcCompat="@drawable/ic_photo_camera_24dp" />
 
         <android.support.v7.widget.AppCompatImageView
-            android:id="@+id/story_writing_attach"
+            android:id="@+id/story_editor_attach"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:padding="8dp"
@@ -86,7 +86,7 @@
             android:layout_height="match_parent" />
 
         <android.support.v7.widget.AppCompatImageView
-            android:id="@+id/story_writing_completed"
+            android:id="@+id/story_editor_completed"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:padding="8dp"

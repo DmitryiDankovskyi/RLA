@@ -4,9 +4,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.vedro401.reallifeachievement.view.StoryWritingActivity">
+    tools:context="com.vedro401.reallifeachievement.view.StoryEditorActivity">
 
-    <include layout="@layout/layout_story_writing_tool_bar" />
+    <include layout="@layout/layout_story_editor_tool_bar" />
 
     <include
         layout="@layout/layout_rv_container"
@@ -15,8 +15,8 @@
         android:layout_weight="2" />
 
     <include
-        android:id="@+id/layout_story_writing_create_panel"
-        layout="@layout/layout_story_writing_create_panel"
+        android:id="@+id/layout_story_editor_create_panel"
+        layout="@layout/layout_story_editor_create_panel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
@@ -24,13 +24,13 @@
         tools:visibility="gone" />
 
     <LinearLayout
-        android:id="@+id/story_writing_down_panel"
+        android:id="@+id/story_editor_down_panel"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:background="@color/lightGreen"
         >
         <TextView
-            android:id="@+id/story_writing_set_as_finished"
+            android:id="@+id/story_editor_set_as_finished"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -46,7 +46,7 @@
             android:layout_margin="4dp"
             />
         <TextView
-            android:id="@+id/story_writing_add_new_post"
+            android:id="@+id/story_editor_add_new_post"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"

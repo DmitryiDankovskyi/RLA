@@ -181,7 +181,7 @@
             card_view:layout_constraintHorizontal_bias="0.0">
 
             <android.support.v7.widget.AppCompatImageView
-                android:id="@+id/btn_visibility"
+                android:id="@+id/btn_like"
                 style="@style/downButtons"
                 app:srcCompat="@drawable/ic_thumb_up_24dp" />
 

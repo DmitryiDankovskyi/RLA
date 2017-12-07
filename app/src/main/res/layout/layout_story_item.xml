@@ -160,7 +160,7 @@
             card_view:layout_constraintHorizontal_bias="0.0">
 
             <android.support.v7.widget.AppCompatImageView
-                android:id="@+id/btn_visibility"
+                android:id="@+id/btn_like"
                 android:layout_width="@dimen/small_icon_size"
                 android:layout_height="@dimen/small_icon_size"
                 android:padding="8dp"

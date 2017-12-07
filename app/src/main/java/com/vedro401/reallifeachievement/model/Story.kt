@@ -10,9 +10,9 @@ import rx.Observable
 
 class Story() : DataModel(), Parcelable {
 
-    var id: String? = null
+//    var id: String? = null
 
-    var achievementId: String? = null
+    var id: String? = null
     var achievementTitle: String? = null
     var achievementImageUrl: String? = null
 
@@ -23,9 +23,8 @@ class Story() : DataModel(), Parcelable {
     var status = STARTED
     var lastPost: StoryPost? = null
 
-
     constructor(ach: Achievement) : this() {
-        achievementId = ach.id
+        id = ach.id
         achievementTitle = ach.title
         achievementImageUrl = ach.imageUrl
     }
@@ -39,6 +38,11 @@ class Story() : DataModel(), Parcelable {
     @Exclude
     fun getPosts(): Observable<RxRvTransferProtocol<StoryPost>> {
         return databaseManager.getStoryPosts(id!!)
+    }
+
+    fun finish(difficulty : Int){
+        status = FINISHED
+        databaseManager.finishStory(this, id!!,difficulty)
     }
 
     fun addPost(post: StoryPost) {
@@ -61,7 +65,7 @@ class Story() : DataModel(), Parcelable {
     }
 
     private fun updateStatus(status: Int) {
-        databaseManager.updateStatus(id!!, status)
+        databaseManager.updateStoryStatus(id!!, status)
     }
 
     private fun savePost(post: StoryPost) {
@@ -69,7 +73,7 @@ class Story() : DataModel(), Parcelable {
     }
 
     private fun updateLastPost(post: StoryPost) {
-        databaseManager.updateLastPost(id!!, post).subscribe { isSuccessful ->
+        databaseManager.updateLastPost(this, post).subscribe { isSuccessful ->
 //            Log.d(STORY, "Story.updateLastPost is successful $isSuccessful ")
             if (isSuccessful) {
                 lastPost = post
@@ -90,11 +94,11 @@ class Story() : DataModel(), Parcelable {
     }
 
     private fun updateLastPost() {
-        databaseManager.updateLastPost(id!!).subscribe { lastPost ->
+        databaseManager.updateLastPost(this).subscribe { lastPost ->
 //            Log.d(STORY, "Story.updateLastPost lastPost $lastPost")
             if (lastPost == null) {
 //                Log.d(STORY, "Story.updateLastPost update status")
-                databaseManager.updateStatus(id!!, STARTED)
+                databaseManager.updateStoryStatus(id!!, STARTED)
                 status = STARTED
             }
             this.lastPost = lastPost
@@ -107,7 +111,7 @@ class Story() : DataModel(), Parcelable {
 
     private constructor(source: Parcel) : this() {
         id = source.readString()
-        achievementId = source.readString()
+        id = source.readString()
         achievementTitle = source.readString()
         achievementImageUrl = source.readString()
         authorId = source.readString()
@@ -121,7 +125,7 @@ class Story() : DataModel(), Parcelable {
 
     override fun writeToParcel(dest: Parcel, flags: Int) = with(dest) {
         writeString(id)
-        writeString(achievementId)
+        writeString(id)
         writeString(achievementTitle)
         writeString(achievementImageUrl)
         writeString(authorId)

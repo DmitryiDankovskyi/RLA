@@ -1,11 +1,11 @@
 package com.vedro401.reallifeachievement.adapters.RxRvAdapter
 
+
 import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.view.View
 import android.widget.TextView
 import com.vedro401.reallifeachievement.adapters.BindableViewHolder
-import com.vedro401.reallifeachievement.utils.CAKE_HUNTER
 import com.vedro401.reallifeachievement.utils.RXRVTAG
 import rx.Observer
 import rx.Subscription
@@ -14,6 +14,11 @@ abstract class RxRvAdapter<DT, VH : BindableViewHolder<DT>>
     : RecyclerView.Adapter<VH>(), Observer<RxRvTransferProtocol<DT>>{
     private var dataSet = ArrayList<DT>()
     private val indexesMap = HashMap<String,Int>()
+    var comparator : Comparator<DT>? = null
+        set(c){
+            field = c
+            onComparatorChanged()
+        }
 
     private lateinit var subscription : Subscription
 
@@ -31,16 +36,12 @@ abstract class RxRvAdapter<DT, VH : BindableViewHolder<DT>>
     var emptinessIndicatorTextView: TextView? = null
     var emptinessIndicator : View? = null
         set(value) {
-            Log.d(CAKE_HUNTER, "just created")
             field = value
             if(spinner?.visibility == View.VISIBLE){
                 field?.visibility = View.GONE
             } else{
-                Log.d(CAKE_HUNTER, "just setted")
                 setEmptinessIndicator()
             }
-                
-
         }
 
     override fun onNext(tp: RxRvTransferProtocol<DT>) {
@@ -48,20 +49,41 @@ abstract class RxRvAdapter<DT, VH : BindableViewHolder<DT>>
         when(tp.event){
             RxRvTransferProtocol.ITEM_ADDED -> {
                 hideSpinner()
-                dataSet.add(tp.data!!)
                 Log.d(RXRVTAG, "RxRvAdapter: item added. ${tp.data.toString()}")
-                val dataSetIndex = dataSet.size - 1
-                notifyItemChanged(dataSetIndex)
-                indexesMap.put(tp.id,dataSetIndex)
-                Log.d(CAKE_HUNTER, "add set")
+                if(comparator == null || dataSet.isEmpty()) {
+                    dataSet.add(tp.data!!)
+                    val dataSetIndex = dataSet.size - 1
+                    indexesMap.put(tp.id, dataSetIndex)
+                    notifyItemChanged(dataSetIndex)
+                } else {
+                    var dataSetIndex = -1
+                    dataSet.takeWhile { comparator!!.compare(it, tp.data) > -1 }
+                            .forEachIndexed { index, _ ->
+                                dataSetIndex = index
+                            }
+                    dataSetIndex++
+                    dataSet.add(dataSetIndex,tp.data!!)
+                    indexesMap.entries.filter { it.value >= dataSetIndex }
+                            .forEach { it.setValue(it.value + 1) }
+                    indexesMap.put(tp.id, dataSetIndex)
+                    notifyItemRangeChanged(dataSetIndex,dataSet.size-1)
+                }
                 setEmptinessIndicator()
             }
 
             RxRvTransferProtocol.ITEM_CHANGED -> {
+                Log.d(RXRVTAG, "RxRvAdapter: item changed. ${tp.data.toString()}")
                 val id = indexesMap[tp.id]!!
-                dataSet[id] = tp.data!!
-                Log.d(RXRVTAG, "RxRvAdapter: item added. ${tp.data.toString()}")
-                notifyItemChanged(id)
+                if(comparator == null || comparator!!.compare(dataSet[id], tp.data!!) == 0){
+                    dataSet[id] = tp.data!!
+                    notifyItemChanged(id)
+                } else {
+                    tp.event = RxRvTransferProtocol.ITEM_REMOVED
+                    this.onNext(tp)
+                    tp.event = RxRvTransferProtocol.ITEM_ADDED
+                    this.onNext(tp)
+                }
+
             }
             RxRvTransferProtocol.ITEM_REMOVED -> {
                 val id = indexesMap[tp.id]
@@ -77,7 +99,6 @@ abstract class RxRvAdapter<DT, VH : BindableViewHolder<DT>>
                 notifyItemRemoved(id)
                 notifyItemRangeChanged(id, dataSet.size-1)
 //                notifyDataSetChanged()
-                Log.d(CAKE_HUNTER, "removed set")
                 setEmptinessIndicator()
             }
 
@@ -92,11 +113,10 @@ abstract class RxRvAdapter<DT, VH : BindableViewHolder<DT>>
                 indexesMap.clear()
                 hideSpinner()
                 Log.d(RXRVTAG, "RxRvAdapter: empty data set")
-                Log.d(CAKE_HUNTER, "empty data set")
                 setEmptinessIndicator()
                 notifyDataSetChanged()
             }
-            
+
             RxRvTransferProtocol.RESET -> {
                 dataSet.clear()
                 indexesMap.clear()
@@ -134,11 +154,9 @@ abstract class RxRvAdapter<DT, VH : BindableViewHolder<DT>>
     private fun setEmptinessIndicator(){
         if(emptinessIndicator != null){
             if(dataSet.isEmpty()){
-                Log.d(CAKE_HUNTER, "Shoved")
                 emptinessIndicator?.visibility = View.VISIBLE
                 emptinessIndicatorTextView?.visibility = View.VISIBLE
             } else {
-                Log.d(CAKE_HUNTER, "Hided")
                 hideEmptinessIndicator()
             }
         }
@@ -176,6 +194,19 @@ abstract class RxRvAdapter<DT, VH : BindableViewHolder<DT>>
     override fun onError(e: Throwable?) {
         Log.e(RXRVTAG,"RxRvAdapter: onError ${e?.message}")
     }
-//    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): VH {}
 
+    fun onComparatorChanged(){
+        Log.d(RXRVTAG,"RxRvAdapter: onComparatorChanged")
+        val idMap = HashMap<DT, String>()
+        indexesMap.entries.forEach { idMap.put(dataSet[it.value], it.key) }
+        indexesMap.clear()
+        dataSet.sortWith(comparator!!)
+        dataSet.reverse()
+        dataSet.forEachIndexed { index, dt -> indexesMap.put(idMap[dt]!!,index) }
+        notifyDataSetChanged()
+    }
+
+    fun forEach(action: (DT) -> Unit) {
+        dataSet.forEach(action)
+    }
 }

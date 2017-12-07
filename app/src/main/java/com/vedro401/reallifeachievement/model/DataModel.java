@@ -31,4 +31,8 @@ abstract public class DataModel {
     public DataModel(){
         App.getComponent().inject(this);
     }
+
+
+//    This method need for cleaning all subscriptions and listeners
+    public void clear(){}
 }

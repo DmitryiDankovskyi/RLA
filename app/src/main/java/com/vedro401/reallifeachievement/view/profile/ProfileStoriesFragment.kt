@@ -16,7 +16,6 @@ import com.vedro401.reallifeachievement.adapters.StoryHolder
 import com.vedro401.reallifeachievement.database.DatabaseManager
 import com.vedro401.reallifeachievement.model.Story
 import com.vedro401.reallifeachievement.utils.transferProtocols.UserTransferProtocol
-import com.vedro401.reallifeachievement.utils.LOGTAG
 import com.vedro401.reallifeachievement.utils.STORY
 import com.vedro401.reallifeachievement.utils.UserManager
 import com.vedro401.reallifeachievement.utils.inflate
@@ -64,7 +63,7 @@ class ProfileStoriesFragment : Fragment() {
             when(status) {
                 UserTransferProtocol.SIGN_IN -> {
                     Log.i(STORY, "ProfileStoriesFragment.initRV: set stories")
-                    adapterSubscription = databaseManager.getStories().subscribe(adapter)
+                    adapterSubscription = databaseManager.getNotFinishedStories().subscribe(adapter)
                 }
 
                 UserTransferProtocol.SIGN_OUT -> {

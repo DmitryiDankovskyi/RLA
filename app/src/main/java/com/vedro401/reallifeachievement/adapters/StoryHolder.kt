@@ -6,7 +6,7 @@ import android.view.View
 import com.vedro401.reallifeachievement.App
 import com.vedro401.reallifeachievement.R
 import com.vedro401.reallifeachievement.model.Story
-import com.vedro401.reallifeachievement.view.StoryWritingActivity
+import com.vedro401.reallifeachievement.view.StoryEditorActivity
 import kotlinx.android.synthetic.main.layout_story_item.view.*
 import kotlinx.android.synthetic.main.layout_story_post.view.*
 import org.jetbrains.anko.onClick
@@ -33,19 +33,19 @@ class StoryHolder(itemVIew: View) : BindableViewHolder<Story>(itemVIew){
             Story.FINISHED -> context.getString(R.string.story_status_finished)
             else -> "Broken"
         }
-        if(data.status == Story.STARTED){
-            itemView.story_last_post.visibility = View.GONE
-            itemView.story_border3.visibility = View.GONE
-        } else {
+        if(data.lastPost != null){
             itemView.story_last_post.visibility = View.VISIBLE
             itemView.story_border3.visibility = View.VISIBLE
             itemView.story_post_content.text = data.lastPost!!.content
             itemView.story_post_title.text = data.lastPost!!.title
             itemView.story_post_time_stamped.text = data.lastPost!!.timeStamped
+        } else {
+            itemView.story_last_post.visibility = View.GONE
+            itemView.story_border3.visibility = View.GONE
         }
         itemView.story_status.text = status
         itemView.story_change_btn.onClick {
-            val intent = Intent(context, StoryWritingActivity::class.java )
+            val intent = Intent(context, StoryEditorActivity::class.java )
             intent.putExtra("story", data)
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             context.startActivity(intent)

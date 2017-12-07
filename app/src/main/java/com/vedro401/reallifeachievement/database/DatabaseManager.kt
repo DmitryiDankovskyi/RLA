@@ -12,22 +12,40 @@ import rx.Observable
  */
 interface DatabaseManager {
     var userManager: UserManager
-    fun save(ach : Achievement)
-    fun save(userData: UserData)
-    fun likeAchievement(ach : Achievement)
-    fun signUp(name: String, email: String, pass: String): Observable<String>
-    fun signIn(email: String, pass: String): Observable<String>
-    fun signOut()
-    fun unlock(ach : Achievement)
-    fun getCurrentUser(): Observable<TransferProtocol<UserData>>
-    fun getAchievements(): Observable<RxRvTransferProtocol<Achievement>>
-    fun getStories(): Observable<RxRvTransferProtocol<Story>>
-    fun getStoryPosts(storyId: String): Observable<RxRvTransferProtocol<StoryPost>>
+    fun getCurrentUserData(): Observable<TransferProtocol<UserData>>
 
+
+    // User
+    fun save(userData: UserData)
+    fun signIn(email: String, pass: String): Observable<String>
+    fun signUp(name: String, email: String, pass: String): Observable<String>
+    fun signOut()
+
+    fun getNotFinishedStories(): Observable<RxRvTransferProtocol<Story>>
+    fun getFinishedStories(): Observable<RxRvTransferProtocol<Story>>
+
+    //Achievement
+    fun save(ach : Achievement)
+    fun likeAchievement(ach : Achievement)
+    fun unlock(ach : Achievement)
+    fun getAchievements(): Observable<RxRvTransferProtocol<Achievement>>
+    fun isAchievementLiked(ach : Achievement) : Observable<Boolean>
+    fun isAchievementInList(ach : Achievement) : Observable<Boolean>
+    fun clear(ach : Achievement)
+//    fun isAchievementInList(achId: String, uid: String) : Observable<Boolean>
+
+
+    //Story
     fun save(story: Story)
-    fun updateStatus(storyId: String, status: Int)
+    fun delete(storyId: String) //!!!
+    fun updateStoryStatus(storyId: String, status: Int)
+    fun updateLastPost(story: Story, post: StoryPost?): Observable<Boolean>
+    fun updateLastPost(story: Story): Observable<StoryPost?>
+    fun finishStory(story: Story, achievementId: String, difficulty: Int)
+
+
+    //Story post
     fun save(post: StoryPost, storyId: String) // : Observable<*>
-    fun updateLastPost(storyId: String, post: StoryPost): Observable<Boolean>
-    fun updateLastPost(storyId: String): Observable<StoryPost?>
+    fun getStoryPosts(storyId: String): Observable<RxRvTransferProtocol<StoryPost>>
     fun deletePost(storyId : String, postId: String): Observable<Boolean>
 }

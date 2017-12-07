@@ -43,7 +43,6 @@ class FeedActivity : AppCompatActivity(),FakeBottomNavigationOwner {
         initBottomNavigation(bottom_navigation,this)
 
         App.getComponent().inject(this)
-
         container_rv.layoutManager = LinearLayoutManager(this)
         container_rv.itemAnimator = DefaultItemAnimator()
 //        adapterSubscription = dbm.getAchievements().subscribe(adapter)

@@ -16,11 +16,11 @@ class UserManager(var dbm: DatabaseManager){
     var isAuthorised = false
 
     init {
-        dbm.getCurrentUser().subscribe ({
+        dbm.getCurrentUserData().subscribe ({
             message ->
             when(message.event){
                 UserTransferProtocol.SIGN_IN -> {
-                    userData = message.data!!
+                    userData = message.data
                     Log.d(LOGTAG,"UserManager: User signed in")
                     Log.d(LOGTAG,"UserManager: $userData")
                     isAuthorised = true
@@ -32,7 +32,7 @@ class UserManager(var dbm: DatabaseManager){
                 }
                 UserTransferProtocol.CHANGE_NAME -> {
                     Log.d(LOGTAG,"UserManager: User signed out")
-                    userData!!.name = message.data!!.name
+                    userData!!.name = message.data.name
                 }
             }
             userStatus.onNext(message.event)

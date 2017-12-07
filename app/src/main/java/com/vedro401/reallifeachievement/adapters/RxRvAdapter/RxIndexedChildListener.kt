@@ -4,6 +4,7 @@ import android.util.Log
 import com.google.firebase.database.*
 import com.vedro401.reallifeachievement.utils.RXRVTAG
 import rx.subjects.ReplaySubject
+import java.util.*
 
 class RxIndexedChildListener<T>(private var itemType: Class<T>) {
     var keysRef: Query? = null
@@ -11,6 +12,7 @@ class RxIndexedChildListener<T>(private var itemType: Class<T>) {
     var subj = ReplaySubject.create<RxRvTransferProtocol<T>>()
     val listeningKeys = HashSet<String>()
     private val itemListener = object : ValueEventListener {
+        val addedIdList = LinkedList<String>()
         override fun onCancelled(p0: DatabaseError?) {
             Log.d(RXRVTAG, "RxIndexedChildListener.itemListener: cancelled. ${p0?.message}")
         }
@@ -25,13 +27,16 @@ class RxIndexedChildListener<T>(private var itemType: Class<T>) {
                 Log.e(RXRVTAG, "RxIndexedChildListener.itemListener: " +
                         "Wrong data type. key: ${p0.key}. value: \"${p0.value}\"")
                 return
-                /**TODO it can be case when removed achievement, you should remove key
+                /**TODO it can be case when removed data, you should remove key
                  * from pinned list and, maybe, tell about it to user
                  */
             }
-            subj.onNext(RxRvTransferProtocol(RxRvTransferProtocol.ITEM_ADDED,
-                    dataItem, p0.key))
-
+            val event = if(!addedIdList.contains(p0.key)) {
+                addedIdList.add(p0.key)
+                RxRvTransferProtocol.ITEM_ADDED
+            }
+            else RxRvTransferProtocol.ITEM_CHANGED
+            subj.onNext(RxRvTransferProtocol(event, dataItem, p0.key))
         }
     }
 

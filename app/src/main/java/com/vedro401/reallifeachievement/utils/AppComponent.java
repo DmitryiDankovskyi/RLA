@@ -13,6 +13,7 @@ import com.vedro401.reallifeachievement.view.SearchActivity;
 import com.vedro401.reallifeachievement.view.SignUpActivity;
 import com.vedro401.reallifeachievement.view.profile.ProfileActivity;
 import com.vedro401.reallifeachievement.view.profile.ProfileStoriesFragment;
+import com.vedro401.reallifeachievement.view.profile.ProfileUnlockedAchFragment;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -47,4 +48,6 @@ public interface AppComponent {
     void inject(StoryHolder storyHolder);
 
     void inject(@NotNull StoryPostHolder storyPostHolder);
+
+    void inject(@NotNull ProfileUnlockedAchFragment profileUnlockedAchFragment);
 }

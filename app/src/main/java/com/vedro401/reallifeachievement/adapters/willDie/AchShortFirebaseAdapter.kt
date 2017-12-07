@@ -1,9 +1,8 @@
-package com.vedro401.reallifeachievement.adapters.willBeDie
+package com.vedro401.reallifeachievement.adapters.willDie
 
 import android.util.Log
 import android.view.View
-import com.firebase.ui.database.FirebaseIndexRecyclerAdapter
-import com.google.firebase.auth.FirebaseAuth
+import com.firebase.ui.database.FirebaseRecyclerAdapter
 import com.google.firebase.database.*
 import com.vedro401.reallifeachievement.R
 import com.vedro401.reallifeachievement.adapters.AchievementHolder
@@ -11,24 +10,29 @@ import com.vedro401.reallifeachievement.model.Achievement
 import com.vedro401.reallifeachievement.utils.LOGTAG
 
 
-class AchFirebaseAdapterIndexed(keys :Query = FirebaseDatabase.getInstance().getReference("users/pinned")
-        .child(FirebaseAuth.getInstance().currentUser!!.uid),
-                                ref: Query = FirebaseDatabase.getInstance().getReference("achievements/mainData")
-) : FirebaseIndexRecyclerAdapter<Achievement, AchievementHolder>(
+class AchShortFirebaseAdapter(ref : Query
+                              = FirebaseDatabase.getInstance().getReference("achievements/mainData"))
+    : FirebaseRecyclerAdapter<Achievement, AchievementHolder>(
         Achievement::class.java,
         R.layout.layout_achievement_item,
         AchievementHolder::class.java,
-        keys,
-        ref
-){
-    override fun populateViewHolder(viewHolder: AchievementHolder, model: Achievement, position: Int) {
+        ref) {
+
+    init {
+        Log.d(LOGTAG, "AchShortFirebaseAdapter item count: $itemCount")
+    }
+
+    override fun populateViewHolder(viewHolder: AchievementHolder,
+                                    model: Achievement,
+                                    position: Int) {
         viewHolder.bind(model)
     }
 
     override fun onCancelled(error: DatabaseError?) {
         super.onCancelled(error)
-        Log.d(LOGTAG, "AchFirebaseAdapterIndexed error: ${error.toString()}")
+        Log.d(LOGTAG, "AchShortFirebaseAdapter error: ${error.toString()}")
     }
+
     override fun onDataChanged() {
         super.onDataChanged()
         Log.d("CakeTag", itemCount.toString() )
@@ -37,6 +41,7 @@ class AchFirebaseAdapterIndexed(keys :Query = FirebaseDatabase.getInstance().get
     var spinner: View? = null
         set(value) {
             field = value
+//            setUpIndicators()
         }
     var voidContentIndicator: View? = null
         set(value) {
@@ -47,15 +52,15 @@ class AchFirebaseAdapterIndexed(keys :Query = FirebaseDatabase.getInstance().get
     private fun setUpIndicators(){
         if(spinner != null && spinner!!.visibility != View.GONE)
             spinner!!.visibility = View.GONE
+        Log.d("CakeTag", "voidContentIndicator != null ${voidContentIndicator != null}" +
+                         "spinner!= null ${spinner!= null}" +
+                         "spinner!!.visibility == View.GONE ${spinner!!.visibility == View.GONE}")
         if(voidContentIndicator != null)
             if(itemCount == 0 && (spinner == null
-                    || (spinner!= null && spinner!!.visibility.equals(View.GONE)))){
+                    || (spinner!= null && spinner!!.visibility == View.GONE))){
                 voidContentIndicator!!.visibility = View.VISIBLE
             } else {
                 voidContentIndicator!!.visibility = View.GONE
             }
     }
-
-
-
 }

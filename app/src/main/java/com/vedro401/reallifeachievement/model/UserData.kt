@@ -7,7 +7,12 @@ class UserData() : DataModel() {
     id: String? = null,
     email: String? = null,
     avatarUrl: String? = null
-    ) : this()
+    ) : this() {
+        this.name  = name
+        this.id = id
+        this.email = email
+        this.avatarUrl = avatarUrl
+    }
 
     var name : String? = null
     var id: String? = null

@@ -1,4 +1,4 @@
-package com.vedro401.reallifeachievement.adapters.willBeDie
+package com.vedro401.reallifeachievement.adapters.willDie
 
 import android.support.v7.widget.RecyclerView
 import android.view.ViewGroup
