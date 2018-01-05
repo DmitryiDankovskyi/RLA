@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.vedro401.reallifeachievement.view.create.CreateActivity">
+    tools:context="com.vedro401.reallifeachievement.ui.create.CreateActivity">
 
     <LinearLayout
         android:id="@+id/box_of_title"

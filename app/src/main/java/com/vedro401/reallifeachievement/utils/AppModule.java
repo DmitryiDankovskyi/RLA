@@ -2,8 +2,11 @@ package com.vedro401.reallifeachievement.utils;
 
 import android.content.Context;
 
-import com.vedro401.reallifeachievement.database.DatabaseManager;
-import com.vedro401.reallifeachievement.database.FirebaseManager;
+import com.vedro401.reallifeachievement.managers.interfaces.DatabaseManager;
+import com.vedro401.reallifeachievement.managers.FirebaseManager;
+import com.vedro401.reallifeachievement.managers.StorageManager;
+import com.vedro401.reallifeachievement.managers.FireUserManager;
+import com.vedro401.reallifeachievement.managers.interfaces.UserManager;
 
 import javax.inject.Singleton;
 
@@ -14,7 +17,8 @@ import dagger.Provides;
 public class AppModule {
     private Context context;
     private FirebaseManager firebaseManager = new FirebaseManager();
-    private UserManager userManager = new UserManager(provideDatabase());
+    private FireUserManager userManager = new FireUserManager(provideDatabase());
+    private StorageManager storageManager = new StorageManager();
 
     public AppModule(Context context) {
         this.context = context;
@@ -28,20 +32,35 @@ public class AppModule {
 
     @Provides
     @Singleton
+    AppPreference provideAppPreference(Context context) {
+        return new AppPreference(context);
+    }
+
+    @Provides
+    @Singleton
+    StorageManager provideStorageManager(){
+        return storageManager;
+    }
+
+
+    @Provides
+    @Singleton
+    UserManager provideUserManager(){ return userManager;}
+
+
+    @Provides
+    @Singleton
     DatabaseManager provideDatabase(){
         return firebaseManager;
     }
 
+
+    //For search
     @Provides
     @Singleton
-    FirebaseManager provideFirebaseDatabase(){
+    FirebaseManager provideFirebaseManager(){
         return firebaseManager;
     }
-
-    @Provides
-    @Singleton
-    UserManager provideCurrentUser(){ return userManager;}
-
 
 
 }

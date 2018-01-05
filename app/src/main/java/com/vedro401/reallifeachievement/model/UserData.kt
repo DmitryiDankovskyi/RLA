@@ -18,12 +18,11 @@ class UserData() : DataModel() {
     var id: String? = null
     var email: String? = null
     var avatarUrl: String? = null
+    var postsCount = 0
 
     fun save(){
         databaseManager.save(this)
     }
 
-    override fun toString(): String {
-        return "name $name id $id email $email"
-    }
+    override fun toString(): String = "name $name uid $id email $email"
 }

@@ -1,23 +1,49 @@
 package com.vedro401.reallifeachievement.utils
 
+import android.app.Activity
+import android.content.Context
+import android.content.Intent
+import android.support.v4.app.Fragment
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
+import org.jetbrains.anko.onClick
 
-/**
- * Created by someone on 18.09.17.
- */
 
 val FIRETAG = "FIRETAG"
+val STORAGETAG = "STORAGETAG"
 val LOGTAG = "LOGTAG"
 val RXRVTAG = "rxrv"
 val CAKE_HUNTER = "cakeHunter"
 val RXICL = "rxicl"
 val STORY = "myStory"
 
+val PICK_IMAGE_REQUEST = 111
+
 fun coolBigNumbers(num : String) : String = coolBigNumbers(num.toLong())
 
+private fun prepareImageChoseIntent(): Intent {
+    val intent = Intent()
+    intent.type = "image/*"
+    intent.action = Intent.ACTION_GET_CONTENT
+    return intent
+}
+
+fun Fragment.choseImage(){
+
+    startActivityForResult(Intent.createChooser(prepareImageChoseIntent()
+            ,"Select an image"), PICK_IMAGE_REQUEST)
+}
+
+fun Activity.choseImage(){
+    startActivityForResult(Intent.createChooser(prepareImageChoseIntent()
+            ,"Select an image"), PICK_IMAGE_REQUEST)
+}
+
+
 fun ViewGroup.inflate(layoutRes: Int) =
-        LayoutInflater.from(context).inflate(layoutRes, this, false)
+        LayoutInflater.from(context).inflate(layoutRes, this, false)!!
 
 fun coolBigNumbers(num : Long) : String{
     if(num <= 999)
@@ -57,5 +83,10 @@ fun randomTitle() : String {
     return "${whatToDo[(Math.random()*whatToDo.size).toInt()]} " +
             "${which[(Math.random()*which.size).toInt()]} " +
             "${who[(Math.random()*who.size).toInt()]}"
+}
+
+fun View.hideKeyboard() {
+    val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+    imm.hideSoftInputFromWindow(windowToken, 0)
 }
 

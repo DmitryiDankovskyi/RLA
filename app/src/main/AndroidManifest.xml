@@ -13,7 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".view.SplashActivity"
+            android:name=".ui.SplashActivity"
             android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -22,17 +22,16 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".view.SearchActivity"
+            android:name=".ui.SearchActivity"
             android:windowSoftInputMode="adjustPan" />
-        <activity android:name=".view.FeedActivity" />
+        <activity android:name=".ui.FeedActivity" />
         <activity
-            android:name=".view.create.CreateActivity"
+            android:name=".ui.create.CreateActivity"
             android:windowSoftInputMode="adjustPan" />
-        <activity android:name=".view.SignInActivity" />
-        <activity android:name=".view.SignUpActivity"/>
-        <activity android:name=".view.DondeActivity" />
-        <activity android:name=".view.profile.ProfileActivity" />
-        <activity android:name=".view.StoryEditorActivity"/>
+        <activity android:name=".ui.SignInActivity" />
+        <activity android:name=".ui.SignUpActivity"/>
+        <activity android:name=".ui.profile.ProfileActivity" />
+        <activity android:name=".ui.StoryEditorActivity"/>
     </application>
 
 </manifest>

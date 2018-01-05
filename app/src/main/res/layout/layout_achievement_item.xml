@@ -18,7 +18,7 @@
         tools:layout_editor_absoluteY="0dp">
 
         <TextView
-            android:id="@+id/story_achievement_title"
+            android:id="@+id/achievement_title"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
@@ -27,7 +27,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:textSize="20sp"
-            card_view:layout_constraintLeft_toRightOf="@+id/story_achievement_image"
+            card_view:layout_constraintLeft_toRightOf="@+id/achievement_image"
             card_view:layout_constraintRight_toRightOf="parent"
             card_view:layout_constraintTop_toTopOf="parent"
             tools:layout_constraintLeft_creator="1"
@@ -35,7 +35,7 @@
             tools:text="@string/long_name" />
 
         <ImageView
-            android:id="@+id/story_achievement_image"
+            android:id="@+id/achievement_image"
             android:layout_width="75dp"
             android:layout_height="75dp"
             android:layout_marginBottom="8dp"
@@ -58,9 +58,9 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             card_view:layout_constraintHorizontal_bias="0.0"
-            card_view:layout_constraintLeft_toRightOf="@+id/story_achievement_image"
+            card_view:layout_constraintLeft_toRightOf="@+id/achievement_image"
             card_view:layout_constraintRight_toRightOf="parent"
-            card_view:layout_constraintTop_toBottomOf="@+id/story_achievement_title"
+            card_view:layout_constraintTop_toBottomOf="@+id/achievement_title"
             tools:layout_constraintLeft_creator="1"
             tools:layout_constraintRight_creator="1" />
 
@@ -69,7 +69,7 @@
             style="@style/AchievementItemStatisticIcon"
             app:srcCompat="@drawable/ic_statistic_unlocked_24dp"
             card_view:layout_constraintTop_toBottomOf="@+id/border"
-            card_view:layout_constraintLeft_toRightOf="@+id/story_achievement_image"
+            card_view:layout_constraintLeft_toRightOf="@+id/achievement_image"
             card_view:layout_constraintRight_toLeftOf="@+id/difficulty_label"
             android:layout_marginTop="4dp"
             android:layout_marginRight="50dp" />
@@ -91,7 +91,7 @@
             app:srcCompat="@drawable/ic_statistic_difficulty_24dp"
             card_view:layout_constraintTop_toBottomOf="@+id/border"
             card_view:layout_constraintRight_toRightOf="parent"
-            card_view:layout_constraintLeft_toRightOf="@+id/story_achievement_image"
+            card_view:layout_constraintLeft_toRightOf="@+id/achievement_image"
             android:layout_marginTop="4dp"
             android:layout_marginLeft="0dp"
             android:layout_marginRight="50dp"
@@ -151,7 +151,7 @@
             card_view:layout_constraintTop_toBottomOf="@+id/difficulty_label" />
 
         <View
-            android:id="@+id/story_border2"
+            android:id="@+id/border2"
             style="@style/border"
             android:layout_width="0dp"
             android:layout_height="1dp"
@@ -177,7 +177,7 @@
             android:gravity="center_vertical"
             card_view:layout_constraintLeft_toLeftOf="parent"
             card_view:layout_constraintRight_toRightOf="parent"
-            card_view:layout_constraintTop_toBottomOf="@+id/story_border2"
+            card_view:layout_constraintTop_toBottomOf="@+id/border2"
             card_view:layout_constraintHorizontal_bias="0.0">
 
             <android.support.v7.widget.AppCompatImageView

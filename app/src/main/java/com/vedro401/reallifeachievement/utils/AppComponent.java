@@ -1,23 +1,24 @@
 package com.vedro401.reallifeachievement.utils;
 
-import com.vedro401.reallifeachievement.adapters.AchievementHolder;
-import com.vedro401.reallifeachievement.adapters.StoryHolder;
-import com.vedro401.reallifeachievement.adapters.StoryPostHolder;
+import com.vedro401.reallifeachievement.adapters.holders.AchievementHolder;
+import com.vedro401.reallifeachievement.managers.FireUserManager;
 import com.vedro401.reallifeachievement.model.Achievement;
 import com.vedro401.reallifeachievement.model.DataModel;
-import com.vedro401.reallifeachievement.view.BaseActivity;
-import com.vedro401.reallifeachievement.view.FeedActivity;
-import com.vedro401.reallifeachievement.view.SignInActivity;
-import com.vedro401.reallifeachievement.view.create.CreateActivity;
-import com.vedro401.reallifeachievement.view.SearchActivity;
-import com.vedro401.reallifeachievement.view.SignUpActivity;
-import com.vedro401.reallifeachievement.view.profile.ProfileActivity;
-import com.vedro401.reallifeachievement.view.profile.ProfileStoriesFragment;
-import com.vedro401.reallifeachievement.view.profile.ProfileUnlockedAchFragment;
+import com.vedro401.reallifeachievement.ui.BaseActivity;
+import com.vedro401.reallifeachievement.ui.FeedActivity;
+import com.vedro401.reallifeachievement.ui.SearchActivity;
+import com.vedro401.reallifeachievement.ui.SignInActivity;
+import com.vedro401.reallifeachievement.ui.SignUpActivity;
+import com.vedro401.reallifeachievement.ui.create.CreateActivity;
+import com.vedro401.reallifeachievement.ui.profile.ProfileActivity;
+import com.vedro401.reallifeachievement.ui.profile.ProfileStatisticFragment;
+import com.vedro401.reallifeachievement.ui.profile.ProfileStoriesFragment;
+import com.vedro401.reallifeachievement.ui.profile.ProfileFinishedStoriesFragment;
 
 import org.jetbrains.annotations.NotNull;
 
 import javax.inject.Singleton;
+
 import dagger.Component;
 
 @Singleton
@@ -35,7 +36,7 @@ public interface AppComponent {
 
     void inject(@NotNull SignUpActivity signInActivity);
 
-    void inject(@NotNull UserManager userManager);
+    void inject(@NotNull FireUserManager userManager);
 
     void inject(@NotNull ProfileActivity profileActivity);
 
@@ -45,9 +46,7 @@ public interface AppComponent {
 
     void inject(@NotNull FeedActivity feedActivity);
 
-    void inject(StoryHolder storyHolder);
+    void inject(@NotNull ProfileFinishedStoriesFragment profileUnlockedAchFragment);
 
-    void inject(@NotNull StoryPostHolder storyPostHolder);
-
-    void inject(@NotNull ProfileUnlockedAchFragment profileUnlockedAchFragment);
+    void inject(@NotNull ProfileStatisticFragment profileStatisticFragment);
 }

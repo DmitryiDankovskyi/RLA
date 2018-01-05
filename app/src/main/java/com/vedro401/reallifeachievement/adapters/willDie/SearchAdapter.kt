@@ -3,7 +3,7 @@ package com.vedro401.reallifeachievement.adapters.willDie
 import android.support.v7.widget.RecyclerView
 import android.view.ViewGroup
 import com.vedro401.reallifeachievement.R
-import com.vedro401.reallifeachievement.adapters.AchievementHolder
+import com.vedro401.reallifeachievement.adapters.holders.AchievementHolder
 import com.vedro401.reallifeachievement.model.Achievement
 import org.jetbrains.anko.layoutInflater
 

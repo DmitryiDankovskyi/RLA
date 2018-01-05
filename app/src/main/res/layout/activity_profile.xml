@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.vedro401.reallifeachievement.view.profile.ProfileActivity">
+    tools:context="com.vedro401.reallifeachievement.ui.profile.ProfileActivity">
 
     <include
         android:id="@+id/toolbare"

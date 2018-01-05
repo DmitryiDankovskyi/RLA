@@ -2,8 +2,9 @@ package com.vedro401.reallifeachievement.model;
 
 import com.google.firebase.database.Exclude;
 import com.vedro401.reallifeachievement.App;
-import com.vedro401.reallifeachievement.database.DatabaseManager;
-import com.vedro401.reallifeachievement.utils.UserManager;
+import com.vedro401.reallifeachievement.managers.interfaces.DatabaseManager;
+import com.vedro401.reallifeachievement.managers.FireUserManager;
+import com.vedro401.reallifeachievement.managers.interfaces.UserManager;
 
 import javax.inject.Inject;
 

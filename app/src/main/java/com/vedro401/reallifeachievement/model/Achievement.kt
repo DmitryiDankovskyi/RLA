@@ -2,11 +2,9 @@ package com.vedro401.reallifeachievement.model
 
 import com.google.firebase.database.Exclude
 import com.google.firebase.database.IgnoreExtraProperties
-import com.vedro401.reallifeachievement.utils.transferProtocols.UserTransferProtocol
-import rx.Observable
+import com.vedro401.reallifeachievement.transferProtocols.UserTransferProtocol
 import rx.Subscription
 import rx.subjects.BehaviorSubject
-import rx.subscriptions.Subscriptions
 import kotlin.collections.ArrayList
 
 @IgnoreExtraProperties
@@ -37,9 +35,8 @@ class Achievement() : DataModel() {
         set(value) {
             field = value
             if (value != null) {
-                userManager.userStatus.subscribe { status ->
-                    when (status) {
-                        UserTransferProtocol.SIGN_IN -> {
+                userManager.isAuthorisedObs.subscribe { authorised ->
+                    if (authorised){
                             likeSubscription?.unsubscribe()
                             likeSubscription = databaseManager.isAchievementLiked(this)
                                     .subscribe(isLikedByCurrentUserObs)
@@ -48,13 +45,13 @@ class Achievement() : DataModel() {
                                     .subscribe(isInListObs)
 
                         }
-                        UserTransferProtocol.SIGN_OUT -> {
+                    else {
                             isLikedByCurrentUserObs.onNext(false)
                             likeSubscription?.unsubscribe()
                             isInListObs.onNext(false)
                             inListSubscription?.unsubscribe()
                         }
-                    }
+
                 }
             }
 
@@ -78,7 +75,11 @@ class Achievement() : DataModel() {
     var tags = ArrayList<String>()
 
     init {
-        author = userManager.id()
+        author = userManager.uid
+    }
+
+    fun setId(){
+        databaseManager!!.setId(this)
     }
 
     fun save() {
@@ -92,10 +93,6 @@ class Achievement() : DataModel() {
     fun createStore() {
         val story = Story(this)
         story.save()
-    }
-
-    fun unlock() {
-        databaseManager.unlock(this)
     }
 
     override fun toString(): String =

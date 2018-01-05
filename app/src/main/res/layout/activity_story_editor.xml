@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.vedro401.reallifeachievement.view.StoryEditorActivity">
+    tools:context="com.vedro401.reallifeachievement.ui.StoryEditorActivity">
 
     <include layout="@layout/layout_story_editor_tool_bar" />
 

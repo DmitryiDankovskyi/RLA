@@ -6,7 +6,7 @@ import com.firebase.ui.database.FirebaseIndexRecyclerAdapter
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.vedro401.reallifeachievement.R
-import com.vedro401.reallifeachievement.adapters.AchievementHolder
+import com.vedro401.reallifeachievement.adapters.holders.AchievementHolder
 import com.vedro401.reallifeachievement.model.Achievement
 import com.vedro401.reallifeachievement.utils.LOGTAG
 

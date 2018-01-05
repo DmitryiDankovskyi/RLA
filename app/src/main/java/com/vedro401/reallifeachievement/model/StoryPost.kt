@@ -43,6 +43,6 @@ class StoryPost() : Parcelable {
     }
 
     override fun toString(): String {
-        return "title \"$title\" content \"$content\" id \"$id\""
+        return "title \"$title\" content \"$content\" uid \"$id\""
     }
 }

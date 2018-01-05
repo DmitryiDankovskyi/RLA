@@ -184,7 +184,7 @@
                 android:textColor="@color/colorPrimary" />
 
             <android.support.v7.widget.AppCompatImageView
-                android:id="@+id/btn_unlock"
+                android:id="@+id/story_delete_btn"
                 android:layout_width="@dimen/small_icon_size"
                 android:layout_height="@dimen/small_icon_size"
                 android:padding="8dp"

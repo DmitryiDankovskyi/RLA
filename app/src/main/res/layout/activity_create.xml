@@ -5,14 +5,25 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.vedro401.reallifeachievement.view.create.CreateActivity">
+    tools:context="com.vedro401.reallifeachievement.ui.create.CreateActivity">
   <include layout="@layout/layout_create_tool_bar" />
-
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
     <android.support.v4.view.ViewPager
         android:id="@+id/vp_create"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         tools:background="@color/gray_light"
         />
+    <ProgressBar
+        android:id="@+id/ac_spinner"
+        android:visibility="gone"
+        tools:visibility="visible"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="16dp"/>
+    </FrameLayout>
 
 </LinearLayout>
