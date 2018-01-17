@@ -11,6 +11,7 @@ import com.vedro401.reallifeachievement.utils.DaggerAppComponent;
 
 /**
  * Created by someone on 16.09.17.
+ * hello from new hdd
  */
 
 public class App extends Application {
