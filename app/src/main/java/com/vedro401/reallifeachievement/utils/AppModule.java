@@ -16,8 +16,8 @@ import dagger.Provides;
 @Module
 public class AppModule {
     private Context context;
-    private FirebaseManager firebaseManager = new FirebaseManager();
-    private FireUserManager userManager = new FireUserManager(provideDatabase());
+    private FireUserManager userManager = new FireUserManager();
+    private FirebaseManager firebaseManager = new FirebaseManager(userManager);
     private StorageManager storageManager = new StorageManager();
 
     public AppModule(Context context) {

@@ -8,7 +8,7 @@ import com.google.firebase.database.*
 import com.vedro401.reallifeachievement.R
 import com.vedro401.reallifeachievement.adapters.holders.AchievementHolder
 import com.vedro401.reallifeachievement.model.Achievement
-import com.vedro401.reallifeachievement.utils.LOGTAG
+import com.vedro401.reallifeachievement.utils.AUTHTAG
 
 
 class AchFirebaseAdapterIndexed(keys :Query = FirebaseDatabase.getInstance().getReference("users/pinned")
@@ -27,7 +27,7 @@ class AchFirebaseAdapterIndexed(keys :Query = FirebaseDatabase.getInstance().get
 
     override fun onCancelled(error: DatabaseError?) {
         super.onCancelled(error)
-        Log.d(LOGTAG, "AchFirebaseAdapterIndexed error: ${error.toString()}")
+        Log.d(AUTHTAG, "AchFirebaseAdapterIndexed error: ${error.toString()}")
     }
     override fun onDataChanged() {
         super.onDataChanged()

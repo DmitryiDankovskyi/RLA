@@ -65,12 +65,15 @@
         <item name="android:padding">10dp</item>
     </style>
 
-    <style name="AchievementItemStatisticIcon">
+    <style name="SmallIcon">
         <item name="android:tint">@color/colorPrimary</item>
         <item name="android:layout_width">20dp</item>
         <item name="android:layout_height">20dp</item>
-        <item name="android:background">@drawable/circle_background</item>
+    </style>
+
+    <style name="AchievementItemStatisticIcon" parent="SmallIcon">
         <item name="android:padding">3dp</item>
+        <item name="android:background">@drawable/background_circle</item>
     </style>
 
     <style name="TestStyle">
@@ -87,6 +90,20 @@
         <item name="android:layout_height">40dp</item>
         <item name="android:padding">8dp</item>
         <item name="android:tint">@color/gray_light</item>
+    </style>
+
+    <style name="ThreePlusKDigitsIndicator">
+        <item name="android:layout_marginLeft">4dp</item>
+        <item name="android:minEms">2</item>
+        <item name="android:text">999k</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+    </style>
+
+    <style name="MySpace">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">0dp</item>
+        <item name="android:layout_weight">1</item>
     </style>
 
     <!--<style name="LoginButton">-->

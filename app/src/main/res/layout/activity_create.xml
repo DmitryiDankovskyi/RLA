@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.vedro401.reallifeachievement.ui.create.CreateActivity">
+    tools:context=".ui.AddedAchievements.create.CreateActivity">
   <include layout="@layout/layout_create_tool_bar" />
     <FrameLayout
         android:layout_width="match_parent"

@@ -1,15 +1,17 @@
 package com.vedro401.reallifeachievement.utils;
 
 import com.vedro401.reallifeachievement.adapters.holders.AchievementHolder;
+import com.vedro401.reallifeachievement.adapters.holders.MyAchievementHolder;
 import com.vedro401.reallifeachievement.managers.FireUserManager;
 import com.vedro401.reallifeachievement.model.Achievement;
 import com.vedro401.reallifeachievement.model.DataModel;
+import com.vedro401.reallifeachievement.ui.AddedAchievements.AddedAchievementsActivity;
 import com.vedro401.reallifeachievement.ui.BaseActivity;
 import com.vedro401.reallifeachievement.ui.FeedActivity;
 import com.vedro401.reallifeachievement.ui.SearchActivity;
 import com.vedro401.reallifeachievement.ui.SignInActivity;
 import com.vedro401.reallifeachievement.ui.SignUpActivity;
-import com.vedro401.reallifeachievement.ui.create.CreateActivity;
+import com.vedro401.reallifeachievement.ui.AddedAchievements.create.CreateActivity;
 import com.vedro401.reallifeachievement.ui.profile.ProfileActivity;
 import com.vedro401.reallifeachievement.ui.profile.ProfileStatisticFragment;
 import com.vedro401.reallifeachievement.ui.profile.ProfileStoriesFragment;
@@ -26,7 +28,7 @@ import dagger.Component;
         AppModule.class
 })
 public interface AppComponent {
-    void inject(BaseActivity ba);
+    void inject(BaseActivity baseActivity);
 
     void inject(AchievementHolder achievementHolder);
     void inject(Achievement ach);
@@ -34,9 +36,8 @@ public interface AppComponent {
     void inject(SearchActivity searchActivity);
     void inject(SignInActivity logInActivity);
 
-    void inject(@NotNull SignUpActivity signInActivity);
 
-    void inject(@NotNull FireUserManager userManager);
+    void inject(@NotNull SignUpActivity signInActivity);
 
     void inject(@NotNull ProfileActivity profileActivity);
 
@@ -49,4 +50,6 @@ public interface AppComponent {
     void inject(@NotNull ProfileFinishedStoriesFragment profileUnlockedAchFragment);
 
     void inject(@NotNull ProfileStatisticFragment profileStatisticFragment);
+
+    void inject(@NotNull MyAchievementHolder myAchievementHolder);
 }

@@ -13,15 +13,18 @@ import org.jetbrains.anko.onClick
 
 val FIRETAG = "FIRETAG"
 val STORAGETAG = "STORAGETAG"
-val LOGTAG = "LOGTAG"
+val AUTHTAG = "AUTHTAG"
 val RXRVTAG = "rxrv"
 val CAKE_HUNTER = "cakeHunter"
 val RXICL = "rxicl"
 val STORY = "myStory"
+val REFUCKTTAG = "reftag"
+
 
 val PICK_IMAGE_REQUEST = 111
 
 fun coolBigNumbers(num : String) : String = coolBigNumbers(num.toLong())
+fun coolBigNumbers(num : Int) : String = coolBigNumbers(num.toLong())
 
 private fun prepareImageChoseIntent(): Intent {
     val intent = Intent()

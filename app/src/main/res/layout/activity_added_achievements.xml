@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:context="com.vedro401.reallifeachievement.ui.AddedAchievements.AddedAchievementsActivity">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/aa_toolbar"
+        style="@style/MyToolbar"
+        app:titleTextColor="@color/white"
+        app:title="@string/create_title"
+        android:layout_width="match_parent"
+        android:layout_height="56dp" />
+
+    <Button
+        android:id="@+id/aa_create_new"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Create new"/>
+
+    <include
+        layout="@layout/layout_rv_container"
+        android:id="@+id/aa_search_ach_container"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        />
+    <include
+        android:id="@+id/aa_bottom_navigation"
+        layout="@layout/layout_bottom_navigation"
+        />
+</LinearLayout>

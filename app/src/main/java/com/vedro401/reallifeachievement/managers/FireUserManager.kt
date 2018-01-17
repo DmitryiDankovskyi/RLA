@@ -2,53 +2,109 @@ package com.vedro401.reallifeachievement.managers
 
 import android.net.Uri
 import android.util.Log
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.auth.UserProfileChangeRequest
 import com.vedro401.reallifeachievement.model.UserData
 import com.vedro401.reallifeachievement.transferProtocols.UserTransferProtocol
 import com.vedro401.reallifeachievement.managers.interfaces.DatabaseManager
 import com.vedro401.reallifeachievement.managers.interfaces.UserManager
-import com.vedro401.reallifeachievement.utils.LOGTAG
+import com.vedro401.reallifeachievement.transferProtocols.CHANGE_NAME
+import com.vedro401.reallifeachievement.transferProtocols.TransferProtocol
+import com.vedro401.reallifeachievement.utils.AUTHTAG
+import com.vedro401.reallifeachievement.utils.FIRETAG
 import rx.Observable
+import rx.Observer
 import rx.subjects.BehaviorSubject
 
 
-class FireUserManager(var dbm: DatabaseManager) : UserManager{
+class FireUserManager : UserManager{
     var userData: UserData? = null
     private set
 
-    val userStatus = BehaviorSubject.create<Int>(UserTransferProtocol.SIGN_OUT)!!
+    private var user: FirebaseUser? = null
+
     override val isAuthorisedObs = BehaviorSubject.create<Boolean>(false)!!
     override var isAuthorised = false
-    override var uid = userData!!.id!!
-    override var name = "none"
-    override var avatarUrl = Uri.parse(userData!!.avatarUrl)
+        get() = isAuthorisedObs.value
+    override var uid: String? = null
+        get() = user?.uid
+    override var name : String? = "none"
+        get() = if(user == null) "none" else user!!.displayName
 
+    override var avatarUrl : Uri? = null
+        get() = if(userData?.avatarUrl == null) null
+        else  Uri.parse(userData?.avatarUrl)
+
+    private val auth: FirebaseAuth = FirebaseAuth.getInstance()
     init {
-        dbm.userManager = this
-        dbm.getCurrentUserData().subscribe ({
-            message ->
-            when(message.event){
-                UserTransferProtocol.SIGN_IN -> {
-                    userData = message.data
-                    Log.d(LOGTAG,"FireUserManager: User signed in")
-                    Log.d(LOGTAG,"FireUserManager: $userData")
-                    isAuthorised = true
-
+        auth.addAuthStateListener({ firebaseAuth ->
+            user = firebaseAuth.currentUser
+            if(firebaseAuth.currentUser != null){
+                isAuthorisedObs.onNext(true)
+                if (user!!.displayName == null) {
+                    Log.d(AUTHTAG, "User signed in")
                 }
-                UserTransferProtocol.SIGN_OUT -> {
-                    Log.d(LOGTAG,"FireUserManager: User signed out")
-                    isAuthorised = false
-                }
-                UserTransferProtocol.CHANGE_NAME -> {
-                    Log.d(LOGTAG,"FireUserManager: User changed name")
-                    userData!!.name = message.data.name
-                }
+                else
+                    Log.d(AUTHTAG, "User signed up")
             }
-            userStatus.onNext(message.event)
-        },
-        { t ->
-            Log.e(LOGTAG,"FireUserManager: ${t.message}")
+             else {
+                isAuthorisedObs.onNext(false)
+                Log.d(AUTHTAG, "User logged out")
+
+            }
+
         })
     }
 
+    override fun signIn(email: String, pass: String): Observable<String> {
+       return Observable.create { subscriber ->
+           auth.signInWithEmailAndPassword(email, pass)
+                   .addOnCompleteListener { task ->
+                       if (task.isSuccessful) {
+                           subscriber.onNext("Ok")
+                           subscriber.onCompleted()
+                           Log.d(FIRETAG, "signIn check call")
+                       } else {
+                           Log.d(FIRETAG, task.exception!!.message)
+                           subscriber.onNext("Sign in: " + task.exception!!.message)
+                           subscriber.onCompleted()
+                       }
+                   }
+       }
+    }
 
+    override fun signUp(name: String, email: String, pass: String): Observable<String> {
+        return Observable.create { subscriber ->
+            val profileUpdates = UserProfileChangeRequest.Builder()
+                    .setDisplayName(name)
+                    .build()
+            auth.createUserWithEmailAndPassword(email, pass)
+                    .addOnCompleteListener { task ->
+                        if (task.isSuccessful) {
+                            val user = auth.currentUser!!
+                            user.updateProfile(profileUpdates).addOnCompleteListener { task ->
+                                if (!task.isSuccessful) {
+                                    Log.d(AUTHTAG, "Update profile failed. ${task.exception.toString()}")
+                                } else {
+                                    Log.d(AUTHTAG, "Profile info updated.")
+                                    Log.d(AUTHTAG, "name $name uid ${user.uid} email $email.")
+                                    val ud = UserData(name = name, id = user.uid, email = email)
+                                    ud.save()
+                                }
+                            }
+                            subscriber.onNext("Ok")
+                            subscriber.onCompleted()
+                        } else {
+                            Log.d(AUTHTAG, task.exception!!.message)
+                            subscriber.onNext("Sign up: " + task.exception!!.message)
+                            subscriber.onCompleted()
+                        }
+                    }
+        }
+    }
+
+    override fun signOut() {
+        auth.signOut()
+    }
 }

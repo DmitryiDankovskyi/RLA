@@ -7,11 +7,10 @@ import com.vedro401.reallifeachievement.App
 import com.vedro401.reallifeachievement.R
 import com.vedro401.reallifeachievement.adapters.SimpleFragmentPagerAdapter
 import com.vedro401.reallifeachievement.managers.interfaces.DatabaseManager
-import com.vedro401.reallifeachievement.utils.LOGTAG
-import com.vedro401.reallifeachievement.managers.FireUserManager
 import com.vedro401.reallifeachievement.managers.interfaces.UserManager
 import com.vedro401.reallifeachievement.ui.SignInActivity
 import com.vedro401.reallifeachievement.ui.interfaces.FakeBottomNavigationOwner
+import com.vedro401.reallifeachievement.utils.AUTHTAG
 import kotlinx.android.synthetic.main.activity_profile.*
 import kotlinx.android.synthetic.main.layout_profile_tool_bar.*
 import org.jetbrains.anko.alert
@@ -26,38 +25,44 @@ class ProfileActivity : FragmentActivity(), FakeBottomNavigationOwner {
     override var menuNum: Int = 2
 
     @Inject
-    lateinit var dbm: DatabaseManager
-    @Inject
-    lateinit var userManager: UserManager
+    lateinit var um: UserManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_profile)
         initBottomNavigation(bottom_navigation, this)
         App.getComponent().inject(this)
-
         initToolBar()
 
-        statisticFragment = ProfileStatisticFragment()
-        storiesFragment = ProfileStoriesFragment()
-        unlockedAchFragment = ProfileFinishedStoriesFragment()
+        um.isAuthorisedObs.subscribe {
+            statisticFragment = ProfileStatisticFragment()
+            storiesFragment = ProfileStoriesFragment()
+            unlockedAchFragment = ProfileFinishedStoriesFragment()
 
-        profile_vp.offscreenPageLimit = 2
-        profile_vp.adapter = SimpleFragmentPagerAdapter(arrayListOf(statisticFragment,
-                storiesFragment, unlockedAchFragment),
-                supportFragmentManager,
-                arrayListOf(getString(R.string.profile_statistic),
+            profile_vp.offscreenPageLimit = 2
+            profile_vp.adapter = SimpleFragmentPagerAdapter(arrayListOf(statisticFragment,
+                    storiesFragment, unlockedAchFragment),
+                    supportFragmentManager,
+                    arrayListOf(getString(R.string.profile_statistic),
                             getString(R.string.profile_pinned),
                             getString(R.string.profile_unlocked)))
+        }
     }
 
-    private fun initToolBar(){
+    private fun initToolBar() {
         //TODO change name immediately when it's changed
-//        userManager.userStatus.subscribe({
-//            profile_name.text = userManager.name()
+//        um.userStatus.subscribe({
+//            profile_name.text = um.name()
 //        },{ t ->
-//            Log.e(LOGTAG,"ProfileActivity: ${t.message}" )
+//            Log.e(AUTHTAG,"ProfileActivity: ${t.message}" )
 //        })
+
+        um.isAuthorisedObs.subscribe(
+                { _ ->
+                   profile_name.text = um.name
+                }, { ex ->
+                    Log.e(AUTHTAG,"ProfileActivity: ${ex.message}" )
+        })
         profile_icon.onClick {
             startActivity<SignInActivity>()
         }
@@ -65,8 +70,8 @@ class ProfileActivity : FragmentActivity(), FakeBottomNavigationOwner {
             //TODO move it somewhere
             alert {
                 title("Are you sure?")
-                positiveButton("Sign out"){
-                    dbm.signOut()
+                positiveButton("Sign out") {
+                    um.signOut()
                 }
                 negativeButton("Wait...")
             }.show()

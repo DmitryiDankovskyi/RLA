@@ -21,8 +21,6 @@ import javax.inject.Inject
 
 
 class ProfileStatisticFragment : Fragment(){
-    private val AVATAR_SWITCH = "switch"
-
     @Inject
     lateinit var um: UserManager
 
@@ -36,7 +34,7 @@ class ProfileStatisticFragment : Fragment(){
     lateinit var sm: StorageManager
 
     private val avatarRef : StorageReference by lazy {
-        sm.avatarRef(um.uid)
+        sm.avatarRef(um.uid!!)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?)
@@ -56,7 +54,7 @@ class ProfileStatisticFragment : Fragment(){
                     .signature(ObjectKey(pref.avatarLastUpdate))
                     .into(profile_avatar)
 
-            sm.getAvatarLastUpdate(um.uid).subscribe{
+            sm.getAvatarLastUpdate(um.uid!!).subscribe{
                 lastUpdate ->
                 if(lastUpdate != null){
                     GlideApp.with(this)
@@ -67,17 +65,6 @@ class ProfileStatisticFragment : Fragment(){
                 }
             }
 
-//            avatarRef.metadata.addOnSuccessListener {
-//                md ->
-//                if(md.getCustomMetadata(AVATAR_SWITCH) != null
-//                        && pref.avatarLastUpdate != md.getCustomMetadata(AVATAR_SWITCH)) {
-//                    GlideApp.with(this)
-//                            .load(avatarRef)
-//                            .centerCrop()
-//                            .signature(ObjectKey(md.getCustomMetadata(AVATAR_SWITCH)))
-//                            .into(profile_avatar)
-//                }
-//            }
         }
         dbm.getUserStatisticData().subscribe({
             fieldPair ->
@@ -96,13 +83,6 @@ class ProfileStatisticFragment : Fragment(){
             this@ProfileStatisticFragment.choseImage()
         }
 
-//        val feedBackDialog = Dialog(this, R.style.AppTheme_Dialog_TransparentBg)
-//        val layout = inflate(R.layout.layout_rc_feed_back_block, null, false)
-//        layout.rc_fb_send.onClick { sendFeedBack(layout)
-//            feedBackDialog.dismiss()}
-//        feedBackDialog.setContentView(layout)
-//        feedBackDialog.show()
-
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -110,10 +90,10 @@ class ProfileStatisticFragment : Fragment(){
         if(requestCode == PICK_IMAGE_REQUEST){
             if(data != null && data.data != null){
                 val filePath = data.data
-                sm.saveAvatar(filePath, um.uid).subscribe{
+                sm.saveAvatar(filePath, um.uid!!).subscribe{
                     uri ->
 
-                    sm.getAvatarLastUpdate(um.uid).subscribe{
+                    sm.getAvatarLastUpdate(um.uid!!).subscribe{
                         lastUpdate ->
                         GlideApp.with(this)
                                 .load(uri)
@@ -123,24 +103,6 @@ class ProfileStatisticFragment : Fragment(){
                         pref.avatarLastUpdate = lastUpdate!!
                     }
                 }
-
-//                avatarRef.putFile(filePath)
-//                    .addOnFailureListener({
-//                        ex ->
-//                    toast("Ops")
-//                        Log.d(STORAGETAG, "Saving avatar failed. ${ex.message}")
-//                      }).addOnSuccessListener({
-//                    val timeCode = System.currentTimeMillis().toString()
-//                    pref.avatarLastUpdate = timeCode
-//                    avatarRef.updateMetadata(StorageMetadata.Builder().setCustomMetadata(AVATAR_SWITCH,
-//                            timeCode).build())
-//                    GlideApp.with(this)
-//                            .load(avatarRef)
-//                            .centerCrop()
-//                            .signature(ObjectKey(timeCode))
-//                            .into(profile_avatar)
-//                    toast("Yos")
-//                })
             }
         }
     }

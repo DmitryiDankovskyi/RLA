@@ -1,4 +1,4 @@
-package com.vedro401.reallifeachievement.ui.create
+package com.vedro401.reallifeachievement.ui.AddedAchievements.create
 
 import android.net.Uri
 import kotlin.collections.ArrayList

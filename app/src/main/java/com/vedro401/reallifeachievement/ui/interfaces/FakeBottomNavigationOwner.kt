@@ -8,9 +8,10 @@ import android.support.v7.widget.AppCompatImageView
 import android.view.MotionEvent
 import android.view.View
 import com.vedro401.reallifeachievement.R
+import com.vedro401.reallifeachievement.ui.AddedAchievements.AddedAchievementsActivity
 import com.vedro401.reallifeachievement.ui.FeedActivity
 import com.vedro401.reallifeachievement.ui.SearchActivity
-import com.vedro401.reallifeachievement.ui.create.CreateActivity
+import com.vedro401.reallifeachievement.ui.AddedAchievements.create.CreateActivity
 import com.vedro401.reallifeachievement.ui.profile.ProfileActivity
 import kotlinx.android.synthetic.main.layout_bottom_navigation.view.*
 
@@ -32,7 +33,7 @@ interface FakeBottomNavigationOwner {
                     return@OnTouchListener true
                 }
                 MotionEvent.ACTION_UP -> {
-                    var activity: Class<*> = when (v.id) {
+                    val activity: Class<*> = when (v.id) {
                         R.id.bottom_navigation_feed -> {
                             if(menuNum == 0) return@OnTouchListener false
                             FeedActivity::class.java
@@ -47,7 +48,7 @@ interface FakeBottomNavigationOwner {
                         }
                         R.id.bottom_navigation_create -> {
                             if(menuNum == 3) return@OnTouchListener false
-                            CreateActivity::class.java
+                            AddedAchievementsActivity::class.java
                         }
                         else -> throw IllegalArgumentException()
                     }
@@ -60,7 +61,8 @@ interface FakeBottomNavigationOwner {
             }
         }
 
-            for (v: View in arrayOf<View>(bottomNavigation.bottom_navigation_feed,
+            for (v: View in arrayOf<View>(
+                    bottomNavigation.bottom_navigation_feed,
                     bottomNavigation.bottom_navigation_search,
                     bottomNavigation.bottom_navigation_profile,
                     bottomNavigation.bottom_navigation_create)) {

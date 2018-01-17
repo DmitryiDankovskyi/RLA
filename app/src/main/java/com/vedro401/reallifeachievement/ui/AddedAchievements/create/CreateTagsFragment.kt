@@ -1,4 +1,4 @@
-package com.vedro401.reallifeachievement.ui.create
+package com.vedro401.reallifeachievement.ui.AddedAchievements.create
 
 import android.os.Bundle
 import android.support.v7.widget.DefaultItemAnimator

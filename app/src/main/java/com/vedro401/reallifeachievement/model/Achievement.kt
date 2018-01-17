@@ -1,8 +1,9 @@
 package com.vedro401.reallifeachievement.model
 
+import android.util.Log
 import com.google.firebase.database.Exclude
 import com.google.firebase.database.IgnoreExtraProperties
-import com.vedro401.reallifeachievement.transferProtocols.UserTransferProtocol
+import com.vedro401.reallifeachievement.utils.REFUCKTTAG
 import rx.Subscription
 import rx.subjects.BehaviorSubject
 import kotlin.collections.ArrayList
@@ -29,30 +30,40 @@ class Achievement() : DataModel() {
     var author: String? = null
 
     var likes: Int = 0
+    var comments: Int = 0
     var unlocked: Int = 0
     var difficulty: Int = 0
     var id: String? = null
         set(value) {
             field = value
             if (value != null) {
-                userManager.isAuthorisedObs.subscribe { authorised ->
-                    if (authorised){
-                            likeSubscription?.unsubscribe()
-                            likeSubscription = databaseManager.isAchievementLiked(this)
+                userManager.isAuthorisedObs.subscribe({ authorised ->
+                    if (authorised) {
+                        likeSubscription?.unsubscribe()
+                        try {
+                            likeSubscription =
+                                    databaseManager.isAchievementLiked(this)
                                     .subscribe(isLikedByCurrentUserObs)
-                            inListSubscription?.unsubscribe()
-                            inListSubscription = databaseManager.isAchievementInList(this)
-                                    .subscribe(isInListObs)
+                        } catch (ex: Exception){
+                            Log.d(REFUCKTTAG, ex.toString())
 
                         }
-                    else {
+                        inListSubscription?.unsubscribe()
+                        inListSubscription = databaseManager.isAchievementInList(this)
+                                .subscribe(isInListObs)
+
+                    } else {
+                        Log.d(REFUCKTTAG, "Not authorised")
                             isLikedByCurrentUserObs.onNext(false)
                             likeSubscription?.unsubscribe()
                             isInListObs.onNext(false)
                             inListSubscription?.unsubscribe()
-                        }
+                    }
 
-                }
+                },
+                        { ex ->
+                            Log.d(REFUCKTTAG, ex.message)
+                        })
             }
 
         }
@@ -66,19 +77,14 @@ class Achievement() : DataModel() {
     @get:Exclude
     var inListSubscription: Subscription? = null
 
-
     @get:Exclude
     val isInListObs = BehaviorSubject.create<Boolean>(false)!!
-
 
     @get:Exclude
     var tags = ArrayList<String>()
 
-    init {
-        author = userManager.uid
-    }
 
-    fun setId(){
+    fun setId() {
         databaseManager!!.setId(this)
     }
 

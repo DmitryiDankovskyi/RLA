@@ -5,7 +5,7 @@ import android.support.v7.app.AppCompatActivity
 import android.view.View
 import com.vedro401.reallifeachievement.App
 import com.vedro401.reallifeachievement.R
-import com.vedro401.reallifeachievement.managers.interfaces.DatabaseManager
+import com.vedro401.reallifeachievement.managers.interfaces.UserManager
 import kotlinx.android.synthetic.main.activity_sign_in.*
 import org.jetbrains.anko.onClick
 import org.jetbrains.anko.startActivity
@@ -14,16 +14,16 @@ import javax.inject.Inject
 
 class SignInActivity : AppCompatActivity() {
     @Inject
-    lateinit var dbm: DatabaseManager
+    lateinit var um: UserManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sign_in)
         App.getComponent().inject(this)
 
-        sign_in.onClick {
+        si_sign_up.onClick {
             spinner_sign_in.visibility = View.VISIBLE
-            dbm.signIn(et_email.text.toString(), et_pass.text.toString()).subscribe{
+            um.signIn(si_et_email.text.toString(), si_et_pass.text.toString()).subscribe{
                 s->
                 if(s == "Ok"){
                     finish()

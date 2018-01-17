@@ -18,9 +18,8 @@ import com.vedro401.reallifeachievement.adapters.willDie.AchFirebaseAdapterIndex
 import com.vedro401.reallifeachievement.adapters.willDie.AchShortFirebaseAdapter
 import com.vedro401.reallifeachievement.managers.FirebaseManager
 import com.vedro401.reallifeachievement.managers.interfaces.UserManager
-import com.vedro401.reallifeachievement.transferProtocols.UserTransferProtocol
 import com.vedro401.reallifeachievement.ui.interfaces.FakeBottomNavigationOwner
-import com.vedro401.reallifeachievement.utils.LOGTAG
+import com.vedro401.reallifeachievement.utils.AUTHTAG
 import kotlinx.android.synthetic.main.activity_search.*
 import kotlinx.android.synthetic.main.layout_rv_container.*
 import kotlinx.android.synthetic.main.layout_search_tool_bar.*
@@ -129,7 +128,7 @@ class SearchActivity : AppCompatActivity(), FakeBottomNavigationOwner {
             }
 
         }, { t ->
-            Log.e(LOGTAG, "SearchActivity: ${t.message}")
+            Log.e(AUTHTAG, "SearchActivity: ${t.message}")
         })
     }
 }

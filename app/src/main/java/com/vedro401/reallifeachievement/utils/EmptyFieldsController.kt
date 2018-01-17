@@ -3,9 +3,7 @@ package com.vedro401.reallifeachievement.utils
 import android.widget.EditText
 import kotlin.collections.HashMap
 
-/**
- * Created by someone on 07.12.17.
- */
+
 class EmptyFieldsController(var defaultWarningText: CharSequence) {
     private val fields = HashMap<EditText, CharSequence?>()
     fun addField(et: EditText, warningText: CharSequence? = null){

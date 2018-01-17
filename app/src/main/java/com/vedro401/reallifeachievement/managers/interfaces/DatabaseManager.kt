@@ -11,15 +11,9 @@ import rx.Observable
  * Created by someone on 17.09.17.
  */
 interface DatabaseManager {
-    var userManager: FireUserManager
-    fun getCurrentUserData(): Observable<TransferProtocol<UserData>>
-
-
+    val userManager: UserManager
     // User
     fun save(userData: UserData)
-    fun signIn(email: String, pass: String): Observable<String>
-    fun signUp(name: String, email: String, pass: String): Observable<String>
-    fun signOut()
 
     fun getUserStatisticData(): Observable<SeparatedFieldsTP>
 
@@ -31,6 +25,7 @@ interface DatabaseManager {
     fun save(ach : Achievement)
     fun likeAchievement(ach : Achievement)
     fun getAchievements(): Observable<RxRvTransferProtocol<Achievement>>
+    fun getMyAchievements(): Observable<RxRvTransferProtocol<Achievement>>
     fun isAchievementLiked(ach : Achievement) : Observable<Boolean>
     fun isAchievementInList(ach : Achievement) : Observable<Boolean>
     fun clear(ach : Achievement)

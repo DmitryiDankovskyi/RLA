@@ -1,134 +1,85 @@
 package com.vedro401.reallifeachievement.managers
 
+
 import android.util.Log
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.UserProfileChangeRequest
 import com.google.firebase.database.*
 import com.vedro401.reallifeachievement.FirebaseUtils.*
-import com.vedro401.reallifeachievement.transferProtocols.*
 import com.vedro401.reallifeachievement.managers.interfaces.DatabaseManager
+import com.vedro401.reallifeachievement.managers.interfaces.UserManager
 import com.vedro401.reallifeachievement.model.Achievement
 import com.vedro401.reallifeachievement.model.Story
 import com.vedro401.reallifeachievement.model.StoryPost
 import com.vedro401.reallifeachievement.model.UserData
+import com.vedro401.reallifeachievement.transferProtocols.RxRvTransferProtocol
+import com.vedro401.reallifeachievement.transferProtocols.SeparatedFieldsTP
 import com.vedro401.reallifeachievement.utils.FIRETAG
-import com.vedro401.reallifeachievement.utils.LOGTAG
 import com.vedro401.reallifeachievement.utils.STORY
-
-
 import rx.Observable
 import rx.subjects.AsyncSubject
 import rx.subjects.BehaviorSubject
 
 
-class FirebaseManager : DatabaseManager {
-    private val MAIN_DATA = "mainData"
-
-    override lateinit var userManager: FireUserManager
-
+class FirebaseManager(override val userManager: UserManager) : DatabaseManager {
     private val database = FirebaseDatabase.getInstance()
-    private val auth: FirebaseAuth = FirebaseAuth.getInstance()
-
+    private val userStatisticListener : SeparatedFieldsListener by lazy {
+        SeparatedFieldsListener()
+    }
+    private val MAIN_DATA = "mainData"
     private val valueEventListenersMap = HashMap<String, ValueEventListener>()
 
-    private val userProvider = BehaviorSubject.create<TransferProtocol<UserData>>()
+//    private val userProvider = BehaviorSubject.create<TransferProtocol<UserData>>()
     private var achievementsListener = RxChildListener(Achievement::class.java)
+    private var myAchievementsListener = RxChildListener(Achievement::class.java)
     private val finishedStoriesListener = RxChildListener(Story::class.java)
     private val notFinishedStoriesListener = RxChildListener(Story::class.java)
     private val storyPostsListener = RxChildListener(StoryPost::class.java)
 
-    private val userStatisticListener : SeparatedFieldsListener by lazy {
-        SeparatedFieldsListener()
-    }
-
-//    private val userStatisticListener = SeparatedFieldsListener()
-
     init {
-        auth.addAuthStateListener({ firebaseAuth ->
-            if (firebaseAuth.currentUser != null) {
-                val user = firebaseAuth.currentUser!!
-                if (user.displayName == null)
-                    Log.d(LOGTAG, "FirebaseManager: user signed in")
-                else
-                    Log.d(LOGTAG, "FirebaseManager: user signed up")
-                val userData = UserData()
-                userData.name = if (user.displayName == null) "None" else user.displayName!!
-                userData.email = if (user.email == null) "None" else user.email!!
-                userData.id = user.uid
-                userProvider.onNext(TransferProtocol(SIGN_IN, userData))
-            } else {
-                Log.d(LOGTAG, "FirebaseManager: user logged out")
-                userProvider.onNext(TransferProtocol(SIGN_OUT))
+        database.setPersistenceEnabled(true)
+
+        userManager.isAuthorisedObs.subscribe{
+            isAuthorised ->
+            if(!isAuthorised){
                 database.getReference("$USERS_STATISTIC_DATA/${userManager.uid}")
                         .removeEventListener(userStatisticListener)
             }
-        })
+        }
     }
 
-    override fun getCurrentUserData(): Observable<TransferProtocol<UserData>> = userProvider
+
+//    private val userStatisticListener = SeparatedFieldsListener()
+
+//    REMOVE ALL THIS SHIT
+//    init {
+//        auth.addAuthStateListener({ firebaseAuth ->
+//            if (firebaseAuth.currentUser != null) {
+//                val user = firebaseAuth.currentUser!!
+//                if (user.displayName == null)
+//                    Log.d(AUTHTAG, "FirebaseManager: user signed in")
+//                else
+//                    Log.d(AUTHTAG, "FirebaseManager: user signed up")
+//                val userData = UserData()
+//                userData.name = if (user.displayName == null) "None" else user.displayName!!
+//                userData.email = if (user.email == null) "None" else user.email!!
+//                userData.id = user.uid
+//                userProvider.onNext(TransferProtocol(SIGN_IN, userData))
+//            } else {
+//                Log.d(AUTHTAG, "FirebaseManager: user logged out")
+//                userProvider.onNext(TransferProtocol(SIGN_OUT))
+//                database.getReference("$USERS_STATISTIC_DATA/${um.uid}")
+//                        .removeEventListener(userStatisticListener)
+//            }
+//        })
+//    }
+
+//    override fun getCurrentUserData(): Observable<TransferProtocol<UserData>> = userProvider
+//    REMOVE ALL THIS SHIT
 
     // User
-
-    //TODO move to user manager?
 
     override fun save(userData: UserData) {
         database.getReference(USERS_MAIN_DATA).child(userData.id).setValue(userData)
     }
-
-    override fun signIn(email: String, pass: String): Observable<String> {
-        val subj = AsyncSubject.create<String>()
-        auth.signInWithEmailAndPassword(email, pass)
-                .addOnCompleteListener { task ->
-                    if (task.isSuccessful) {
-                        subj.onNext("Ok")
-                        subj.onCompleted()
-                        Log.d(FIRETAG, "signIn check call")
-                    } else {
-                        Log.d(FIRETAG, task.exception!!.message)
-                        subj.onNext("Sign in: " + task.exception!!.message)
-                        subj.onCompleted()
-                    }
-                }
-        return subj
-    }
-
-    override fun signOut() {
-        auth.signOut()
-    }
-
-    override fun signUp(name: String, email: String, pass: String): Observable<String> {
-        val subj = AsyncSubject.create<String>()
-
-        val profileUpdates = UserProfileChangeRequest.Builder()
-                .setDisplayName(name)
-                .build()
-        auth.createUserWithEmailAndPassword(email, pass)
-                .addOnCompleteListener { task ->
-                    if (task.isSuccessful) {
-                        val user = auth.currentUser!!
-                        user.updateProfile(profileUpdates).addOnCompleteListener { task ->
-                            if (!task.isSuccessful) {
-                                Log.d(LOGTAG, "Fman: Update profile failed. ${task.exception.toString()}")
-                            } else {
-                                Log.d(LOGTAG, "Fman: Profile info updated.")
-                                Log.d(LOGTAG, "name $name uid ${user.uid} email $email.")
-                                val ud = UserData(name = name, id = user.uid, email = email)
-                                ud.save()
-                                userProvider.onNext(TransferProtocol(CHANGE_NAME, UserData(name = name)))
-                            }
-                        }
-                        subj.onNext("Ok")
-                        subj.onCompleted()
-                        Log.d(FIRETAG, "signUp check call")
-                    } else {
-                        Log.d(FIRETAG, task.exception!!.message)
-                        subj.onNext("Sign up: " + task.exception!!.message)
-                        subj.onCompleted()
-                    }
-                }
-        return subj
-    }
-
     // #Statistic
 
     override fun getUserStatisticData(): Observable<SeparatedFieldsTP> {
@@ -137,19 +88,16 @@ class FirebaseManager : DatabaseManager {
         return userStatisticListener.source
     }
 
-
-
-
     override fun getFinishedStories(): Observable<RxRvTransferProtocol<Story>> {
         finishedStoriesListener.setQuery(
-                database.getReference("$STORIES/${auth.currentUser!!.uid}")
+                database.getReference("$STORIES/${userManager.uid!!}")
                         .orderByChild("status").equalTo(Story.FINISHED.toDouble()))
         return finishedStoriesListener.source
     }
 
     override fun getNotFinishedStories(): Observable<RxRvTransferProtocol<Story>> {
         notFinishedStoriesListener.setQuery(
-                database.getReference("$STORIES/${auth.currentUser!!.uid}")
+                database.getReference("$STORIES/${userManager.uid!!}")
                         .orderByChild("status").endAt(Story.IN_PROGRESS.toDouble()))
 //        finishedStoriesListener.source
 //                .filter { it.event == RxRvTransferProtocol.ITEM_ADDED }
@@ -178,7 +126,7 @@ class FirebaseManager : DatabaseManager {
     //TODO remove
     fun likeAch(ach: Achievement) {
         Log.d(FIRETAG, "Ach liked. Key: ${ach.id} Title: ${ach.title}")
-        if (auth.currentUser == null) {
+        if (userManager.isAuthorised) {
             Log.d(FIRETAG, "Ach liked by unauth")
             return
             //TODO call autt alert
@@ -186,7 +134,7 @@ class FirebaseManager : DatabaseManager {
         if (ach.id != null) {
             val likeListRef = database.getReference(ACHIEVEMENTS_LIKE_LIST)
             Log.d(FIRETAG, ach.likes.toString())
-            likeListRef.child(ach.id).child(auth.currentUser!!.uid)
+            likeListRef.child(ach.id).child(userManager.uid!!)
                     .addListenerForSingleValueEvent(object : ValueEventListener {
                         override fun onCancelled(p0: DatabaseError?) {
                             Log.d(FIRETAG, "like call canceled")
@@ -201,7 +149,7 @@ class FirebaseManager : DatabaseManager {
                                         override fun doTransaction(mutableData: MutableData?): Transaction.Result {
                                             likedBefore = p0!!.value == null
                                             val v: Boolean? = if (likedBefore) true else null
-                                            likeListRef.child(ach.id).child(auth.currentUser!!.uid)
+                                            likeListRef.child(ach.id).child(userManager.uid!!)
                                                     .setValue(v).addOnCompleteListener {
                                                 var likesCount = mutableData!!.getValue(Int::class.java)!!
                                                 if (likedBefore) {
@@ -235,7 +183,7 @@ class FirebaseManager : DatabaseManager {
             return
         }
 
-        if (auth.currentUser == null) {
+        if (!userManager.isAuthorised) {
             Log.w(FIRETAG, "Unauthorized user liked achievement \"${ach.title}\"")
             //TODO make alert
             return
@@ -244,7 +192,7 @@ class FirebaseManager : DatabaseManager {
         database.getReference(ACHIEVEMENTS_LIKE_LIST).child(ach.id).runTransaction(
                 object : Transaction.Handler {
                     override fun doTransaction(likeList: MutableData?): Transaction.Result {
-                        val uid = auth.currentUser!!.uid
+                        val uid = userManager.uid!!
                         var liked = false
                         if (likeList == null) {
                             Log.d(FIRETAG, "likeList is null")
@@ -304,6 +252,12 @@ class FirebaseManager : DatabaseManager {
         return achievementsListener.source
     }
 
+    override fun getMyAchievements(): Observable<RxRvTransferProtocol<Achievement>> {
+        myAchievementsListener.setQuery(database.getReference(ACHIEVEMENTS_MAIN_DATA)
+                .orderByChild("author").equalTo(userManager.uid))
+        return myAchievementsListener.source
+    }
+
     override fun isAchievementLiked(ach: Achievement): Observable<Boolean> {
         val response = BehaviorSubject.create<Boolean>()
         val listener = object : ValueEventListener {
@@ -354,7 +308,7 @@ class FirebaseManager : DatabaseManager {
             return
         }
         database.getReference(STORIES)
-                .child(auth.currentUser!!.uid).child(story.id).setValue(story)
+                .child(userManager.uid!!).child(story.id).setValue(story)
     }
 
     override fun delete(story: Story) {
@@ -389,10 +343,10 @@ class FirebaseManager : DatabaseManager {
         database.getReference("$USERS_STATISTIC_DATA/${userManager.uid}/$POST_COUNT")
                 .decrement(story.postsCount)
 
-        database.getReference(STORIES).child(auth.currentUser!!.uid).child(story.id!!)
+        database.getReference(STORIES).child(userManager.uid!!).child(story.id!!)
                 .removeValue()
 
-        database.getReference(STORY_POSTS).child(auth.currentUser!!.uid).child(story.id!!)
+        database.getReference(STORY_POSTS).child(userManager.uid!!).child(story.id!!)
                 .removeValue()
     }
 

@@ -1,4 +1,4 @@
-package com.vedro401.reallifeachievement.ui.create
+package com.vedro401.reallifeachievement.ui.AddedAchievements.create
 
 import android.content.Context
 import android.support.v4.app.Fragment

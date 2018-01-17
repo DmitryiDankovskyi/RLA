@@ -7,7 +7,7 @@ import com.google.firebase.database.*
 import com.vedro401.reallifeachievement.R
 import com.vedro401.reallifeachievement.adapters.holders.AchievementHolder
 import com.vedro401.reallifeachievement.model.Achievement
-import com.vedro401.reallifeachievement.utils.LOGTAG
+import com.vedro401.reallifeachievement.utils.AUTHTAG
 
 
 class AchShortFirebaseAdapter(ref : Query
@@ -19,7 +19,7 @@ class AchShortFirebaseAdapter(ref : Query
         ref) {
 
     init {
-        Log.d(LOGTAG, "AchShortFirebaseAdapter item count: $itemCount")
+        Log.d(AUTHTAG, "AchShortFirebaseAdapter item count: $itemCount")
     }
 
     override fun populateViewHolder(viewHolder: AchievementHolder,
@@ -30,7 +30,7 @@ class AchShortFirebaseAdapter(ref : Query
 
     override fun onCancelled(error: DatabaseError?) {
         super.onCancelled(error)
-        Log.d(LOGTAG, "AchShortFirebaseAdapter error: ${error.toString()}")
+        Log.d(AUTHTAG, "AchShortFirebaseAdapter error: ${error.toString()}")
     }
 
     override fun onDataChanged() {

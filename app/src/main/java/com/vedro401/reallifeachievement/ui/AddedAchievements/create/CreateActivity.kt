@@ -1,4 +1,4 @@
-package com.vedro401.reallifeachievement.ui.create
+package com.vedro401.reallifeachievement.ui.AddedAchievements.create
 
 import android.net.Uri
 import android.os.Bundle
@@ -9,7 +9,6 @@ import com.vedro401.reallifeachievement.R
 import com.vedro401.reallifeachievement.adapters.SimpleFragmentPagerAdapter
 import com.vedro401.reallifeachievement.managers.StorageManager
 import com.vedro401.reallifeachievement.model.Achievement
-import com.vedro401.reallifeachievement.managers.FireUserManager
 import com.vedro401.reallifeachievement.managers.interfaces.UserManager
 import com.vedro401.reallifeachievement.utils.randomTitle
 import com.vedro401.reallifeachievement.ui.SignInActivity

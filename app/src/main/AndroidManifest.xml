@@ -26,12 +26,13 @@
             android:windowSoftInputMode="adjustPan" />
         <activity android:name=".ui.FeedActivity" />
         <activity
-            android:name=".ui.create.CreateActivity"
+            android:name="com.vedro401.reallifeachievement.ui.AddedAchievements.create.CreateActivity"
             android:windowSoftInputMode="adjustPan" />
         <activity android:name=".ui.SignInActivity" />
-        <activity android:name=".ui.SignUpActivity"/>
+        <activity android:name=".ui.SignUpActivity" />
         <activity android:name=".ui.profile.ProfileActivity" />
-        <activity android:name=".ui.StoryEditorActivity"/>
+        <activity android:name=".ui.StoryEditorActivity" />
+        <activity android:name=".ui.AddedAchievements.AddedAchievementsActivity"></activity>
     </application>
 
 </manifest>

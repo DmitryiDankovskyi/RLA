@@ -27,7 +27,7 @@ android {
     }
 }
 
-ext{
+ext {
     supportLibraryVersion = '27.0.2'
 }
 

@@ -47,7 +47,7 @@ class AchievementHolder(itemView: View) : BindableViewHolder<Achievement>(itemVi
         }
         itemView.achievement_title.text = data.title
         itemView.achievement_description_short.text = data.shortDescription
-        itemView.likes.text = coolBigNumbers(data.likes.toString())
+        itemView.likes.text = coolBigNumbers(data.likes)
         itemView.unlocked.text = data.unlocked.toString()
         itemView.difficulty.text = if (data.unlocked == 0) "???" else (data.difficulty / data.unlocked).toString()
 
