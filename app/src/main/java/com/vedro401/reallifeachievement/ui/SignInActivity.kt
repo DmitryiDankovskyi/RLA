@@ -6,10 +6,9 @@ import android.view.View
 import com.vedro401.reallifeachievement.App
 import com.vedro401.reallifeachievement.R
 import com.vedro401.reallifeachievement.managers.interfaces.UserManager
+import com.vedro401.reallifeachievement.ui.profile.ProfileActivity
 import kotlinx.android.synthetic.main.activity_sign_in.*
-import org.jetbrains.anko.onClick
-import org.jetbrains.anko.startActivity
-import org.jetbrains.anko.toast
+import org.jetbrains.anko.*
 import javax.inject.Inject
 
 class SignInActivity : AppCompatActivity() {
@@ -26,7 +25,7 @@ class SignInActivity : AppCompatActivity() {
             um.signIn(si_et_email.text.toString(), si_et_pass.text.toString()).subscribe{
                 s->
                 if(s == "Ok"){
-                    finish()
+                    startActivity(intentFor<ProfileActivity>().clearTask())
                 } else {
                     toast(s)
                 }

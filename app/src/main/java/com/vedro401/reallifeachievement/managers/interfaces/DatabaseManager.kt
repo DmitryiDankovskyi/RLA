@@ -16,9 +16,9 @@ interface DatabaseManager {
     fun save(userData: UserData)
 
     fun getUserStatisticData(): Observable<SeparatedFieldsTP>
-
     fun getFinishedStories(): Observable<RxRvTransferProtocol<Story>>
     fun getNotFinishedStories(): Observable<RxRvTransferProtocol<Story>>
+    fun getUserFavTags(): Observable<Pair<String, Int>>
 
     //Achievement
     fun setId(ach : Achievement)

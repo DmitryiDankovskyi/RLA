@@ -15,14 +15,40 @@
         app:titleTextColor="@color/white"
         app:title="@string/create_title"
         android:layout_width="match_parent"
-        android:layout_height="56dp" />
+        android:layout_height="56dp" >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:layout_marginEnd="2dp">
+            <TextView
+                style="@style/ToolbarTextAppearance.Title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/create_title" />
+            <LinearLayout
+                android:id="@+id/aa_create_new"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical">
+                <TextView
+                    android:text="Add new\nachievement"
+                    android:textAlignment="textEnd"
+                    android:textColor="@color/white"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <android.support.v7.widget.AppCompatImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="12dp"
+                    app:srcCompat="@drawable/ic_add_circle_24dp"
+                    />
+            </LinearLayout>
 
-    <Button
-        android:id="@+id/aa_create_new"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="Create new"/>
+        </LinearLayout>
+
+    </android.support.v7.widget.Toolbar>
 
     <include
         layout="@layout/layout_rv_container"

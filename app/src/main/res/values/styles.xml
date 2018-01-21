@@ -36,6 +36,7 @@
     <style name="ToolbarTextAppearance.Title" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
         <item name="android:textSize">20sp</item>
         <item name="android:textColor">@color/white</item>
+        <item name="android:gravity">center_vertical</item>
     </style>
 
     <style name="AchievementItemIndicators">
@@ -72,6 +73,7 @@
     </style>
 
     <style name="AchievementItemStatisticIcon" parent="SmallIcon">
+
         <item name="android:padding">3dp</item>
         <item name="android:background">@drawable/background_circle</item>
     </style>
@@ -111,5 +113,16 @@
         <!--<item name="android:padding">10dp</item>-->
         <!--<item name="android:textColor">@color/white</item>-->
     <!--</style>-->
+
+    <style name = "DarkStyle">
+        <item name="android:background">#3c3f41</item>
+        <item name="android:textColor">#a4b3ba</item>
+    </style>
+
+    <style name="MyRating" parent="@android:style/Widget.RatingBar">
+        <item name="android:progressDrawable">@drawable/ic_clear_24dp</item>
+        <item name="android:indeterminateDrawable">@drawable/ic_calendar_24dp</item>
+
+    </style>
 
 </resources>

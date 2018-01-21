@@ -32,9 +32,7 @@ class CreateMainFragment : CreateFragment() {
         } else et_short_description.error = null
         if (flag) {
             achCreator.setMainData(et_title.text.toString(),
-                    et_short_description.text.toString(),
-                    et_full_description.text.toString(),
-                    pickPath)
+                    et_short_description.text.toString())
         }
         return flag
     }

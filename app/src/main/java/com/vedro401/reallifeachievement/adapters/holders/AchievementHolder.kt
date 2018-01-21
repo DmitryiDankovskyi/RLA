@@ -12,7 +12,7 @@ import com.vedro401.reallifeachievement.R
 import com.vedro401.reallifeachievement.model.Achievement
 import com.vedro401.reallifeachievement.utils.GlideApp
 import com.vedro401.reallifeachievement.utils.coolBigNumbers
-import kotlinx.android.synthetic.main.layout_achievement_item.view.*
+import kotlinx.android.synthetic.main.layout_item_achievement.view.*
 import org.jetbrains.anko.onClick
 import org.jetbrains.anko.toast
 import rx.Subscription
@@ -32,7 +32,7 @@ class AchievementHolder(itemView: View) : BindableViewHolder<Achievement>(itemVi
     }
 
     override fun bind(data: Achievement) {
-        if(data.imageUrl != null) {
+        if (data.imageUrl != null) {
             GlideApp.with(context)
                     .load(data.imageUrl)
                     .centerCrop()
@@ -46,7 +46,7 @@ class AchievementHolder(itemView: View) : BindableViewHolder<Achievement>(itemVi
                     ContextCompat.getDrawable(context, R.drawable.achievement))
         }
         itemView.achievement_title.text = data.title
-        itemView.achievement_description_short.text = data.shortDescription
+        itemView.achievement_description.text = data.description
         itemView.likes.text = coolBigNumbers(data.likes)
         itemView.unlocked.text = data.unlocked.toString()
         itemView.difficulty.text = if (data.unlocked == 0) "???" else (data.difficulty / data.unlocked).toString()
@@ -59,28 +59,20 @@ class AchievementHolder(itemView: View) : BindableViewHolder<Achievement>(itemVi
             itemView.btn_like.isEnabled = true
         }
         subscriptionList?.unsubscribe()
-        subscriptionList = data.isInListObs.subscribe{
-            isInList ->
+        subscriptionList = data.isInListObs.subscribe { isInList ->
             Log.d("BIND_D", data.title + " " + isInList)
             setColor(itemView.btn_pin, isInList)
             itemView.btn_pin.isEnabled = true
         }
 
-        Log.d("BIND_D", data.toString())
-        if (data.fullDescription == null || data.fullDescription == "") {
-            itemView.txtbtn_see_more.text = ""
-        } else {
-            itemView.txtbtn_see_more.text = context.resources.getString(R.string.see_more)
-            itemView.txtbtn_see_more.onClick {
-                if (!flag) {
-                    itemView.achievement_description_short.text = data.fullDescription
-                    itemView.txtbtn_see_more.text = context.resources.getString(R.string.hide)
-                    flag = true
-                } else {
-                    itemView.achievement_description_short.text = data.shortDescription
-                    itemView.txtbtn_see_more.text = context.resources.getString(R.string.see_more)
-                    flag = false
-                }
+        itemView.achievement_description.onClick {
+            if (!flag) {
+                itemView.achievement_description.maxLines = Int.MAX_VALUE
+                flag = true
+            } else {
+                itemView.achievement_description.maxLines =
+                        context.resources.getInteger(R.integer.shortTextMaxLines)
+                flag = false
             }
         }
 
@@ -94,7 +86,7 @@ class AchievementHolder(itemView: View) : BindableViewHolder<Achievement>(itemVi
         }
 
         itemView.btn_pin.onClick {
-            if(data.isInListObs.value){
+            if (data.isInListObs.value) {
                 context.toast(context.getString(R.string.already_in_list_alert))
                 return@onClick
             }

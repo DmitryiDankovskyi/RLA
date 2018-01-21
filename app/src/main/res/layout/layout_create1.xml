@@ -66,8 +66,7 @@
         android:ems="10"
         android:hint="Short description"
         android:inputType="textCapSentences|textMultiLine"
-        android:maxLength="120"
-        android:maxLines="4"
+
         tools:text="@string/short_text"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"

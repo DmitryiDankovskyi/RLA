@@ -24,7 +24,7 @@ class FireUserManager : UserManager{
 
     private var user: FirebaseUser? = null
 
-    override val isAuthorisedObs = BehaviorSubject.create<Boolean>(false)!!
+    override val isAuthorisedObs = BehaviorSubject.create<Boolean>()!!
     override var isAuthorised = false
         get() = isAuthorisedObs.value
     override var uid: String? = null

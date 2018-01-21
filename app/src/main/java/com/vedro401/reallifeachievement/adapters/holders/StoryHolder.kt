@@ -2,10 +2,14 @@ package com.vedro401.reallifeachievement.adapters.holders
 
 import android.content.Context
 import android.content.Intent
+import android.support.v4.content.ContextCompat
 import android.view.View
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.vedro401.reallifeachievement.R
 import com.vedro401.reallifeachievement.model.Story
 import com.vedro401.reallifeachievement.ui.StoryEditorActivity
+import com.vedro401.reallifeachievement.utils.GlideApp
+import kotlinx.android.synthetic.main.layout_item_achievement.view.*
 import kotlinx.android.synthetic.main.layout_story_item.view.*
 import kotlinx.android.synthetic.main.layout_story_post.view.*
 import org.jetbrains.anko.alert
@@ -19,7 +23,18 @@ class StoryHolder(val context: Context, itemVIew: View) : BindableViewHolder<Sto
         itemView.story_author_name.text = data.authorName
         // TODO Author avatar
         itemView.story_achievement_title.text = data.achievementTitle
-        // TODO Achievement image
+        if(data.achievementImageUrl != null){
+            GlideApp.with(context)
+                    .load(data.achievementImageUrl)
+                    .centerCrop()
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .placeholder(R.drawable.ic_image_75dp)
+                    .error(R.drawable.nothing)
+                    .into(itemView.story_achievement_image)
+        } else {
+            itemView.story_achievement_image.setImageDrawable(
+                    ContextCompat.getDrawable(context, R.drawable.achievement))
+        }
         val status = when(data.status){
             Story.STARTED ->  context.getString(R.string.story_status_started)
             Story.IN_PROGRESS -> context.getString(R.string.story_status_in_progress)

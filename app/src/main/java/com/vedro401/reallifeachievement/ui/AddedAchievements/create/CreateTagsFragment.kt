@@ -14,7 +14,7 @@ import org.jetbrains.anko.onClick
 
 
 class CreateTagsFragment : CreateFragment() {
-    private val adapter = TagsAdapter()
+    private lateinit var adapter : TagsAdapter
     override fun getData(): Boolean {
         return if (!adapter.isEmpty()) {
             achCreator.setTagList(adapter.tags)
@@ -25,11 +25,19 @@ class CreateTagsFragment : CreateFragment() {
         }
     }
 
+
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?)
             = inflater.inflate(R.layout.layout_create_tags, container, false)!!
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        adapter = TagsAdapter(R.drawable.ic_clear_circle_filled_14dp)
+
+        adapter.buttonOnClick = { position, _ ->
+            adapter.tags.removeAt(position)
+            adapter.notifyItemRemoved(position)}
+
         setupRV()
         btn_add_tag.onClick {
             if (!et_tag.text.isEmpty()) {
@@ -48,9 +56,9 @@ class CreateTagsFragment : CreateFragment() {
     private fun setupRV(){
         val chipsLayoutManager = ChipsLayoutManager.newBuilder(activity)
                 .build()
-        rv_tags.addItemDecoration(SpacingItemDecoration(16,16))
-        rv_tags.layoutManager = chipsLayoutManager
-        rv_tags.adapter = adapter
-        rv_tags.itemAnimator = DefaultItemAnimator()
+        ca_tags.addItemDecoration(SpacingItemDecoration(8,8))
+        ca_tags.layoutManager = chipsLayoutManager
+        ca_tags.adapter = adapter
+        ca_tags.itemAnimator = DefaultItemAnimator()
     }
 }

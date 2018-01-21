@@ -13,19 +13,16 @@ class Achievement() : DataModel() {
 
     constructor(title: String,
                 shortDescription: String,
-                fullDescription: String?,
                 imageUrl: String? = null,
                 author: String? = null) : this() {
         this.title = title
-        this.shortDescription = shortDescription
-        this.fullDescription = fullDescription
+        this.description = shortDescription
         this.imageUrl = imageUrl
         this.author = author
     }
 
     var title: String? = null
-    var shortDescription: String? = null
-    var fullDescription: String? = null
+    var description: String? = null
     var imageUrl: String? = null
     var author: String? = null
 
@@ -102,7 +99,7 @@ class Achievement() : DataModel() {
     }
 
     override fun toString(): String =
-            "$title $shortDescription $fullDescription $likes $unlocked $difficulty $id"
+            "$title $description $likes $unlocked $difficulty $id"
 
     override fun clear() {
 

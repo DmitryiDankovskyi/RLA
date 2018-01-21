@@ -25,7 +25,9 @@ fun DatabaseReference.decrement(step: Int = 1){
                 Log.w(FIRETAG, "DecrementTH:doTransaction: decremented value is null")
                 return Transaction.abort()
             }
-            mutableData.value = mutableData.getValue(Int::class.java)!! - step
+            val newVal = mutableData.getValue(Int::class.java)!! - step
+            mutableData.value = newVal
+            if(newVal == 0) mutableData.value = null
             return Transaction.success(mutableData)
         }
         override fun onComplete(databaseError: DatabaseError?, p1: Boolean, p2: DataSnapshot?) {

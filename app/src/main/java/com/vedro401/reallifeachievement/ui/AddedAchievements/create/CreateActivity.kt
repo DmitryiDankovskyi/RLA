@@ -56,7 +56,6 @@ class CreateActivity : FragmentActivity(), AchievementCreator {
 
         random_ach.onClick {
             val title = randomTitle()
-
             val description = "Just for test"
             val tags = arrayListOf("random")
             setMainData(title, description)
@@ -73,16 +72,11 @@ class CreateActivity : FragmentActivity(), AchievementCreator {
     }
 
     override fun setMainData(title: String,
-                             shortDescription: String,
-                             fullDescription: String?,
-                             pickPath: Uri?) {
+                             shortDescription: String) {
+        achievement.author = userManager.uid
         achievement.setId()
         achievement.title = title
-        achievement.shortDescription = shortDescription
-        achievement.fullDescription = fullDescription
-        achPickPath = pickPath
-
-
+        achievement.description = shortDescription
     }
 
     override fun createAchievement() {
@@ -92,6 +86,7 @@ class CreateActivity : FragmentActivity(), AchievementCreator {
             if (!tagsFragment.getData()) {
                 vp_create.currentItem = 1
             } else{
+                achievement.author = userManager.uid
                 if(achPickPath != null){
                     ac_spinner.visibility = View.VISIBLE
                     sm.saveAchPick(achievement, achPickPath!!).subscribe{

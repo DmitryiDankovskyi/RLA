@@ -5,6 +5,7 @@ const val ACHIEVEMENTS_LIKE_LIST = "achievements/likeLists"
 const val ACHIEVEMENTS_TAGS = "achievements/tags"
 const val USERS_MAIN_DATA = "users/mainData"
 const val USERS_STATISTIC_DATA = "users/statisticData"
+const val USER_FAVORITE_TAGS = "users/likedTags"
 const val STORIES = "users/stories"
 const val STORY_POSTS = "users/storyPosts"
 

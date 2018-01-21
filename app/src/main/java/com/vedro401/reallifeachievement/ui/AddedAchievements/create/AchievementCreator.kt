@@ -8,9 +8,7 @@ import kotlin.collections.ArrayList
  */
 interface AchievementCreator {
     fun setMainData(title : String,
-                    shortDescription : String,
-                    fullDescription : String? = null,
-                    pickPath: Uri? = null)
+                    shortDescription : String)
     fun createAchievement()
     fun setTagList(tagList: ArrayList<String>)
 }

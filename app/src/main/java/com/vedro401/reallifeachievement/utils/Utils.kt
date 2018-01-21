@@ -9,6 +9,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import org.jetbrains.anko.onClick
+import rx.Subscription
+import rx.subscriptions.CompositeSubscription
 
 
 val FIRETAG = "FIRETAG"
@@ -19,6 +21,7 @@ val CAKE_HUNTER = "cakeHunter"
 val RXICL = "rxicl"
 val STORY = "myStory"
 val REFUCKTTAG = "reftag"
+val TAGS = "tags"
 
 
 val PICK_IMAGE_REQUEST = 111
@@ -92,4 +95,6 @@ fun View.hideKeyboard() {
     val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
     imm.hideSoftInputFromWindow(windowToken, 0)
 }
+
+operator fun CompositeSubscription.plusAssign(subscription: Subscription) = add(subscription)
 

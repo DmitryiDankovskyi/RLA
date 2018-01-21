@@ -24,11 +24,18 @@ import kotlinx.android.synthetic.main.layout_story_editor_create_panel.*
 import kotlinx.android.synthetic.main.layout_story_editor_tool_bar.*
 import org.jetbrains.anko.*
 import rx.Subscriber
+import java.text.SimpleDateFormat
+import java.util.*
 
 class StoryEditorActivity : AppCompatActivity() {
     var post: StoryPost = StoryPost()
     lateinit var story: Story
     private var updating = false
+
+    private val dateNow by lazy {
+        val sdf = SimpleDateFormat("dd.MM.yyyy")
+        sdf.format(Date())
+    }
 
     private var createPanelOpened = false
 
@@ -82,6 +89,7 @@ class StoryEditorActivity : AppCompatActivity() {
         }
         if(story.status != Story.FINISHED) {
             story_editor_add_new_post.onClick {
+                clearCreatePanel()
                 showCreatePanel()
             }
 
@@ -137,7 +145,6 @@ class StoryEditorActivity : AppCompatActivity() {
         contentView!!.hideKeyboard()
     }
 
-
     private fun showCreatePanel() {
         layout_story_editor_create_panel.visibility = View.VISIBLE
         if(story.status != Story.FINISHED)
@@ -157,11 +164,11 @@ class StoryEditorActivity : AppCompatActivity() {
         story_editor_content.error = null
         story_editor_title.text.clear()
         story_editor_title.error = null
+        story_editor_time_stamped.text = dateNow
     }
 
     override fun onBackPressed() {
         if (createPanelOpened) {
-            clearCreatePanel()
             hideCreatePanel()
             return
         }

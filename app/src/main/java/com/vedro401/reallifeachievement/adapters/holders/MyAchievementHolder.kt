@@ -9,7 +9,7 @@ import com.vedro401.reallifeachievement.R
 import com.vedro401.reallifeachievement.model.Achievement
 import com.vedro401.reallifeachievement.utils.GlideApp
 import com.vedro401.reallifeachievement.utils.coolBigNumbers
-import kotlinx.android.synthetic.main.layout_achievement_item.view.*
+import kotlinx.android.synthetic.main.layout_item_achievement.view.*
 import kotlinx.android.synthetic.main.layout_my_achievement_item.view.*
 import javax.inject.Inject
 

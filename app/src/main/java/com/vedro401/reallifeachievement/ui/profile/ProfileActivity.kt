@@ -6,7 +6,6 @@ import android.util.Log
 import com.vedro401.reallifeachievement.App
 import com.vedro401.reallifeachievement.R
 import com.vedro401.reallifeachievement.adapters.SimpleFragmentPagerAdapter
-import com.vedro401.reallifeachievement.managers.interfaces.DatabaseManager
 import com.vedro401.reallifeachievement.managers.interfaces.UserManager
 import com.vedro401.reallifeachievement.ui.SignInActivity
 import com.vedro401.reallifeachievement.ui.interfaces.FakeBottomNavigationOwner
@@ -29,9 +28,11 @@ class ProfileActivity : FragmentActivity(), FakeBottomNavigationOwner {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        App.getComponent().inject(this)
+        if(!um.isAuthorised) startActivity<SignInActivity>()
         setContentView(R.layout.activity_profile)
         initBottomNavigation(bottom_navigation, this)
-        App.getComponent().inject(this)
         initToolBar()
 
         um.isAuthorisedObs.subscribe {
@@ -63,7 +64,7 @@ class ProfileActivity : FragmentActivity(), FakeBottomNavigationOwner {
                 }, { ex ->
                     Log.e(AUTHTAG,"ProfileActivity: ${ex.message}" )
         })
-        profile_icon.onClick {
+        profile_settings.onClick {
             startActivity<SignInActivity>()
         }
         profile_name.onClick {

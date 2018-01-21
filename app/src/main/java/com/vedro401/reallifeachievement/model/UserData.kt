@@ -19,6 +19,7 @@ class UserData() : DataModel() {
     var email: String? = null
     var avatarUrl: String? = null
     var postsCount = 0
+    var description: String? = null
 
     fun save(){
         databaseManager.save(this)

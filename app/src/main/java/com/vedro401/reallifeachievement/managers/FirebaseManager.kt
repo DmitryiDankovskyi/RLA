@@ -45,36 +45,6 @@ class FirebaseManager(override val userManager: UserManager) : DatabaseManager {
             }
         }
     }
-
-
-//    private val userStatisticListener = SeparatedFieldsListener()
-
-//    REMOVE ALL THIS SHIT
-//    init {
-//        auth.addAuthStateListener({ firebaseAuth ->
-//            if (firebaseAuth.currentUser != null) {
-//                val user = firebaseAuth.currentUser!!
-//                if (user.displayName == null)
-//                    Log.d(AUTHTAG, "FirebaseManager: user signed in")
-//                else
-//                    Log.d(AUTHTAG, "FirebaseManager: user signed up")
-//                val userData = UserData()
-//                userData.name = if (user.displayName == null) "None" else user.displayName!!
-//                userData.email = if (user.email == null) "None" else user.email!!
-//                userData.id = user.uid
-//                userProvider.onNext(TransferProtocol(SIGN_IN, userData))
-//            } else {
-//                Log.d(AUTHTAG, "FirebaseManager: user logged out")
-//                userProvider.onNext(TransferProtocol(SIGN_OUT))
-//                database.getReference("$USERS_STATISTIC_DATA/${um.uid}")
-//                        .removeEventListener(userStatisticListener)
-//            }
-//        })
-//    }
-
-//    override fun getCurrentUserData(): Observable<TransferProtocol<UserData>> = userProvider
-//    REMOVE ALL THIS SHIT
-
     // User
 
     override fun save(userData: UserData) {
@@ -106,6 +76,27 @@ class FirebaseManager(override val userManager: UserManager) : DatabaseManager {
         return notFinishedStoriesListener.source
     }
 
+    override fun getUserFavTags(): Observable<Pair<String, Int>>
+            = Observable.create { subscriber ->
+        database.getReference("$USER_FAVORITE_TAGS/${userManager.uid}")
+                .addListenerForSingleValueEvent(
+                        object : ValueEventListener{
+                            override fun onDataChange(p0: DataSnapshot) {
+                                p0.children.forEach {
+                                    subscriber.onNext(Pair(it.key,it.getValue(Int::class.java)!!))
+                                }
+                                subscriber.onCompleted()
+                            }
+
+                            override fun onCancelled(p0: DatabaseError?) {
+                                Log.d(FIRETAG,"getUserFavTags onCancelled $p0")
+                            }
+
+                        }
+                )
+
+    }
+
     //Achievements
 
     override fun setId(ach: Achievement) {
@@ -123,56 +114,6 @@ class FirebaseManager(override val userManager: UserManager) : DatabaseManager {
         }
     }
 
-    //TODO remove
-    fun likeAch(ach: Achievement) {
-        Log.d(FIRETAG, "Ach liked. Key: ${ach.id} Title: ${ach.title}")
-        if (userManager.isAuthorised) {
-            Log.d(FIRETAG, "Ach liked by unauth")
-            return
-            //TODO call autt alert
-        }
-        if (ach.id != null) {
-            val likeListRef = database.getReference(ACHIEVEMENTS_LIKE_LIST)
-            Log.d(FIRETAG, ach.likes.toString())
-            likeListRef.child(ach.id).child(userManager.uid!!)
-                    .addListenerForSingleValueEvent(object : ValueEventListener {
-                        override fun onCancelled(p0: DatabaseError?) {
-                            Log.d(FIRETAG, "like call canceled")
-                        }
-
-                        override fun onDataChange(p0: DataSnapshot?) {
-                            Log.d(FIRETAG, "like call data snapshot: $p0")
-                            var likedBefore: Boolean
-
-                            database.getReference(ACHIEVEMENTS_MAIN_DATA).child(ach.id).child(ACH_LIKES)
-                                    .runTransaction(object : Transaction.Handler {
-                                        override fun doTransaction(mutableData: MutableData?): Transaction.Result {
-                                            likedBefore = p0!!.value == null
-                                            val v: Boolean? = if (likedBefore) true else null
-                                            likeListRef.child(ach.id).child(userManager.uid!!)
-                                                    .setValue(v).addOnCompleteListener {
-                                                var likesCount = mutableData!!.getValue(Int::class.java)!!
-                                                if (likedBefore) {
-                                                    likesCount--
-                                                } else {
-                                                    likesCount++
-                                                }
-                                                mutableData.value = likesCount
-                                            }
-                                            return Transaction.success(mutableData)
-                                        }
-
-                                        override fun onComplete(databaseError: DatabaseError?, p1: Boolean, p2: DataSnapshot?) {
-                                            Log.d(FIRETAG, "postTransaction:onComplete:" + databaseError)
-                                        }
-
-                                    })
-                        }
-                    })
-        } else {
-            Log.e(FIRETAG, "Offline achievement liked name: ${ach.title} short description ${ach.shortDescription}")
-        }
-    }
 
     override fun likeAchievement(ach: Achievement) {
 
@@ -216,13 +157,11 @@ class FirebaseManager(override val userManager: UserManager) : DatabaseManager {
                                         if (databaseError != null)
                                             Log.d(FIRETAG, "postTransaction:onComplete error:" + databaseError)
                                         else
-                                            Log.d(FIRETAG, "Second transaction finished")
+                                            Log.d(FIRETAG, "Second like transaction finished")
                                     }
 
-                                    override fun doTransaction(likesCount: MutableData?): Transaction.Result {
-                                        if (likesCount == null) {
-                                            return Transaction.success(likesCount)
-                                        }
+                                    override fun doTransaction(likesCount: MutableData): Transaction.Result {
+
                                         var lc: Int = likesCount.getValue(Int::class.java)!!
                                         if (liked) {
                                             lc--
@@ -233,6 +172,28 @@ class FirebaseManager(override val userManager: UserManager) : DatabaseManager {
                                         return Transaction.success(likesCount)
                                     }
                                 })
+                        database.getReference("$ACHIEVEMENTS_TAGS/${ach.id}").addListenerForSingleValueEvent(
+                                object : ValueEventListener{
+                                    override fun onCancelled(p0: DatabaseError?) {
+                                        Log.d(FIRETAG, "Like. Getting tags cancelled. $p0")
+                                    }
+
+                                    override fun onDataChange(p0: DataSnapshot) {
+                                        p0.children.forEach { tag ->
+                                            val ref = database.getReference("$USER_FAVORITE_TAGS" +
+                                                    "/${userManager.uid}" +
+                                                    "/${tag.key}")
+                                            if(liked){
+                                                ref.decrement()
+                                            } else {
+                                                ref.increment()
+                                            }
+                                        }
+                                    }
+                                }
+                        )
+
+
                         return Transaction.success(likeList)
                     }
 

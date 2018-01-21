@@ -14,7 +14,7 @@ class AchShortFirebaseAdapter(ref : Query
                               = FirebaseDatabase.getInstance().getReference("achievements/mainData"))
     : FirebaseRecyclerAdapter<Achievement, AchievementHolder>(
         Achievement::class.java,
-        R.layout.layout_achievement_item,
+        R.layout.layout_item_achievement,
         AchievementHolder::class.java,
         ref) {
 
