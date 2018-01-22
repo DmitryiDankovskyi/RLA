@@ -5,9 +5,9 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.vedro401.reallifeachievement.utils.AppComponent;
-import com.vedro401.reallifeachievement.utils.AppModule;
-import com.vedro401.reallifeachievement.utils.DaggerAppComponent;
+import com.vedro401.reallifeachievement.config.AppComponent;
+import com.vedro401.reallifeachievement.config.AppModule;
+import com.vedro401.reallifeachievement.config.DaggerAppComponent;
 
 /**
  * Created by someone on 16.09.17.

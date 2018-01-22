@@ -1,4 +1,4 @@
-package com.vedro401.reallifeachievement.utils;
+package com.vedro401.reallifeachievement.config;
 
 import android.content.Context;
 

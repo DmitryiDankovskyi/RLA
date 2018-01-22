@@ -9,8 +9,8 @@ import android.widget.ImageView
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.vedro401.reallifeachievement.App
 import com.vedro401.reallifeachievement.R
+import com.vedro401.reallifeachievement.config.GlideApp
 import com.vedro401.reallifeachievement.model.Achievement
-import com.vedro401.reallifeachievement.utils.GlideApp
 import com.vedro401.reallifeachievement.utils.coolBigNumbers
 import kotlinx.android.synthetic.main.layout_item_achievement.view.*
 import org.jetbrains.anko.onClick
@@ -105,12 +105,11 @@ class AchievementHolder(itemView: View) : BindableViewHolder<Achievement>(itemVi
     }
 
     private fun setColor(view: ImageView, b: Boolean) {
-        Log.d("setcolor", "set color $b")
         if (b) {
-            view.setColorFilter(ContextCompat.getColor(context, R.color.colorPrimary),
+            view.setColorFilter(ContextCompat.getColor(context, R.color.drawablePrimaryColor),
                     android.graphics.PorterDuff.Mode.SRC_IN)
         } else {
-            view.setColorFilter(ContextCompat.getColor(context, R.color.lightGreen),
+            view.setColorFilter(ContextCompat.getColor(context, R.color.drawableSecondaryColor),
                     android.graphics.PorterDuff.Mode.SRC_IN)
         }
     }

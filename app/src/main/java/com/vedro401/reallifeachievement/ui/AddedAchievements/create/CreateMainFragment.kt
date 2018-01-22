@@ -8,7 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.vedro401.reallifeachievement.R
-import com.vedro401.reallifeachievement.utils.GlideApp
+import com.vedro401.reallifeachievement.config.GlideApp
 import com.vedro401.reallifeachievement.utils.PICK_IMAGE_REQUEST
 import com.vedro401.reallifeachievement.utils.choseImage
 import kotlinx.android.synthetic.main.layout_create1.*
@@ -40,7 +40,6 @@ class CreateMainFragment : CreateFragment() {
     override fun cleanUp() {
         et_title.setText("")
         et_short_description.setText("")
-        et_full_description.setText("")
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?)

@@ -7,6 +7,7 @@ import com.vedro401.reallifeachievement.App
 import com.vedro401.reallifeachievement.R
 import com.vedro401.reallifeachievement.adapters.SimpleFragmentPagerAdapter
 import com.vedro401.reallifeachievement.managers.interfaces.UserManager
+import com.vedro401.reallifeachievement.ui.BaseFragmentActivity
 import com.vedro401.reallifeachievement.ui.SignInActivity
 import com.vedro401.reallifeachievement.ui.interfaces.FakeBottomNavigationOwner
 import com.vedro401.reallifeachievement.utils.AUTHTAG
@@ -17,14 +18,12 @@ import org.jetbrains.anko.onClick
 import org.jetbrains.anko.startActivity
 import javax.inject.Inject
 
-class ProfileActivity : FragmentActivity(), FakeBottomNavigationOwner {
+class ProfileActivity : BaseFragmentActivity(), FakeBottomNavigationOwner {
     private lateinit var statisticFragment: ProfileStatisticFragment
     private lateinit var storiesFragment: ProfileStoriesFragment
     private lateinit var unlockedAchFragment: ProfileFinishedStoriesFragment
     override var menuNum: Int = 2
 
-    @Inject
-    lateinit var um: UserManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

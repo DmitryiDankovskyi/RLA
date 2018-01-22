@@ -16,27 +16,19 @@ import com.vedro401.reallifeachievement.adapters.holders.StoryHolder
 import com.vedro401.reallifeachievement.managers.interfaces.DatabaseManager
 import com.vedro401.reallifeachievement.model.Story
 import com.vedro401.reallifeachievement.utils.STORY
-import com.vedro401.reallifeachievement.managers.FireUserManager
 import com.vedro401.reallifeachievement.managers.interfaces.UserManager
+import com.vedro401.reallifeachievement.ui.BaseFragment
 import com.vedro401.reallifeachievement.utils.inflate
-import com.vedro401.reallifeachievement.transferProtocols.UserTransferProtocol
+import com.vedro401.reallifeachievement.utils.plusAssign
 import kotlinx.android.synthetic.main.layout_rv_container.*
 import rx.Subscription
 import javax.inject.Inject
 
-class ProfileFinishedStoriesFragment : Fragment() {
-    @Inject
-    lateinit var userManager: UserManager
-
-    @Inject
-    lateinit var databaseManager: DatabaseManager
-
-    private var adapterSubscription: Subscription? = null
+class ProfileFinishedStoriesFragment : BaseFragment() {
 
     val adapter = object : RxRvAdapter<Story, StoryHolder>() {
-        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StoryHolder {
-            return StoryHolder(this@ProfileFinishedStoriesFragment.context!!, parent.inflate(R.layout.layout_story_item))
-        }
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StoryHolder =
+                StoryHolder(this@ProfileFinishedStoriesFragment.context!!, parent.inflate(R.layout.layout_story_item))
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?)
@@ -44,7 +36,6 @@ class ProfileFinishedStoriesFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        App.getComponent().inject(this)
         container_rv.layoutManager = LinearLayoutManager(context)
         container_rv.itemAnimator = DefaultItemAnimator()
         container_rv.adapter = adapter
@@ -58,20 +49,7 @@ class ProfileFinishedStoriesFragment : Fragment() {
         adapter.emptinessIndicatorTextView = container_emptiness_indicator_text
         adapter.warningView = container_warning_block
         adapter.warningTextView = container_warning_text
-        userManager.isAuthorisedObs.subscribe({ isAuthorised ->
-            Log.i(STORY, "ProfileStoriesFragment.initRV status $isAuthorised")
-            if (isAuthorised) {
-                Log.i(STORY, "ProfileStoriesFragment.initRV: set stories")
-                adapterSubscription = databaseManager.getFinishedStories().subscribe(adapter)
-            } else {
-                adapterSubscription?.unsubscribe()
-                adapter.onNext(RxRvTransferProtocol(RxRvTransferProtocol.RESET))
-                adapter.onNext(RxRvTransferProtocol(RxRvTransferProtocol.PERMISSION_DENIED))
-            }
-
-        }, { t ->
-            Log.e(STORY, "ProfileStoriesFragment: ${t.message}")
-        })
+        subscriptions += dbm.getFinishedStories().subscribe(adapter)
     }
 
 }

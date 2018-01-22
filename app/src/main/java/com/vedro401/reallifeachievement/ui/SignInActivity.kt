@@ -11,10 +11,7 @@ import kotlinx.android.synthetic.main.activity_sign_in.*
 import org.jetbrains.anko.*
 import javax.inject.Inject
 
-class SignInActivity : AppCompatActivity() {
-    @Inject
-    lateinit var um: UserManager
-
+class SignInActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sign_in)

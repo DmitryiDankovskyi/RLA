@@ -54,7 +54,7 @@ interface FakeBottomNavigationOwner {
                     }
                     context.startActivity(Intent(context, activity)
                             .addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT), option.toBundle())
-                    (v as AppCompatImageView).setColorFilter(ContextCompat.getColor(context, R.color.colorPrimaryDark))
+                    (v as AppCompatImageView).setColorFilter(ContextCompat.getColor(context, R.color.drawablePrimaryDarkColor))
                     return@OnTouchListener true
                 }
                 else -> return@OnTouchListener false

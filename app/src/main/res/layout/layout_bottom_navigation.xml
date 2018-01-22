@@ -5,13 +5,13 @@
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/colorPrimary">
+    android:background="?attr/colorPrimary">
     <android.support.v7.widget.AppCompatImageView
         android:id="@+id/bottom_navigation_feed"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:tint="@color/colorPrimaryDark"
+        android:tint="@color/drawablePrimaryDarkColor"
         android:padding="8dp"
         app:srcCompat="@drawable/ic_pin_24dp"/>
     <android.support.v7.widget.AppCompatImageView
@@ -19,7 +19,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:tint="@color/colorPrimaryDark"
+        android:tint="@color/drawablePrimaryDarkColor"
         android:padding="8dp"
         app:srcCompat="@drawable/ic_search_24dp"/>
     <android.support.v7.widget.AppCompatImageView
@@ -27,7 +27,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:tint="@color/colorPrimaryDark"
+        android:tint="@color/drawablePrimaryDarkColor"
         android:padding="8dp"
         app:srcCompat="@drawable/ic_profile_circle"/>
     <android.support.v7.widget.AppCompatImageView
@@ -35,7 +35,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:tint="@color/colorPrimaryDark"
+        android:tint="@color/drawablePrimaryDarkColor"
         android:padding="8dp"
         app:srcCompat="@drawable/ic_create_24dp"/>
 </LinearLayout>

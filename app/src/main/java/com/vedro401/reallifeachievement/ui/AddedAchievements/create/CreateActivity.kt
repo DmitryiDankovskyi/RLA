@@ -10,6 +10,7 @@ import com.vedro401.reallifeachievement.adapters.SimpleFragmentPagerAdapter
 import com.vedro401.reallifeachievement.managers.StorageManager
 import com.vedro401.reallifeachievement.model.Achievement
 import com.vedro401.reallifeachievement.managers.interfaces.UserManager
+import com.vedro401.reallifeachievement.ui.BaseFragmentActivity
 import com.vedro401.reallifeachievement.utils.randomTitle
 import com.vedro401.reallifeachievement.ui.SignInActivity
 import kotlinx.android.synthetic.main.activity_create.*
@@ -21,24 +22,20 @@ import org.jetbrains.anko.toast
 import javax.inject.Inject
 import kotlin.collections.ArrayList
 
-class CreateActivity : FragmentActivity(), AchievementCreator {
+class CreateActivity : BaseFragmentActivity(), AchievementCreator {
     private val achievement = Achievement()
     private var achPickPath : Uri? = null
     private val mainFragment = CreateMainFragment()
     private val tagsFragment = CreateTagsFragment()
 
-    @Inject
-    lateinit var userManager: UserManager
 
-    @Inject
-    lateinit var sm: StorageManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_create)
         App.getComponent().inject(this)
 
-        if(!userManager.isAuthorised){
+        if(!um.isAuthorised){
             alert {
                 title("You need to log in to create achievements")
                 positiveButton("Sign in"){
@@ -73,7 +70,7 @@ class CreateActivity : FragmentActivity(), AchievementCreator {
 
     override fun setMainData(title: String,
                              shortDescription: String) {
-        achievement.author = userManager.uid
+        achievement.author = um.uid
         achievement.setId()
         achievement.title = title
         achievement.description = shortDescription
@@ -86,7 +83,7 @@ class CreateActivity : FragmentActivity(), AchievementCreator {
             if (!tagsFragment.getData()) {
                 vp_create.currentItem = 1
             } else{
-                achievement.author = userManager.uid
+                achievement.author = um.uid
                 if(achPickPath != null){
                     ac_spinner.visibility = View.VISIBLE
                     sm.saveAchPick(achievement, achPickPath!!).subscribe{

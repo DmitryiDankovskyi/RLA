@@ -15,24 +15,16 @@ import com.vedro401.reallifeachievement.transferProtocols.RxRvTransferProtocol
 import com.vedro401.reallifeachievement.adapters.holders.StoryHolder
 import com.vedro401.reallifeachievement.managers.interfaces.DatabaseManager
 import com.vedro401.reallifeachievement.model.Story
-import com.vedro401.reallifeachievement.transferProtocols.UserTransferProtocol
 import com.vedro401.reallifeachievement.utils.STORY
-import com.vedro401.reallifeachievement.managers.FireUserManager
 import com.vedro401.reallifeachievement.managers.interfaces.UserManager
+import com.vedro401.reallifeachievement.ui.BaseFragment
 import com.vedro401.reallifeachievement.utils.inflate
+import com.vedro401.reallifeachievement.utils.plusAssign
 import kotlinx.android.synthetic.main.layout_rv_container.*
 import rx.Subscription
 import javax.inject.Inject
 
-class ProfileStoriesFragment : Fragment() {
-
-    @Inject
-    lateinit var userManager: UserManager
-
-    @Inject
-    lateinit var databaseManager: DatabaseManager
-
-    var adapterSubscription: Subscription? = null
+class ProfileStoriesFragment : BaseFragment() {
 
     val adapter = object : RxRvAdapter<Story, StoryHolder>() {
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StoryHolder =
@@ -44,7 +36,6 @@ class ProfileStoriesFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        App.getComponent().inject(this)
         container_rv.layoutManager = LinearLayoutManager(context)
         container_rv.itemAnimator = DefaultItemAnimator()
         container_rv.adapter = adapter
@@ -57,20 +48,7 @@ class ProfileStoriesFragment : Fragment() {
         adapter.emptinessIndicatorTextView = container_emptiness_indicator_text
         adapter.warningView = container_warning_block
         adapter.warningTextView = container_warning_text
-        userManager.isAuthorisedObs.subscribe({ isAuthorised ->
-            Log.i(STORY, "ProfileStoriesFragment.initRV status $isAuthorised")
-            if (isAuthorised) {
-                Log.i(STORY, "ProfileStoriesFragment.initRV: set stories")
-                adapterSubscription = databaseManager.getNotFinishedStories().subscribe(adapter)
-            } else {
-                adapterSubscription?.unsubscribe()
-                adapter.onNext(RxRvTransferProtocol(RxRvTransferProtocol.RESET))
-                adapter.onNext(RxRvTransferProtocol(RxRvTransferProtocol.PERMISSION_DENIED))
-            }
-
-        }, { t ->
-            Log.e(STORY, "ProfileStoriesFragment: ${t.message}")
-        })
+        subscriptions += dbm.getNotFinishedStories().subscribe(adapter)
     }
 
 }

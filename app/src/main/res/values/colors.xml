@@ -6,10 +6,15 @@
     <color name="colorAccent">#6d9b5d</color>
     <color name="lightGreen">#ddeadb</color>
 
-    <!--<color title="colorPrimary">#b5513f</color>-->
-    <!--<color title="colorPrimaryDark">#9f4830</color>-->
-    <!--<color title="colorAccent">#bf6d6d</color>-->
+    <color name="nightBackGround">#3c3f41</color>
+    <color name="nightPrimary"> #a4b3ba</color>
+    <color name="nightPrimaryDark">#566369</color>
+    <color name="nightAccent">#578fba</color>
 
+
+    <color name="drawablePrimaryColor">@color/colorPrimary</color>
+    <color name="drawablePrimaryDarkColor">@color/colorPrimaryDark</color>
+    <color name="drawableSecondaryColor">@color/gray</color>
 
     <color name="white">#fff</color>
     <color name="black">#000</color>

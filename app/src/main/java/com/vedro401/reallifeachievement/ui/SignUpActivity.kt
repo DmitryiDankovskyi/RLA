@@ -12,10 +12,7 @@ import org.jetbrains.anko.onClick
 import org.jetbrains.anko.toast
 import javax.inject.Inject
 
-class SignUpActivity : AppCompatActivity() {
-
-    @Inject
-    lateinit var um: UserManager
+class SignUpActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

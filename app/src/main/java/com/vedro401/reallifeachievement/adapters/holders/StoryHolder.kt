@@ -6,9 +6,9 @@ import android.support.v4.content.ContextCompat
 import android.view.View
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.vedro401.reallifeachievement.R
+import com.vedro401.reallifeachievement.config.GlideApp
 import com.vedro401.reallifeachievement.model.Story
 import com.vedro401.reallifeachievement.ui.StoryEditorActivity
-import com.vedro401.reallifeachievement.utils.GlideApp
 import kotlinx.android.synthetic.main.layout_item_achievement.view.*
 import kotlinx.android.synthetic.main.layout_story_item.view.*
 import kotlinx.android.synthetic.main.layout_story_post.view.*
