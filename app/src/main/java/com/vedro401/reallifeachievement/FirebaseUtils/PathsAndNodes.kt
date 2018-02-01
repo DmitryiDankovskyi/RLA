@@ -8,12 +8,11 @@ const val USERS_STATISTIC_DATA = "users/statisticData"
 const val USER_FAVORITE_TAGS = "users/likedTags"
 const val STORIES = "users/stories"
 const val STORY_POSTS = "users/storyPosts"
+const val ALL_TAGS = "allTags"
 
 const val POST_COUNT = "postsCount" // Warning! Must be same as name of field in model.Story
 const val FINISHED_STORIES_COUNT = "finishedStoriesCount"
 
 
 const val ACH_LIKES = "likes"
-const val ACH_LIKE_PREFIX = "achLike"
-const val ACH_IN_LIST_PREFIX = "achInList"
 const val ACHIEVEMENTS = "achievements"

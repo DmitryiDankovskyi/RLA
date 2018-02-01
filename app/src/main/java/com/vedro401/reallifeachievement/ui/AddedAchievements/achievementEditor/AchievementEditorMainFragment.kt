@@ -1,4 +1,4 @@
-package com.vedro401.reallifeachievement.ui.AddedAchievements.create
+package com.vedro401.reallifeachievement.ui.AddedAchievements.achievementEditor
 
 import android.content.Intent
 import android.net.Uri
@@ -11,43 +11,52 @@ import com.vedro401.reallifeachievement.R
 import com.vedro401.reallifeachievement.config.GlideApp
 import com.vedro401.reallifeachievement.utils.PICK_IMAGE_REQUEST
 import com.vedro401.reallifeachievement.utils.choseImage
-import kotlinx.android.synthetic.main.layout_create1.*
+import kotlinx.android.synthetic.main.layout_ach_editor_main.*
 import org.jetbrains.anko.onClick
 
-/**
- * Created by someone on 02.10.17.
- */
-class CreateMainFragment : CreateFragment() {
+class AchievementEditorMainFragment : AchievementEditorFragment() {
     private var pickPath : Uri? = null
 
-    override fun getData(): Boolean {
+    override fun saveData(): Boolean {
         var flag = true
-        if (et_title.text.isEmpty()) {
-            et_title.error = getString(R.string.empty_field_warning)
+        if (aem_title.text.isEmpty()) {
+            aem_title.error = getString(R.string.empty_field_warning)
             flag = false
-        } else et_title.error = null
-        if (et_short_description.text.isEmpty()) {
-            et_short_description.error = getString(R.string.empty_field_warning)
+        } else aem_title.error = null
+        if (aem_description.text.isEmpty()) {
+            aem_description.error = getString(R.string.empty_field_warning)
             flag = false
-        } else et_short_description.error = null
+        } else aem_description.error = null
         if (flag) {
-            achCreator.setMainData(et_title.text.toString(),
-                    et_short_description.text.toString())
+            achEditorActivity.achievement.title = aem_title.text.toString()
+            achEditorActivity.achievement.description = aem_description.text.toString()
         }
         return flag
     }
 
     override fun cleanUp() {
-        et_title.setText("")
-        et_short_description.setText("")
+        aem_title.setText("")
+        aem_description.setText("")
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?)
-            = inflater.inflate(R.layout.layout_create1, container, false)!!
+            = inflater.inflate(R.layout.layout_ach_editor_main, container, false)!!
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        img_ach_icon.onClick {
+
+        if(achEditorActivity.achievement.id != null){
+            aem_title.setText(achEditorActivity.achievement.title)
+            aem_description.setText(achEditorActivity.achievement.description)
+            if(achEditorActivity.achievement.imageUrl != null) {
+                GlideApp.with(this)
+                        .load(achEditorActivity.achievement.imageUrl)
+                        .centerCrop()
+                        .into(aem_ach_pick)
+            }
+        }
+
+        aem_ach_pick.onClick {
             this.choseImage()
         }
     }
@@ -57,15 +66,15 @@ class CreateMainFragment : CreateFragment() {
         if(requestCode == PICK_IMAGE_REQUEST){
             if(data != null){
                 pickPath = data.data
+                achEditorActivity.pickPath = pickPath
                 if(pickPath != null){
                     GlideApp.with(this)
                             .load(pickPath)
                             .centerCrop()
                             .diskCacheStrategy(DiskCacheStrategy.NONE)
                             .skipMemoryCache(true)
-                            .into(img_ach_icon)
+                            .into(aem_ach_pick)
                 }
-
             }
         }
     }

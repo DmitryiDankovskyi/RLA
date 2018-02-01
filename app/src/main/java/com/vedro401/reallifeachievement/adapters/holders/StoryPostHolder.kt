@@ -1,21 +1,15 @@
 package com.vedro401.reallifeachievement.adapters.holders
 
-import android.util.Log
 import android.view.View
 import com.vedro401.reallifeachievement.model.StoryPost
-import com.vedro401.reallifeachievement.utils.STORY
-import com.vedro401.reallifeachievement.transferProtocols.DELETE
-import com.vedro401.reallifeachievement.transferProtocols.TransferProtocol
-import com.vedro401.reallifeachievement.transferProtocols.UPDATE
+import com.vedro401.reallifeachievement.ui.interfaces.StoryEditor
 import kotlinx.android.synthetic.main.layout_story_post.view.*
 import kotlinx.android.synthetic.main.layout_story_post_item.view.*
 import org.jetbrains.anko.onClick
-import rx.Observable
-import rx.Subscriber
 
 
 class StoryPostHolder(itemView: View,
-                      private var editPostListener: Subscriber<TransferProtocol<StoryPost>>)
+                      private var editor: StoryEditor)
     : BindableViewHolder<StoryPost>(itemView) {
 
 
@@ -24,18 +18,10 @@ class StoryPostHolder(itemView: View,
         itemView.story_post_title.text = data.title
         itemView.story_post_time_stamped.text = data.timeStamped
         itemView.story_post_item_change.onClick {
-            Log.i(STORY,"StoryPostHolder.story_post_item_change: Clicked")
-            Observable.create<TransferProtocol<StoryPost>> { subscriber ->
-                subscriber.onNext(TransferProtocol(UPDATE, data))
-                subscriber.unsubscribe()}
-                    .subscribe(editPostListener)
+            editor.updatePost(data)
         }
         itemView.story_post_item_delete.onClick {
-            Log.i(STORY,"StoryPostHolder.story_post_item_delete: Clicked")
-            Observable.create<TransferProtocol<StoryPost>> { subscriber ->
-                subscriber.onNext(TransferProtocol(DELETE, data))
-                subscriber.unsubscribe()}
-                    .subscribe(editPostListener)
+            editor.deletePost(data)
         }
     }
 

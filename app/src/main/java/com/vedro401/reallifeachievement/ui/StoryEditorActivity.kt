@@ -14,21 +14,30 @@ import com.vedro401.reallifeachievement.adapters.RxRvAdapter
 import com.vedro401.reallifeachievement.adapters.holders.StoryPostHolder
 import com.vedro401.reallifeachievement.model.Story
 import com.vedro401.reallifeachievement.model.StoryPost
-import com.vedro401.reallifeachievement.transferProtocols.DELETE
-import com.vedro401.reallifeachievement.transferProtocols.TransferProtocol
-import com.vedro401.reallifeachievement.transferProtocols.UPDATE
+import com.vedro401.reallifeachievement.ui.interfaces.StoryEditor
 import com.vedro401.reallifeachievement.utils.*
 import kotlinx.android.synthetic.main.activity_story_editor.*
 import kotlinx.android.synthetic.main.layout_rv_container.*
 import kotlinx.android.synthetic.main.layout_story_editor_create_panel.*
 import kotlinx.android.synthetic.main.layout_story_editor_tool_bar.*
 import org.jetbrains.anko.*
-import rx.Subscriber
 import java.text.SimpleDateFormat
 import java.util.*
 
-class StoryEditorActivity : AppCompatActivity() {
-    var post: StoryPost = StoryPost()
+class StoryEditorActivity : AppCompatActivity(), StoryEditor {
+    override fun updatePost(post: StoryPost) {
+        updating = true
+        story_editor_title.setText(post.title)
+        story_editor_content.setText(post.content)
+        story_editor_time_stamped.text = post.timeStamped
+        showCreatePanel()
+        this.post = post}
+
+    override fun deletePost(post: StoryPost) {
+        story.deletePost(post.id!!)
+    }
+
+    override var post: StoryPost = StoryPost()
     lateinit var story: Story
     private var updating = false
 
@@ -39,31 +48,10 @@ class StoryEditorActivity : AppCompatActivity() {
 
     private var createPanelOpened = false
 
-    var editPostListener = object : Subscriber<TransferProtocol<StoryPost>>() {
-        override fun onCompleted() {}
-        override fun onError(e: Throwable) {
-            Log.e(STORY, "StoryEditorActivity: error ${e.message}")
-        }
-        override fun onNext(pack: TransferProtocol<StoryPost>) {
-            when (pack.event) {
-                UPDATE -> {
-                    updating = true
-                    story_editor_title.setText(pack.data.title)
-                    story_editor_content.setText(pack.data.content)
-                    story_editor_time_stamped.text = pack.data.timeStamped
-                    showCreatePanel()
-                    post = pack.data
-                }
-                DELETE -> {
-                    story.deletePost(pack.data.id!!)
-                }
-            }
-        }
-    }
 
     val adapter = object : RxRvAdapter<StoryPost, StoryPostHolder>() {
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StoryPostHolder
-                = StoryPostHolder(parent.inflate(R.layout.layout_story_post_item), editPostListener)
+                = StoryPostHolder(parent.inflate(R.layout.layout_story_post_item), this@StoryEditorActivity)
     }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

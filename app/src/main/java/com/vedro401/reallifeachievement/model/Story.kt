@@ -4,7 +4,7 @@ import android.os.Parcel
 import android.os.Parcelable
 import android.util.Log
 import com.google.firebase.database.Exclude
-import com.vedro401.reallifeachievement.transferProtocols.RxRvTransferProtocol
+import com.vedro401.reallifeachievement.transferProtocols.TransferProtocol
 import com.vedro401.reallifeachievement.utils.STORY
 import rx.Observable
 
@@ -42,7 +42,7 @@ class Story() : DataModel(), Parcelable {
     }
 
     @Exclude
-    fun getPosts(): Observable<RxRvTransferProtocol<StoryPost>> =
+    fun getPosts(): Observable<TransferProtocol<StoryPost>> =
             databaseManager.getStoryPosts(id!!)
 
     fun finish(difficulty : Int){
@@ -124,7 +124,6 @@ class Story() : DataModel(), Parcelable {
 
     private constructor(source: Parcel) : this() {
         id = source.readString()
-        id = source.readString()
         achievementTitle = source.readString()
         achievementImageUrl = source.readString()
         authorId = source.readString()
@@ -138,7 +137,6 @@ class Story() : DataModel(), Parcelable {
     override fun describeContents() = 0
 
     override fun writeToParcel(dest: Parcel, flags: Int) = with(dest) {
-        writeString(id)
         writeString(id)
         writeString(achievementTitle)
         writeString(achievementImageUrl)

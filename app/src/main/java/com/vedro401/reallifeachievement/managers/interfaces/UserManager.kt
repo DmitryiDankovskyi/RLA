@@ -8,6 +8,7 @@ interface UserManager {
     val isAuthorisedObs : Observable<Boolean>
     var isAuthorised : Boolean
     var uid : String?
+    var lastUid: String?
     var name: String?
     var avatarUrl: Uri?
 

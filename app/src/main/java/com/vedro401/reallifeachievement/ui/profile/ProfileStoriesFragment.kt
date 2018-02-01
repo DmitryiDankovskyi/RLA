@@ -1,28 +1,19 @@
 package com.vedro401.reallifeachievement.ui.profile
 
 import android.os.Bundle
-import android.support.v4.app.Fragment
 import android.support.v7.widget.DefaultItemAnimator
 import android.support.v7.widget.LinearLayoutManager
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.vedro401.reallifeachievement.App
 import com.vedro401.reallifeachievement.R
 import com.vedro401.reallifeachievement.adapters.RxRvAdapter
-import com.vedro401.reallifeachievement.transferProtocols.RxRvTransferProtocol
 import com.vedro401.reallifeachievement.adapters.holders.StoryHolder
-import com.vedro401.reallifeachievement.managers.interfaces.DatabaseManager
 import com.vedro401.reallifeachievement.model.Story
-import com.vedro401.reallifeachievement.utils.STORY
-import com.vedro401.reallifeachievement.managers.interfaces.UserManager
 import com.vedro401.reallifeachievement.ui.BaseFragment
 import com.vedro401.reallifeachievement.utils.inflate
 import com.vedro401.reallifeachievement.utils.plusAssign
 import kotlinx.android.synthetic.main.layout_rv_container.*
-import rx.Subscription
-import javax.inject.Inject
 
 class ProfileStoriesFragment : BaseFragment() {
 

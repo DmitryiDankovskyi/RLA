@@ -10,11 +10,12 @@ import com.vedro401.reallifeachievement.model.Achievement
 import com.vedro401.reallifeachievement.model.Story
 import com.vedro401.reallifeachievement.model.StoryPost
 import com.vedro401.reallifeachievement.model.UserData
-import com.vedro401.reallifeachievement.transferProtocols.RxRvTransferProtocol
+import com.vedro401.reallifeachievement.transferProtocols.TransferProtocol
 import com.vedro401.reallifeachievement.transferProtocols.SeparatedFieldsTP
 import com.vedro401.reallifeachievement.utils.FIRETAG
 import com.vedro401.reallifeachievement.utils.STORY
 import rx.Observable
+import rx.Subscriber
 import rx.subjects.AsyncSubject
 import rx.subjects.BehaviorSubject
 
@@ -25,7 +26,10 @@ class FirebaseManager(override val userManager: UserManager) : DatabaseManager {
         SeparatedFieldsListener()
     }
     private val MAIN_DATA = "mainData"
-    private val valueEventListenersMap = HashMap<String, ValueEventListener>()
+    private val valueEventListenersMap = HashMap<String, HashMap<DatabaseReference, ValueEventListener>>()
+    private val childEventListenersMap = HashMap<String, Pair<DatabaseReference, ChildEventListener>>()
+    private val listenersCounter = HashMap<String, Int>()
+
 
 //    private val userProvider = BehaviorSubject.create<TransferProtocol<UserData>>()
     private var achievementsListener = RxChildListener(Achievement::class.java)
@@ -36,12 +40,15 @@ class FirebaseManager(override val userManager: UserManager) : DatabaseManager {
 
     init {
         database.setPersistenceEnabled(true)
-
         userManager.isAuthorisedObs.subscribe{
             isAuthorised ->
             if(!isAuthorised){
                 database.getReference("$USERS_STATISTIC_DATA/${userManager.uid}")
                         .removeEventListener(userStatisticListener)
+
+                valueEventListenersMap.entries.forEach{
+
+                }
             }
         }
     }
@@ -58,21 +65,21 @@ class FirebaseManager(override val userManager: UserManager) : DatabaseManager {
         return userStatisticListener.source
     }
 
-    override fun getFinishedStories(): Observable<RxRvTransferProtocol<Story>> {
+    override fun getFinishedStories(): Observable<TransferProtocol<Story>> {
         finishedStoriesListener.setQuery(
                 database.getReference("$STORIES/${userManager.uid!!}")
                         .orderByChild("status").equalTo(Story.FINISHED.toDouble()))
         return finishedStoriesListener.source
     }
 
-    override fun getNotFinishedStories(): Observable<RxRvTransferProtocol<Story>> {
+    override fun getNotFinishedStories(): Observable<TransferProtocol<Story>> {
         notFinishedStoriesListener.setQuery(
                 database.getReference("$STORIES/${userManager.uid!!}")
                         .orderByChild("status").endAt(Story.IN_PROGRESS.toDouble()))
 //        finishedStoriesListener.source
-//                .filter { it.event == RxRvTransferProtocol.ITEM_ADDED }
+//                .filter { it.event == TransferProtocol.ITEM_ADDED }
 //                .subscribe { notFinishedStoriesListener.source.onNext(
-//                        RxRvTransferProtocol(it.data!!.uid!!))}
+//                        TransferProtocol(it.data!!.uid!!))}
         return notFinishedStoriesListener.source
     }
 
@@ -94,7 +101,6 @@ class FirebaseManager(override val userManager: UserManager) : DatabaseManager {
 
                         }
                 )
-
     }
 
     //Achievements
@@ -105,15 +111,31 @@ class FirebaseManager(override val userManager: UserManager) : DatabaseManager {
     }
 
     override fun save(ach: Achievement) {
-        val ref = database.getReference(ACHIEVEMENTS_MAIN_DATA)
+        var ref = database.getReference(ACHIEVEMENTS_MAIN_DATA)
         setId(ach)
         ref.child(ach.id).setValue(ach)
+        ref = database.getReference(ACHIEVEMENTS_TAGS).child(ach.id)
+        ref.setValue(null)
         for (tag: String in ach.tags) {
             Log.d(FIRETAG, "tag $tag saved")
-            database.getReference(ACHIEVEMENTS_TAGS).child(ach.id).child(tag).setValue(true)
+            ref.child(tag).setValue(true)
         }
     }
 
+    override fun clear(ach: Achievement) {
+        var count = listenersCounter[ach.id]
+        if(count == null){
+            valueEventListenersMap[ach.id]!!.entries.forEach {
+                it.key.removeEventListener(it.value)
+            }
+        } else {
+            count--
+            if(count <= 0)
+                listenersCounter.remove(ach.id)
+            else
+                listenersCounter.put(ach.id!!, count)
+        }
+    }
 
     override fun likeAchievement(ach: Achievement) {
 
@@ -180,7 +202,7 @@ class FirebaseManager(override val userManager: UserManager) : DatabaseManager {
 
                                     override fun onDataChange(p0: DataSnapshot) {
                                         p0.children.forEach { tag ->
-                                            val ref = database.getReference("$USER_FAVORITE_TAGS" +
+                                            val ref = database.getReference(USER_FAVORITE_TAGS +
                                                     "/${userManager.uid}" +
                                                     "/${tag.key}")
                                             if(liked){
@@ -208,57 +230,62 @@ class FirebaseManager(override val userManager: UserManager) : DatabaseManager {
 
     }
 
-    override fun getAchievements(): Observable<RxRvTransferProtocol<Achievement>> {
+    override fun getAchievements(): Observable<TransferProtocol<Achievement>> {
         achievementsListener.setQuery(database.getReference(ACHIEVEMENTS_MAIN_DATA))
         return achievementsListener.source
     }
 
-    override fun getMyAchievements(): Observable<RxRvTransferProtocol<Achievement>> {
+    override fun getMyAchievements(): Observable<TransferProtocol<Achievement>> {
         myAchievementsListener.setQuery(database.getReference(ACHIEVEMENTS_MAIN_DATA)
-                .orderByChild("author").equalTo(userManager.uid))
+                .orderByChild("authorId").equalTo(userManager.uid))
         return myAchievementsListener.source
+    }
+
+    override fun initAchievementTags(ach: Achievement): Observable<Boolean> {
+        return Observable.create { subscriber: Subscriber<in Boolean> ->
+            database.getReference(ACHIEVEMENTS_TAGS).child(ach.id)
+                    .addListenerForSingleValueEvent(object : ValueEventListener{
+                        override fun onCancelled(p0: DatabaseError?) {
+                            Log.d(FIRETAG,"initAchievementTags onCancelled $p0" )
+                            subscriber.onError(Exception(p0!!.message))
+                        }
+                        override fun onDataChange(p0: DataSnapshot) {
+                            p0.children.forEach {
+                                ach.tags.add(it.key)
+                            }
+                            subscriber.onCompleted()
+                        }
+                    })
+
+        }
+    }
+
+    override fun addNewTags(newTags: ArrayList<String>) {
+        val ref = database.getReference(ALL_TAGS)
+        newTags.forEach { ref.child(it).increment() }
+    }
+
+    override fun removeTags(oldTags: ArrayList<String>) {
+        val ref = database.getReference(ALL_TAGS)
+        oldTags.forEach { ref.child(it).decrement() }
     }
 
     override fun isAchievementLiked(ach: Achievement): Observable<Boolean> {
         val response = BehaviorSubject.create<Boolean>()
-        val listener = object : ValueEventListener {
-            override fun onCancelled(p0: DatabaseError?) {
-                Log.w(FIRETAG, "isAchievementLiked.onCancelled ${p0!!.message}")
-            }
-
-            override fun onDataChange(p0: DataSnapshot?) {
-                response.onNext(p0!!.value != null)
-            }
-        }
-        database.getReference("$ACHIEVEMENTS_LIKE_LIST/${ach.id}/${userManager.uid!!}")
-                .addValueEventListener(listener)
-        valueEventListenersMap.put("ach_${ach.id}", listener)
+        val ref = database.getReference("$ACHIEVEMENTS_LIKE_LIST/${ach.id}/${userManager.uid!!}")
+        addListener(response,ref,ach.id!!,"isAchievementLiked.onCancelled")
+//        valueEventListenersMap.put(path, listener)
         return response
     }
 
     override fun isAchievementInList(ach: Achievement): Observable<Boolean> {
         val response = BehaviorSubject.create<Boolean>()
-        val inListListener = object : ValueEventListener {
-            override fun onCancelled(p0: DatabaseError?) {
-                Log.w(FIRETAG, "isAchievementInFinishedList.onCancelled ${p0!!.message}")
-            }
-
-            override fun onDataChange(p0: DataSnapshot?) {
-                response.onNext(p0!!.value != null)
-                Log.w(FIRETAG, "inFinishedlistener: ${ach.title} $p0")
-            }
-        }
-        database.getReference("$STORIES/${userManager.uid!!}/${ach.id}")
-                .addValueEventListener(inListListener)
-
-        valueEventListenersMap.put("$ACH_IN_LIST_PREFIX${ach.id}", inListListener)
+        val ref = database.getReference("$STORIES/${userManager.uid!!}/${ach.id}")
+        addListener(response,
+                ref,
+                ach.id!!,
+                "isAchievementInFinishedList.onCancelled")
         return response
-    }
-
-    override fun clear(ach: Achievement) {
-        database.getReference("$ACHIEVEMENTS_LIKE_LIST/${ach.id}/${userManager.uid}")
-                .removeEventListener(valueEventListenersMap["$ACH_LIKE_PREFIX${ach.id}"])
-
     }
 
     // #Story
@@ -394,7 +421,7 @@ class FirebaseManager(override val userManager: UserManager) : DatabaseManager {
         ref.child(post.id).setValue(post)
     }
 
-    override fun getStoryPosts(storyId: String): Observable<RxRvTransferProtocol<StoryPost>> {
+    override fun getStoryPosts(storyId: String): Observable<TransferProtocol<StoryPost>> {
         storyPostsListener.setQuery(database.getReference("$STORY_POSTS/${userManager.uid}/$storyId"))
         return storyPostsListener.source
     }
@@ -415,7 +442,74 @@ class FirebaseManager(override val userManager: UserManager) : DatabaseManager {
 
     fun searchAch(request: String): Query {
         return database.getReference(ACHIEVEMENTS_MAIN_DATA).orderByChild("title")
-                .startAt(request).endAt(request + "~")
+                .startAt(request).endAt(request + Character.MAX_VALUE)
+    }
+
+    override fun searchTagsTips(request: String) : Observable<TransferProtocol<String>>{
+        removeChieldListener("search")
+        val ref =  FirebaseDatabase.getInstance().getReference(ALL_TAGS)
+        var listener : ChildEventListener
+        return  Observable.create<TransferProtocol<String>> { subscriber ->
+            listener = object : ChildEventListener{
+                override fun onCancelled(p0: DatabaseError?) {}
+                override fun onChildMoved(p0: DataSnapshot?, p1: String?) {}
+                override fun onChildChanged(p0: DataSnapshot?, p1: String?) {}
+                override fun onChildAdded(p0: DataSnapshot, p1: String?) {
+                    val tag : String = p0.key
+                   subscriber.onNext(TransferProtocol(TransferProtocol.ITEM_ADDED,
+                          tag, p0.key))
+                }
+                override fun onChildRemoved(p0: DataSnapshot) {
+                    subscriber.onNext(TransferProtocol(p0.key))
+                }
+            }
+            ref.orderByKey().startAt(request).endAt(request + Character.MAX_VALUE).addChildEventListener(listener)
+            childEventListenersMap["search"] = Pair(ref,listener)
+        }
+
+    }
+
+    private fun removeValueListener(key : String){
+        valueEventListenersMap[key]?.entries?.forEach {
+            it.key.removeEventListener(it.value)
+        }
+        valueEventListenersMap.remove(key)
+    }
+
+    private fun removeChieldListener(key : String){
+            childEventListenersMap[key]?.first?.removeEventListener(childEventListenersMap[key]?.second)
+        childEventListenersMap.remove(key)
+    }
+
+    private fun addListener(response: BehaviorSubject<Boolean>,
+                            ref: DatabaseReference,
+                            id: String,
+                            onCancelledText: String = "addListener.onCancelled"
+    ){
+        var listener : ValueEventListener? = null
+        var needNewListener = true
+        if(valueEventListenersMap.containsKey(id)){
+            var count = listenersCounter[id]
+            if(count == null){
+                count = 1
+            } else count++
+            listenersCounter.put(id, count)
+            if(valueEventListenersMap[id]!!.containsKey(ref)) {
+                listener = valueEventListenersMap[id]!![ref]!!
+                needNewListener = false
+            }
+        }
+        if(needNewListener) {
+            listener = object : ValueEventListener {
+                override fun onCancelled(p0: DatabaseError?) {
+                    Log.w(FIRETAG, "$onCancelledText ${p0!!.message}")
+                }
+                override fun onDataChange(p0: DataSnapshot?) {
+                    response.onNext(p0!!.value != null)
+                }
+            }
+        }
+        ref.addValueEventListener(listener!!)
     }
 
 }

@@ -2,7 +2,7 @@ package com.vedro401.reallifeachievement.FirebaseUtils
 
 import android.util.Log
 import com.google.firebase.database.*
-import com.vedro401.reallifeachievement.transferProtocols.RxRvTransferProtocol
+import com.vedro401.reallifeachievement.transferProtocols.TransferProtocol
 import com.vedro401.reallifeachievement.utils.RXRVTAG
 import rx.subjects.ReplaySubject
 import java.util.*
@@ -10,7 +10,7 @@ import java.util.*
 class RxIndexedChildListener<T>(private var itemType: Class<T>) {
     var keysRef: Query? = null
     var dataRef: DatabaseReference? = null
-    var subj = ReplaySubject.create<RxRvTransferProtocol<T>>()
+    var subj = ReplaySubject.create<TransferProtocol<T>>()
     val listeningKeys = HashSet<String>()
     private val itemListener = object : ValueEventListener {
         val addedIdList = LinkedList<String>()
@@ -34,10 +34,10 @@ class RxIndexedChildListener<T>(private var itemType: Class<T>) {
             }
             val event = if(!addedIdList.contains(p0.key)) {
                 addedIdList.add(p0.key)
-                RxRvTransferProtocol.ITEM_ADDED
+                TransferProtocol.ITEM_ADDED
             }
-            else RxRvTransferProtocol.ITEM_CHANGED
-            subj.onNext(RxRvTransferProtocol(event, dataItem, p0.key))
+            else TransferProtocol.ITEM_CHANGED
+            subj.onNext(TransferProtocol(event, dataItem, p0.key))
         }
     }
 
@@ -60,7 +60,7 @@ class RxIndexedChildListener<T>(private var itemType: Class<T>) {
             val key = p0!!.key
             listeningKeys.remove(key)
             dataRef!!.child(key).removeEventListener(itemListener)
-            subj.onNext(RxRvTransferProtocol(key))
+            subj.onNext(TransferProtocol(key))
         }
 
     }
@@ -72,7 +72,7 @@ class RxIndexedChildListener<T>(private var itemType: Class<T>) {
 
         override fun onDataChange(p0: DataSnapshot?) {
             if (p0?.value == null) {
-                subj.onNext(RxRvTransferProtocol(RxRvTransferProtocol.EMPTY_DATA))
+                subj.onNext(TransferProtocol(TransferProtocol.EMPTY_DATA))
             }
         }
     }
@@ -87,9 +87,9 @@ class RxIndexedChildListener<T>(private var itemType: Class<T>) {
         listeningKeys.forEach { key ->
             dataRef!!.child(key).removeEventListener(itemListener)
         }
-        subj.onNext(RxRvTransferProtocol(RxRvTransferProtocol.RESET))
+        subj.onNext(TransferProtocol(TransferProtocol.RESET))
         subj.onCompleted()
-        subj = ReplaySubject.create<RxRvTransferProtocol<T>>()!!
+        subj = ReplaySubject.create<TransferProtocol<T>>()!!
         keysRef = newKeysRef
         dataRef = newDataRef
         keysRef!!.addListenerForSingleValueEvent(isEmptyListener)

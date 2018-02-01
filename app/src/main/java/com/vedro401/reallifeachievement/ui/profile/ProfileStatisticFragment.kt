@@ -47,12 +47,13 @@ class ProfileStatisticFragment : BaseFragment() {
 
         GlideApp.with(this)
                 .load(avatarRef)
-                .centerCrop()
                 .signature(ObjectKey(pref.avatarLastUpdate))
+                .centerCrop()
                 .into(sf_avatar)
 
         subscriptions += sm.getAvatarLastUpdate(um.uid!!).first().subscribe { lastUpdate ->
-            if (lastUpdate != null) {
+            if (lastUpdate != null && lastUpdate != pref.avatarLastUpdate) {
+                pref.avatarLastUpdate = lastUpdate
                 GlideApp.with(this)
                         .load(avatarRef)
                         .centerCrop()

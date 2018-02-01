@@ -40,7 +40,7 @@
             android:id="@+id/story_border1"
             android:layout_width="0dp"
             android:layout_height="1dp"
-            style="@style/border"
+            style="@style/Border"
             android:layout_marginTop="8dp"
             card_view:layout_constraintTop_toBottomOf="@+id/story_author_avatar"
             android:layout_marginLeft="8dp"
@@ -81,7 +81,7 @@
 
         <View
             android:id="@+id/story_border2"
-            style="@style/border"
+            style="@style/Border"
             android:layout_width="0dp"
             android:layout_height="1dp"
             android:layout_marginTop="8dp"
@@ -133,7 +133,7 @@
 
         <View
             android:id="@+id/story_border3"
-            style="@style/border"
+            style="@style/Border"
             android:layout_width="0dp"
             android:layout_height="1dp"
             android:layout_marginLeft="8dp"

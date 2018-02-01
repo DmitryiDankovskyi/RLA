@@ -3,7 +3,7 @@ package com.vedro401.reallifeachievement.FirebaseUtils
 
 import android.util.Log
 import com.google.firebase.database.*
-import com.vedro401.reallifeachievement.transferProtocols.RxRvTransferProtocol
+import com.vedro401.reallifeachievement.transferProtocols.TransferProtocol
 import com.vedro401.reallifeachievement.utils.RXRVTAG
 import rx.subjects.ReplaySubject
 
@@ -17,7 +17,7 @@ class RxChildListener<T>(private var itemType: Class<T>) {
 
     private var query: Query? = null
 
-    var source = ReplaySubject.create<RxRvTransferProtocol<T>>()!!
+    var source = ReplaySubject.create<TransferProtocol<T>>()!!
         private set
 
     private val childListener: ChildEventListener =
@@ -26,9 +26,9 @@ class RxChildListener<T>(private var itemType: Class<T>) {
             Log.d(RXRVTAG, "RxChildListener: Cancelled: ${error?.message}")
             when(error?.code){
             DatabaseError.PERMISSION_DENIED ->
-                source.onNext(RxRvTransferProtocol(RxRvTransferProtocol.PERMISSION_DENIED))
+                source.onNext(TransferProtocol(TransferProtocol.PERMISSION_DENIED))
             else -> {
-                source.onNext(RxRvTransferProtocol(RxRvTransferProtocol.UNKNOWN_ERROR))
+                source.onNext(TransferProtocol(TransferProtocol.UNKNOWN_ERROR))
                 Log.w(RXRVTAG,"RxChildListener: Unknown error. Code ${error?.code}")
             }
             }
@@ -36,8 +36,8 @@ class RxChildListener<T>(private var itemType: Class<T>) {
 
         override fun onChildAdded(p0: DataSnapshot, p1: String?) {
             try {
-                source.onNext(RxRvTransferProtocol(
-                        RxRvTransferProtocol.ITEM_ADDED,
+                source.onNext(TransferProtocol(
+                        TransferProtocol.ITEM_ADDED,
                         p0.getValue(itemType)!!, p0.key))
                 Log.d(RXRVTAG, "RxChildListener: Item added. key = \"${p0.key}\"")
             }
@@ -51,8 +51,8 @@ class RxChildListener<T>(private var itemType: Class<T>) {
 
         override fun onChildChanged(p0: DataSnapshot?, p1: String?) {
             try{
-            source.onNext(RxRvTransferProtocol(
-                    RxRvTransferProtocol.ITEM_CHANGED,
+            source.onNext(TransferProtocol(
+                    TransferProtocol.ITEM_CHANGED,
                     p0!!.getValue(itemType)!!, p0.key))
                 Log.d(RXRVTAG, "RxChildListener: Item changed. p1 = \"$p1\"")
             }
@@ -65,11 +65,11 @@ class RxChildListener<T>(private var itemType: Class<T>) {
         }
 
         override fun onChildRemoved(p0: DataSnapshot?) =
-                source.onNext(RxRvTransferProtocol(p0!!.key))
+                source.onNext(TransferProtocol(p0!!.key))
 
         override fun onChildMoved(p0: DataSnapshot?, p1: String?) {
-//                        source.onNext(RxRvTransferProtocol(
-//                                RxRvTransferProtocol.ITEM_MOVED,
+//                        source.onNext(TransferProtocol(
+//                                TransferProtocol.ITEM_MOVED,
 //                                p0!!.getValue(itemType)!!))
             //TODO not implemented
         }
@@ -91,7 +91,7 @@ class RxChildListener<T>(private var itemType: Class<T>) {
 
                     override fun onDataChange(p0: DataSnapshot?) {
                         if (p0?.value == null) {
-                            source.onNext(RxRvTransferProtocol(RxRvTransferProtocol.EMPTY_DATA))
+                            source.onNext(TransferProtocol(TransferProtocol.EMPTY_DATA))
                             Log.d(RXRVTAG, "RxChildListener: Empty signal sent")
                         }
                     }
@@ -102,17 +102,17 @@ class RxChildListener<T>(private var itemType: Class<T>) {
 
     fun setQuery(newQuery: Query) {
         query?.removeEventListener(childListener)
-        source.onNext(RxRvTransferProtocol(RxRvTransferProtocol.RESET))
+        source.onNext(TransferProtocol(TransferProtocol.RESET))
         source.onCompleted()
-        source = ReplaySubject.create<RxRvTransferProtocol<T>>()!!
+        source = ReplaySubject.create<TransferProtocol<T>>()!!
         query = newQuery
         setUpListener()
     }
 
     fun clean(){
         query?.removeEventListener(childListener)
-        source.onNext(RxRvTransferProtocol(RxRvTransferProtocol.EMPTY_DATA))
+        source.onNext(TransferProtocol(TransferProtocol.EMPTY_DATA))
         source.onCompleted()
-        source = ReplaySubject.create<RxRvTransferProtocol<T>>()!!
+        source = ReplaySubject.create<TransferProtocol<T>>()!!
     }
 }

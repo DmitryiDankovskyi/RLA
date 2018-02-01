@@ -12,6 +12,7 @@
     <style name = "DarkStyle" parent="Theme.AppCompat.DayNight.NoActionBar">
         <item name="android:windowBackground">@color/nightBackGround</item>
         <item name="colorPrimary">@color/nightPrimary</item>
+        <item name="android:textColor">@color/white</item>
         <item name="colorPrimaryDark">@color/nightPrimaryDark</item>
         <item name="colorAccent">@color/nightAccent</item>
     </style>
@@ -53,9 +54,9 @@
     </style>
 
 
-    <style name="border">
+    <style name="Border">
         <item name="android:height">1dp</item>
-        <item name="android:background">?attr/colorPrimary</item>
+        <item name="android:background">?attr/colorPrimaryDark</item>
     </style>
 
     <style name="FullWidthEditText">

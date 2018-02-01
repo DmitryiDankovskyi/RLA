@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".ui.AddedAchievements.create.CreateActivity">
+    tools:context=".ui.AddedAchievements.achievementEditor.AchievementEditorActivity">
   <include layout="@layout/layout_create_tool_bar" />
     <FrameLayout
         android:layout_width="match_parent"

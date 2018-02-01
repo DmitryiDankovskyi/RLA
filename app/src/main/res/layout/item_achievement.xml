@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    card_view:cardCornerRadius="4dp">
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.v7.widget.AppCompatImageView
+            android:id="@+id/ia_author_avatar"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_margin="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            card_view:layout_constraintStart_toStartOf="parent"
+            card_view:layout_constraintTop_toTopOf="parent"
+            card_view:srcCompat="@drawable/ic_profile_circle" />
+
+        <TextView
+            android:id="@+id/ia_author_name"
+            android:layout_width="wrap_content"
+            android:layout_height="18dp"
+            android:layout_marginStart="8dp"
+            card_view:layout_constraintBottom_toBottomOf="@id/ia_author_avatar"
+            card_view:layout_constraintStart_toEndOf="@id/ia_author_avatar"
+            card_view:layout_constraintTop_toTopOf="@id/ia_author_avatar"
+            tools:text="Author name" />
+
+        <View
+            android:id="@+id/border1"
+            style="@style/Border"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            card_view:layout_constraintEnd_toEndOf="parent"
+            card_view:layout_constraintStart_toStartOf="parent"
+            card_view:layout_constraintTop_toBottomOf="@id/ia_author_avatar" />
+
+        <ImageView
+            android:id="@+id/ia_achievement_pick"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            card_view:layout_constraintEnd_toEndOf="parent"
+            card_view:layout_constraintStart_toStartOf="parent"
+            card_view:layout_constraintTop_toBottomOf="@+id/ia_achievement_title"
+            android:src="@drawable/achievement" />
+
+        <android.support.v7.widget.AppCompatImageView
+            android:id="@+id/tnai_like"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            app:srcCompat="@drawable/ic_statistic_like_24dp"
+            card_view:layout_constraintBottom_toBottomOf="@+id/ia_achievement_pick"
+            card_view:layout_constraintEnd_toEndOf="parent"
+            card_view:layout_constraintStart_toEndOf="@+id/ia_achievement_pick"
+            card_view:layout_constraintTop_toTopOf="@+id/ia_achievement_pick" />
+
+        <TextView
+            android:id="@+id/ia_likes_indicator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="999k"
+            android:textSize="25sp"
+            card_view:layout_constraintEnd_toEndOf="@id/tnai_like"
+            card_view:layout_constraintStart_toStartOf="@id/tnai_like"
+            card_view:layout_constraintTop_toBottomOf="@id/tnai_like" />
+
+        <TextView
+            android:id="@+id/ia_unlocked_indicator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="999k"
+            android:textSize="25sp"
+            card_view:layout_constraintEnd_toEndOf="@id/tnai_unlocked"
+            card_view:layout_constraintStart_toStartOf="@id/tnai_unlocked"
+            card_view:layout_constraintTop_toBottomOf="@id/tnai_unlocked" />
+
+        <android.support.v7.widget.AppCompatImageView
+            android:id="@+id/tnai_unlocked"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            app:srcCompat="@drawable/ic_statistic_unlocked_24dp"
+            card_view:layout_constraintBottom_toBottomOf="@+id/ia_achievement_pick"
+            card_view:layout_constraintEnd_toStartOf="@+id/ia_achievement_pick"
+            card_view:layout_constraintStart_toStartOf="parent"
+            card_view:layout_constraintTop_toTopOf="@+id/ia_achievement_pick" />
+
+        <TextView
+            android:id="@+id/ia_description"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="8dp"
+            android:ellipsize="end"
+            android:maxLines="@integer/shortTextMaxLines"
+            card_view:layout_constraintHorizontal_bias="0.0"
+            card_view:layout_constraintLeft_toLeftOf="parent"
+            card_view:layout_constraintRight_toRightOf="parent"
+            card_view:layout_constraintTop_toBottomOf="@+id/ia_difficulty_ratingbar"
+            tools:layout_constraintLeft_creator="1"
+            tools:layout_constraintRight_creator="1"
+            tools:text="@string/long_text"
+            tools:visibility="visible" />
+
+        <View
+            android:id="@+id/border2"
+            style="@style/Border"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            card_view:layout_constraintEnd_toEndOf="parent"
+            card_view:layout_constraintStart_toStartOf="parent"
+            card_view:layout_constraintTop_toBottomOf="@id/ia_description" />
+
+        <LinearLayout
+            android:id="@+id/buttons_container"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            card_view:layout_constraintHorizontal_bias="0.0"
+            card_view:layout_constraintLeft_toLeftOf="parent"
+            card_view:layout_constraintRight_toRightOf="parent"
+            card_view:layout_constraintTop_toBottomOf="@+id/border2">
+
+            <android.support.v7.widget.AppCompatImageView
+                android:id="@+id/ia_btn_like"
+                style="@style/downButtons"
+                app:srcCompat="@drawable/ic_thumb_up_24dp" />
+
+            <android.support.v7.widget.AppCompatImageView
+                android:id="@+id/ia_btn_coments"
+                style="@style/downButtons"
+                app:srcCompat="@drawable/ic_comment_24dp" />
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
+
+            <android.support.v7.widget.AppCompatImageView
+                android:id="@+id/ia_btn_unlock"
+                style="@style/downButtons"
+                app:srcCompat="@drawable/ic_flag_24dp" />
+
+            <android.support.v7.widget.AppCompatImageView
+                android:id="@+id/ia_btn_pin"
+                style="@style/downButtons"
+                app:srcCompat="@drawable/ic_pin_24dp" />
+        </LinearLayout>
+
+        <RatingBar
+            android:id="@+id/ia_difficulty_ratingbar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:progressDrawable="@drawable/my_rating"
+            tools:rating="3.5"
+            android:isIndicator="true"
+            card_view:layout_constraintEnd_toEndOf="parent"
+            card_view:layout_constraintStart_toStartOf="parent"
+            card_view:layout_constraintTop_toBottomOf="@+id/ia_difficulty_text" />
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:text="Difficulty:"
+            card_view:layout_constraintBaseline_toBaselineOf="@+id/ia_difficulty_text"
+            card_view:layout_constraintEnd_toStartOf="@+id/ia_difficulty_text" />
+
+        <TextView
+            android:id="@+id/ia_difficulty_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:text="So easy"
+            android:textSize="25sp"
+            card_view:layout_constraintEnd_toEndOf="parent"
+            card_view:layout_constraintStart_toStartOf="parent"
+            card_view:layout_constraintTop_toBottomOf="@+id/ia_achievement_pick" />
+
+        <TextView
+            android:id="@+id/ia_achievement_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:textAlignment="center"
+            android:textSize="25sp"
+            card_view:layout_constraintEnd_toEndOf="parent"
+            card_view:layout_constraintStart_toStartOf="parent"
+            card_view:layout_constraintTop_toBottomOf="@+id/border1"
+            tools:text="@string/long_name" />
+
+    </android.support.constraint.ConstraintLayout>
+
+</android.support.v7.widget.CardView>

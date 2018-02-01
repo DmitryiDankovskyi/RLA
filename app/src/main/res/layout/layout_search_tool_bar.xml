@@ -18,7 +18,7 @@
                 android:layout_height="wrap_content"
                 app:srcCompat="@drawable/ic_search_24dp" />
 
-            <EditText
+            <AutoCompleteTextView
                 android:id="@+id/et_search"
                 style="@style/ToolBarEditTex"
                 android:layout_width="0dp"

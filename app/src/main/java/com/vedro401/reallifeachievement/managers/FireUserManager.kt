@@ -5,16 +5,11 @@ import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.UserProfileChangeRequest
-import com.vedro401.reallifeachievement.model.UserData
-import com.vedro401.reallifeachievement.transferProtocols.UserTransferProtocol
-import com.vedro401.reallifeachievement.managers.interfaces.DatabaseManager
 import com.vedro401.reallifeachievement.managers.interfaces.UserManager
-import com.vedro401.reallifeachievement.transferProtocols.CHANGE_NAME
-import com.vedro401.reallifeachievement.transferProtocols.TransferProtocol
+import com.vedro401.reallifeachievement.model.UserData
 import com.vedro401.reallifeachievement.utils.AUTHTAG
 import com.vedro401.reallifeachievement.utils.FIRETAG
 import rx.Observable
-import rx.Observer
 import rx.subjects.BehaviorSubject
 
 
@@ -29,6 +24,7 @@ class FireUserManager : UserManager{
         get() = isAuthorisedObs.value
     override var uid: String? = null
         get() = user?.uid
+    override var lastUid: String? = null
     override var name : String? = "none"
         get() = if(user == null) "none" else user!!.displayName
 
@@ -39,19 +35,15 @@ class FireUserManager : UserManager{
     private val auth: FirebaseAuth = FirebaseAuth.getInstance()
     init {
         auth.addAuthStateListener({ firebaseAuth ->
+            lastUid = user?.uid
             user = firebaseAuth.currentUser
             if(firebaseAuth.currentUser != null){
                 isAuthorisedObs.onNext(true)
-                if (user!!.displayName == null) {
-                    Log.d(AUTHTAG, "User signed in")
-                }
-                else
-                    Log.d(AUTHTAG, "User signed up")
+                Log.d(AUTHTAG, "User signed in")
             }
              else {
                 isAuthorisedObs.onNext(false)
                 Log.d(AUTHTAG, "User logged out")
-
             }
 
         })

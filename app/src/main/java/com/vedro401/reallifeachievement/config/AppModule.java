@@ -62,5 +62,4 @@ public class AppModule {
         return firebaseManager;
     }
 
-
 }

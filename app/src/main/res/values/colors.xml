@@ -7,9 +7,9 @@
     <color name="lightGreen">#ddeadb</color>
 
     <color name="nightBackGround">#3c3f41</color>
-    <color name="nightPrimary"> #a4b3ba</color>
-    <color name="nightPrimaryDark">#566369</color>
-    <color name="nightAccent">#578fba</color>
+    <color name="nightPrimary"> #546e7a</color>
+    <color name="nightPrimaryDark">#29434e</color>
+    <color name="nightAccent">#64b5f6</color>
 
 
     <color name="drawablePrimaryColor">@color/colorPrimary</color>

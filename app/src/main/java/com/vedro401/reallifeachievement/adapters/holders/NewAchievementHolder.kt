@@ -7,29 +7,23 @@ import android.view.View
 import android.view.animation.AnimationUtils
 import android.widget.ImageView
 import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.vedro401.reallifeachievement.App
 import com.vedro401.reallifeachievement.R
 import com.vedro401.reallifeachievement.config.GlideApp
 import com.vedro401.reallifeachievement.model.Achievement
 import com.vedro401.reallifeachievement.utils.coolBigNumbers
-import kotlinx.android.synthetic.main.layout_item_achievement.view.*
+import com.vedro401.reallifeachievement.utils.wordDifficulty
+import kotlinx.android.synthetic.main.item_achievement.view.*
 import org.jetbrains.anko.onClick
 import org.jetbrains.anko.toast
 import rx.Subscription
-import javax.inject.Inject
 
-class AchievementHolder(itemView: View) : BindableViewHolder<Achievement>(itemView) {
 
-    @Inject
-    lateinit var context: Context
+class NewAchievementHolder(var context: Context, itemView: View) : BindableViewHolder<Achievement>(itemView) {
+
     private var flag = false
 
     private var subscriptionLike: Subscription? = null
     private var subscriptionList: Subscription? = null
-
-    init {
-        App.getComponent().inject(this)
-    }
 
     override fun bind(data: Achievement) {
         if (data.imageUrl != null) {
@@ -39,67 +33,73 @@ class AchievementHolder(itemView: View) : BindableViewHolder<Achievement>(itemVi
                     .diskCacheStrategy(DiskCacheStrategy.NONE)
                     .placeholder(R.drawable.ic_image_75dp)
                     .error(R.drawable.nothing)
-                    .into(itemView.achievement_image)
+                    .into(itemView.ia_achievement_pick)
 
         } else {
-            itemView.achievement_image.setImageDrawable(
+             itemView.ia_achievement_pick.setImageDrawable(
                     ContextCompat.getDrawable(context, R.drawable.achievement))
         }
-        itemView.achievement_title.text = data.title
-        itemView.description.text = data.description
-        itemView.likes.text = coolBigNumbers(data.likes)
-        itemView.unlocked.text = data.unlocked.toString()
-        itemView.difficulty.text = if (data.unlocked == 0) "???" else (data.difficulty / data.unlocked).toString()
-
-        itemView.btn_like.isEnabled = false
-        itemView.btn_pin.isEnabled = false
+        itemView.ia_achievement_title.text = data.title
+        itemView.ia_description.text = data.description
+        itemView.ia_likes_indicator.text = coolBigNumbers(data.likes)
+        itemView.ia_unlocked_indicator.text = data.unlocked.toString()
+        if(data.unlocked==0){
+            itemView.ia_difficulty_text.text = "???"
+        } else {
+            val difficulty = data.difficulty / data.unlocked
+            itemView.ia_difficulty_text.text = wordDifficulty(difficulty)
+            itemView.ia_difficulty_ratingbar.rating = difficulty/20f
+        }
+        itemView.ia_author_name.text = data.authorName
+        itemView.ia_btn_like.isEnabled = false
+        itemView.ia_btn_pin.isEnabled = false
         subscriptionLike?.unsubscribe()
         subscriptionLike = data.isLikedByCurrentUserObs.subscribe { isLiked ->
-            setColor(itemView.btn_like, isLiked)
-            itemView.btn_like.isEnabled = true
+            setColor(itemView.ia_btn_like, isLiked)
+            itemView.ia_btn_like.isEnabled = true
         }
         subscriptionList?.unsubscribe()
         subscriptionList = data.isInListObs.subscribe { isInList ->
             Log.d("BIND_D", data.title + " " + isInList)
-            setColor(itemView.btn_pin, isInList)
-            itemView.btn_pin.isEnabled = true
+            setColor(itemView.ia_btn_pin, isInList)
+            itemView.ia_btn_pin.isEnabled = true
         }
 
-        itemView.description.onClick {
+        itemView.ia_description.onClick {
             if (!flag) {
-                itemView.description.maxLines = Int.MAX_VALUE
+                itemView.ia_description.maxLines = Int.MAX_VALUE
                 flag = true
             } else {
-                itemView.description.maxLines =
+                itemView.ia_description.maxLines =
                         context.resources.getInteger(R.integer.shortTextMaxLines)
                 flag = false
             }
         }
 
-        itemView.btn_like.onClick {
+        itemView.ia_btn_like.onClick {
             data.isLikedByCurrentUserObs.onNext(!data.isLikedByCurrentUserObs.value)
 //            setColor(itemView.btn_like, !data.isLikedByCurrentUserObs.value)
             data.like()
             val anim = AnimationUtils.loadAnimation(context, R.anim.like)
-            itemView.btn_like.startAnimation(anim)
+            itemView.ia_btn_like.startAnimation(anim)
 
         }
 
-        itemView.btn_pin.onClick {
+        itemView.ia_btn_pin.onClick {
             if (data.isInListObs.value) {
                 context.toast(context.getString(R.string.already_in_list_alert))
                 return@onClick
             }
             data.createStore()
             val anim = AnimationUtils.loadAnimation(context, R.anim.like)
-            itemView.btn_pin.startAnimation(anim)
+            itemView.ia_btn_pin.startAnimation(anim)
 //            itemView.btn_pin.setColorFilter(ContextCompat.getColor(context, R.color.colorPrimary))
         }
 
-        itemView.btn_unlock.onClick {
+        itemView.ia_btn_unlock.onClick {
             context.toast("Do nothing yet")
             val anim = AnimationUtils.loadAnimation(context, R.anim.like)
-            itemView.btn_unlock.startAnimation(anim)
+            itemView.ia_btn_unlock.startAnimation(anim)
 //            itemView.btn_unlock.setColorFilter(ContextCompat.getColor(context, R.color.colorPrimary))
         }
     }

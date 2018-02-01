@@ -13,15 +13,16 @@ import rx.Subscription
 import rx.subscriptions.CompositeSubscription
 
 
-val FIRETAG = "FIRETAG"
-val STORAGETAG = "STORAGETAG"
-val AUTHTAG = "AUTHTAG"
-val RXRVTAG = "rxrv"
-val CAKE_HUNTER = "cakeHunter"
-val RXICL = "rxicl"
-val STORY = "myStory"
-val REFUCKTTAG = "reftag"
-val TAGS = "tags"
+const val FIRETAG = "FIRETAG"
+const val STORAGETAG = "STORAGETAG"
+const val AUTHTAG = "AUTHTAG"
+const val RXRVTAG = "rxrv"
+const val CAKE_HUNTER = "cakeHunter"
+const val RXICL = "rxicl"
+const val STORY = "myStory"
+const val REFUCKTTAG = "reftag"
+const val TAGS = "tags"
+const val SEARCH = "mSearch"
 
 
 val PICK_IMAGE_REQUEST = 111
@@ -90,6 +91,8 @@ fun randomTitle() : String {
             "${which[(Math.random()*which.size).toInt()]} " +
             "${who[(Math.random()*who.size).toInt()]}"
 }
+
+
 
 fun View.hideKeyboard() {
     val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager

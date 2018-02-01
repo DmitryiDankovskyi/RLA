@@ -6,13 +6,13 @@ import android.util.Log
 import android.view.View
 import android.widget.TextView
 import com.vedro401.reallifeachievement.adapters.holders.BindableViewHolder
-import com.vedro401.reallifeachievement.transferProtocols.RxRvTransferProtocol
+import com.vedro401.reallifeachievement.transferProtocols.TransferProtocol
 import com.vedro401.reallifeachievement.utils.RXRVTAG
 import rx.Observer
 import rx.Subscription
 
 abstract class RxRvAdapter<DT, VH : BindableViewHolder<DT>>
-    : RecyclerView.Adapter<VH>(), Observer<RxRvTransferProtocol<DT>>{
+    : RecyclerView.Adapter<VH>(), Observer<TransferProtocol<DT>>{
     private var dataSet = ArrayList<DT>()
     private val indexesMap = HashMap<String,Int>()
     var comparator : Comparator<DT>? = null
@@ -45,10 +45,10 @@ abstract class RxRvAdapter<DT, VH : BindableViewHolder<DT>>
             }
         }
 
-    override fun onNext(tp: RxRvTransferProtocol<DT>) {
+    override fun onNext(tp: TransferProtocol<DT>) {
         hideWarning()
         when(tp.event){
-            RxRvTransferProtocol.ITEM_ADDED -> {
+            TransferProtocol.ITEM_ADDED -> {
                 hideSpinner()
                 Log.d(RXRVTAG, "RxRvAdapter: item added. ${tp.data.toString()}")
                 if(comparator == null || dataSet.isEmpty()) {
@@ -72,21 +72,21 @@ abstract class RxRvAdapter<DT, VH : BindableViewHolder<DT>>
                 setEmptinessIndicator()
             }
 
-            RxRvTransferProtocol.ITEM_CHANGED -> {
+            TransferProtocol.ITEM_CHANGED -> {
                 Log.d(RXRVTAG, "RxRvAdapter: item changed. ${tp.data.toString()}")
                 val id = indexesMap[tp.id]!!
                 if(comparator == null || comparator!!.compare(dataSet[id], tp.data!!) == 0){
                     dataSet[id] = tp.data!!
                     notifyItemChanged(id)
                 } else {
-                    tp.event = RxRvTransferProtocol.ITEM_REMOVED
+                    tp.event = TransferProtocol.ITEM_REMOVED
                     this.onNext(tp)
-                    tp.event = RxRvTransferProtocol.ITEM_ADDED
+                    tp.event = TransferProtocol.ITEM_ADDED
                     this.onNext(tp)
                 }
 
             }
-            RxRvTransferProtocol.ITEM_REMOVED -> {
+            TransferProtocol.ITEM_REMOVED -> {
                 val id = indexesMap[tp.id]
                 if (id == null){
                     Log.d(RXRVTAG, "RxRvAdapter: Removing item out of set. Key ${tp.id}")
@@ -103,13 +103,13 @@ abstract class RxRvAdapter<DT, VH : BindableViewHolder<DT>>
                 setEmptinessIndicator()
             }
 
-            RxRvTransferProtocol.FULL_DATA_SET -> {
+            TransferProtocol.FULL_DATA_SET -> {
                 dataSet = tp.dataSet
                 hideSpinner()
                 setEmptinessIndicator()
             }
 
-            RxRvTransferProtocol.EMPTY_DATA -> {
+            TransferProtocol.EMPTY_DATA -> {
                 dataSet.clear()
                 indexesMap.clear()
                 hideSpinner()
@@ -118,7 +118,7 @@ abstract class RxRvAdapter<DT, VH : BindableViewHolder<DT>>
                 notifyDataSetChanged()
             }
 
-            RxRvTransferProtocol.RESET -> {
+            TransferProtocol.RESET -> {
                 dataSet.clear()
                 indexesMap.clear()
                 showSpinner()
@@ -127,7 +127,7 @@ abstract class RxRvAdapter<DT, VH : BindableViewHolder<DT>>
                 Log.d(RXRVTAG,"RxRvAdapter: Reset.")
             }
 
-            RxRvTransferProtocol.PERMISSION_DENIED -> {
+            TransferProtocol.PERMISSION_DENIED -> {
                 hideSpinner()
                 hideEmptinessIndicator()
                 setWarningText("PERMISSION DENIED")

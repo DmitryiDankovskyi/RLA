@@ -8,7 +8,7 @@ import com.vedro401.reallifeachievement.R
 import com.vedro401.reallifeachievement.adapters.RxRvAdapter
 import com.vedro401.reallifeachievement.adapters.holders.MyAchievementHolder
 import com.vedro401.reallifeachievement.model.Achievement
-import com.vedro401.reallifeachievement.ui.AddedAchievements.create.CreateActivity
+import com.vedro401.reallifeachievement.ui.AddedAchievements.achievementEditor.AchievementEditorActivity
 import com.vedro401.reallifeachievement.ui.BaseActivity
 import com.vedro401.reallifeachievement.ui.interfaces.FakeBottomNavigationOwner
 import com.vedro401.reallifeachievement.utils.inflate
@@ -24,7 +24,8 @@ class AddedAchievementsActivity : BaseActivity(), FakeBottomNavigationOwner {
     var adapterSubscription : Subscription? = null
     val adapter = object : RxRvAdapter<Achievement, MyAchievementHolder>(){
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyAchievementHolder =
-                MyAchievementHolder(parent.inflate(R.layout.layout_my_achievement_item))
+                MyAchievementHolder(parent.inflate(R.layout.layout_my_achievement_item),
+                        this@AddedAchievementsActivity)
     }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,7 +34,7 @@ class AddedAchievementsActivity : BaseActivity(), FakeBottomNavigationOwner {
         initBottomNavigation(aa_bottom_navigation, this)
 
         aa_create_new.onClick {
-            startActivity<CreateActivity>()
+            startActivity<AchievementEditorActivity>()
         }
 
         container_rv.layoutManager = LinearLayoutManager(this)

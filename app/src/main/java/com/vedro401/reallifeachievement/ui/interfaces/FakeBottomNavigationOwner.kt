@@ -11,7 +11,6 @@ import com.vedro401.reallifeachievement.R
 import com.vedro401.reallifeachievement.ui.AddedAchievements.AddedAchievementsActivity
 import com.vedro401.reallifeachievement.ui.FeedActivity
 import com.vedro401.reallifeachievement.ui.SearchActivity
-import com.vedro401.reallifeachievement.ui.AddedAchievements.create.CreateActivity
 import com.vedro401.reallifeachievement.ui.profile.ProfileActivity
 import kotlinx.android.synthetic.main.layout_bottom_navigation.view.*
 
